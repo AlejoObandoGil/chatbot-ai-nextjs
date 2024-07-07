@@ -1,0 +1,21 @@
+version: '3.8'
+
+# For install:
+# docker-compose run --rm chatbot_ai_next npm i
+services:
+    chatbot_ai_next:
+        image: node:18.17
+        container_name: chatbot_ai_next
+        command: >
+            sh -c "npm run dev"
+        ports:
+            - 3000:3000
+        volumes:
+            - ./:/var/www/html
+        working_dir: /var/www/html
+        networks:
+            - local_net
+
+networks:
+    local_net:
+        name: local_net

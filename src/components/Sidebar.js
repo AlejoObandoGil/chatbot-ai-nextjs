@@ -1,6 +1,8 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link';
+
 import {
     IconButton,
     Typography,
@@ -25,24 +27,14 @@ import {
     FaPlus,
     FaThList,
     FaUsers,
-    FaWindowClose ,
+    FaWindowClose,
 } from 'react-icons/fa'
 
 import {
-    PresentationChartBarIcon,
-    ShoppingBagIcon,
-    UserCircleIcon,
-    Cog6ToothIcon,
-    InboxIcon,
     PowerIcon,
 } from '@heroicons/react/24/solid'
 import {
-    ChevronRightIcon,
     ChevronDownIcon,
-    CubeTransparentIcon,
-    MagnifyingGlassIcon,
-    Bars3Icon,
-    XMarkIcon,
 } from '@heroicons/react/24/outline'
 
 export default function Sidebar() {
@@ -86,64 +78,56 @@ export default function Sidebar() {
                             YouBot
                         </Typography>
                     </div>
-                    {/* <div className="p-2">
-                        <Input
-                            icon={
-                                <MagnifyingGlassIcon className="h-5 w-5 text-white" />
-                            }
-                            label="Search"
-                            className="text-white"
-                        />
-                    </div> */}
                     <List>
-                        <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300">
-                            <ListItemPrefix>
-                                <FaHome className="h-5 w-5 text-white" />
-                            </ListItemPrefix>
-                            Inicio
-                        </ListItem>
+                        <Link href="/dashboard">
+                            <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
+                                <ListItemPrefix>
+                                    <FaHome className="h-5 w-5 text-white mr-2" />
+                                </ListItemPrefix>
+                                Inicio
+                            </ListItem>
+                        </Link>
+
                         <Accordion
                             open={open === 2}
                             icon={
                                 <ChevronDownIcon
                                     strokeWidth={2.5}
-                                    className={`mx-auto h-4 w-4 text-white transition-transform ${
-                                        open === 2 ? 'rotate-180' : ''
-                                    }`}
+                                    className={`mx-auto h-4 w-4 text-white transition-transform ${open === 2 ? 'rotate-180' : ''
+                                        }`}
                                 />
                             }>
                             <ListItem
-                                className="p-0 border-b-0 hover:bg-blue-500 hover:text-white transition-colors duration-300"
+                                className="p-0 border-b-0 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg"
                                 selected={open === 2}>
                                 <AccordionHeader
                                     onClick={() => handleOpen(2)}
                                     className="border-b-0 p-3">
                                     <ListItemPrefix>
-                                        <FaRobot className="h-5 w-5 text-white" />
+                                        <FaRobot className="h-5 w-5 text-white mr-2" />
                                     </ListItemPrefix>
                                     <Typography
                                         color="white"
                                         className="mr-auto font-normal">
-                                        Automatizaciones
+                                        Chatbots
                                     </Typography>
                                 </AccordionHeader>
                             </ListItem>
                             <AccordionBody className="py-1">
                                 <List className="p-0 text-white">
-                                    <ListItem className='border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300'>
-                                        <ListItemPrefix>
-                                            <FaPlus
-                                                strokeWidth={3}
-                                                className="h-3 w-5 text-white"
-                                            />
-                                        </ListItemPrefix>
-                                        Nuevo Chatbot
-                                    </ListItem>
-                                    <ListItem className='border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300'>
+                                    <Link href="/chatbots/create">
+                                        <ListItem className='border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg'>
+                                            <ListItemPrefix>
+                                                <FaPlus strokeWidth={3} className="h-3 w-5 text-white mr-2" />
+                                            </ListItemPrefix>
+                                            Nuevo Chatbot
+                                        </ListItem>
+                                    </Link>
+                                    <ListItem className='border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg'>
                                         <ListItemPrefix>
                                             <FaThList
                                                 strokeWidth={3}
-                                                className="h-3 w-5 text-white"
+                                                className="h-3 w-5 text-white mr-2"
                                             />
                                         </ListItemPrefix>
                                         Lista de Chatbots
@@ -151,9 +135,9 @@ export default function Sidebar() {
                                 </List>
                             </AccordionBody>
                         </Accordion>
-                        <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300">
+                        <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
                             <ListItemPrefix>
-                                <FaUsers className="h-5 w-5 text-white" />
+                                <FaUsers className="h-5 w-5 text-white mr-2"/>
                             </ListItemPrefix>
                             Usuarios
                             <ListItemSuffix>
@@ -167,57 +151,14 @@ export default function Sidebar() {
                             </ListItemSuffix>
                         </ListItem>
                         <hr className="my-2 border-gray-700" />
-                        {/* <ListItem className="text-white">
+
+                        <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
                             <ListItemPrefix>
-                                <UserCircleIcon className="h-5 w-5 text-white" />
-                            </ListItemPrefix>
-                            Profile
-                        </ListItem>
-                        <ListItem className="text-white">
-                            <ListItemPrefix>
-                                <Cog6ToothIcon className="h-5 w-5 text-white" />
-                            </ListItemPrefix>
-                            Settings
-                        </ListItem> */}
-                        <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300">
-                            <ListItemPrefix>
-                                <PowerIcon className="h-5 w-5 text-white" />
+                                <PowerIcon className="h-5 w-5 text-white mr-2" />
                             </ListItemPrefix>
                             Log Out
                         </ListItem>
                     </List>
-                    {/* <Alert
-                        open={openAlert}
-                        className="mt-auto bg-gray-800 text-white"
-                        onClose={() => setOpenAlert(false)}>
-                        <CubeTransparentIcon className="mb-4 h-12 w-12 text-white" />
-                        <Typography variant="h6" className="mb-1 text-white">
-                            Upgrade to PRO
-                        </Typography>
-                        <Typography
-                            variant="small"
-                            className="font-normal opacity-80 text-white">
-                            Upgrade to Material Tailwind PRO and get even more
-                            components, plugins, advanced features and premium.
-                        </Typography>
-                        <div className="mt-4 flex gap-3">
-                            <Typography
-                                as="a"
-                                href="#"
-                                variant="small"
-                                className="font-medium text-white"
-                                onClick={() => setOpenAlert(false)}>
-                                Dismiss
-                            </Typography>
-                            <Typography
-                                as="a"
-                                href="#"
-                                variant="small"
-                                className="font-medium text-white">
-                                Upgrade Now
-                            </Typography>
-                        </div>
-                    </Alert> */}
                 </Card>
             </Drawer>
         </>

@@ -1,7 +1,7 @@
 # version: '3.8'
 
 # For install:
-# docker-compose run --rm chatbot_ai_next npm i
+# docker-compose run --rm chatbot_ai_nextjs npm i
 services:
     chatbot_ai_nextjs:
         image: node:18.17

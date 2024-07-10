@@ -37,35 +37,42 @@ import {
     ChevronDownIcon,
 } from '@heroicons/react/24/outline'
 
-export default function Sidebar() {
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     const [open, setOpen] = React.useState(0)
-    const [openAlert, setOpenAlert] = React.useState(true)
     const [isDrawerOpen, setIsDrawerOpen] = React.useState(true)
 
     const handleOpen = value => {
         setOpen(open === value ? 0 : value)
     }
 
-    const openDrawer = () => setIsDrawerOpen(true)
-    const closeDrawer = () => setIsDrawerOpen(false)
+    // const toggleSidebar = () => {
+    //     setIsSidebarOpen(!isSidebarOpen);
+    // };
 
+    const openDrawer = () =>{
+        setIsDrawerOpen(true);
+        setIsSidebarOpen(!isSidebarOpen);
+    }
+    const closeDrawer = () => {
+        setIsDrawerOpen(false);
+        setIsSidebarOpen(isSidebarOpen);
+    }
     return (
         <>
-            <div className="fixed left-4 mb-5">
-                <IconButton variant="text" size="lg" onClick={openDrawer}>
+            <div className={`bg-dark-900 fixed top-0 left-0 h-full transition-width duration-300 ${isSidebarOpen ? 'w-64' : 'w-16'}`}>
+                {/* <IconButton variant="text" size="sm" onClick={openDrawer}>
                     {isDrawerOpen ? (
-                        <FaWindowClose className="h-8 w-8 stroke-2 right-4 text-white" />
+                        <FaWindowClose className="h-8 w-8 stroke-2 right-4" />
                     ) : (
                         <FaBars className="h-8 w-8 stroke-2" />
                     )}
-                </IconButton>
-            </div>
+                </IconButton> */}
             <Drawer
                 open={isDrawerOpen}
-                onClose={closeDrawer}
-                className="dark">
+                // onClose={closeDrawer}
+                className="bg-gray-900">
                 <Card
-                    color="transparent"
+                    color="bg-gray-900"
                     shadow={false}
                     className="h-[calc(100vh-2rem)] w-full p-4 bg-gray-900 text-white">
                     <div className="mb-2 flex items-center gap-4 p-4">
@@ -84,7 +91,11 @@ export default function Sidebar() {
                                 <ListItemPrefix>
                                     <FaHome className="h-5 w-5 text-white mr-2" />
                                 </ListItemPrefix>
-                                Inicio
+                                <Typography
+                                    color="white"
+                                    className="mr-auto font-normal">
+                                    Inicio
+                                </Typography>
                             </ListItem>
                         </Link>
 
@@ -139,7 +150,11 @@ export default function Sidebar() {
                             <ListItemPrefix>
                                 <FaUsers className="h-5 w-5 text-white mr-2"/>
                             </ListItemPrefix>
-                            Usuarios
+                            <Typography
+                                color="white"
+                                className="mr-auto font-normal">
+                                Clientes
+                            </Typography>
                             <ListItemSuffix>
                                 <Chip
                                     value="14"
@@ -156,11 +171,18 @@ export default function Sidebar() {
                             <ListItemPrefix>
                                 <PowerIcon className="h-5 w-5 text-white mr-2" />
                             </ListItemPrefix>
-                            Log Out
+                            <Typography
+                                color="white"
+                                className="mr-auto font-normal">
+                                Cerrar sesión
+                            </Typography>
                         </ListItem>
                     </List>
                 </Card>
             </Drawer>
+            </div>
         </>
     )
 }
+
+export default Sidebar;

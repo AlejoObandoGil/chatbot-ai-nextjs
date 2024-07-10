@@ -1,10 +1,26 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from '@/lib/axios'
 
 const NewChatbot = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [chatbots, setChatbots] = useState([]);
+
+    useEffect(() => {
+        const fetchChatbots = async () => {
+            try {
+                const response = await axios.get('/api/chatbots/index');
+                setChatbots(response.data.chatbots);
+                console.log('Chatbots fetched:', response.data.chatbots);
+            } catch (error) {
+                console.error('Error fetching chatbots:', error);
+            }
+        };
+
+        fetchChatbots(); // Llamar a la función de carga al montar el componente
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,6 +42,11 @@ const NewChatbot = () => {
 
     return (
         <>
+            <ul>
+                {chatbots.map(chatbot => (
+                    <li key={chatbot.id}>{chatbot.name}: {chatbot.description}</li>
+                ))}
+            </ul>
             <div className="min-h-screen bg-gray-100 flex items-center justify-center">
                 <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
                     <h2 className="text-2xl font-bold mb-6">Nuevo Chatbot</h2>

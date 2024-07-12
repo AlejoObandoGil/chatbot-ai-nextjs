@@ -134,37 +134,42 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                             Nuevo Chatbot
                                         </ListItem>
                                     </Link>
-                                    <ListItem className='border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg'>
-                                        <ListItemPrefix>
-                                            <FaThList
-                                                strokeWidth={3}
-                                                className="h-3 w-5 text-white mr-2"
-                                            />
-                                        </ListItemPrefix>
-                                        Lista de Chatbots
-                                    </ListItem>
+                                    <Link href="/chatbots/index">
+                                        <ListItem className='border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg'>
+                                            <ListItemPrefix>
+                                                <FaThList
+                                                    strokeWidth={3}
+                                                    className="h-3 w-5 text-white mr-2"
+                                                />
+                                            </ListItemPrefix>
+                                            Lista de Chatbots
+                                        </ListItem>
+                                    </Link>
                                 </List>
                             </AccordionBody>
                         </Accordion>
-                        <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
-                            <ListItemPrefix>
-                                <FaUsers className="h-5 w-5 text-white mr-2"/>
-                            </ListItemPrefix>
-                            <Typography
-                                color="white"
-                                className="mr-auto font-normal">
-                                Clientes
-                            </Typography>
-                            <ListItemSuffix>
-                                <Chip
-                                    value="14"
-                                    size="sm"
-                                    variant="ghost"
-                                    color="blue"
-                                    className="rounded-full text-white ml-4"
-                                />
-                            </ListItemSuffix>
-                        </ListItem>
+                        <Link href="/contacts">
+
+                            <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
+                                <ListItemPrefix>
+                                    <FaUsers className="h-5 w-5 text-white mr-2"/>
+                                </ListItemPrefix>
+                                <Typography
+                                    color="white"
+                                    className="mr-auto font-normal">
+                                    CRM
+                                </Typography>
+                                <ListItemSuffix>
+                                    <Chip
+                                        value="14"
+                                        size="sm"
+                                        variant="ghost"
+                                        color="blue"
+                                        className="rounded-full text-white ml-4"
+                                    />
+                                </ListItemSuffix>
+                            </ListItem>
+                        </Link>
                         <hr className="my-2 border-gray-700" />
 
                         <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">

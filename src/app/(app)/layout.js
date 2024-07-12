@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { useAuth } from '@/hooks/auth';
 import Navigation from '@/app/(app)/Navigation';
 import Loading from '@/app/(app)/Loading';
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '@/app/(app)/Sidebar';
 
 const AppLayout = ({ children }) => {
     const { user } = useAuth({ middleware: 'auth' });
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Inicializar como cerrado
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     if (!user) {
         return <Loading />;
@@ -20,10 +20,9 @@ const AppLayout = ({ children }) => {
             {/* Sidebar */}
             <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
-            {/* Contenido principal */}
             <div className="flex-1">
                 <Navigation user={user} />
-
+                {/* Contenido principal */}
                 {/* <main className={`p-4 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-16'}`}> */}
                 <main className={`p-4 transition-all duration-300 ml-80`}>
                     {children}

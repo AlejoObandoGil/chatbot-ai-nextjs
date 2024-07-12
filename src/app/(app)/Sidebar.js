@@ -37,39 +37,33 @@ import {
     ChevronDownIcon,
 } from '@heroicons/react/24/outline'
 
-const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+const Sidebar = () => {
     const [open, setOpen] = React.useState(0)
-    const [isDrawerOpen, setIsDrawerOpen] = React.useState(true)
+    const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 
     const handleOpen = value => {
         setOpen(open === value ? 0 : value)
     }
 
-    // const toggleSidebar = () => {
-    //     setIsSidebarOpen(!isSidebarOpen);
-    // };
-
     const openDrawer = () =>{
         setIsDrawerOpen(true);
-        setIsSidebarOpen(!isSidebarOpen);
     }
     const closeDrawer = () => {
         setIsDrawerOpen(false);
-        setIsSidebarOpen(isSidebarOpen);
     }
     return (
         <>
-            <div className={`bg-dark-900 fixed top-0 left-0 h-full transition-width duration-300 ${isSidebarOpen ? 'w-64' : 'w-16'}`}>
-                {/* <IconButton variant="text" size="sm" onClick={openDrawer}>
-                    {isDrawerOpen ? (
-                        <FaWindowClose className="h-8 w-8 stroke-2 right-4" />
-                    ) : (
-                        <FaBars className="h-8 w-8 stroke-2" />
-                    )}
-                </IconButton> */}
+        {/* <div className={`bg-dark-900 fixed top-0 left-0 h-full w-34 transition-width duration-300`}> */}
+            <IconButton variant="text" size="sm" onClick={isDrawerOpen ? closeDrawer : openDrawer}>
+                {isDrawerOpen ? (
+                    <FaWindowClose className="h-8 w-8 stroke-2 right-4" />
+                ) : (
+                    <FaBars className="h-8 w-8 stroke-2" />
+                )}
+            </IconButton>
             <Drawer
                 open={isDrawerOpen}
-                // onClose={closeDrawer}
+                onClose={closeDrawer}
                 className="bg-gray-900">
                 <Card
                     color="bg-gray-900"
@@ -86,7 +80,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                         </Typography>
                     </div>
                     <List>
-                        <Link href="/dashboard">
+                        <Link href="/dashboard" onClick={() => closeDrawer()}>
                             <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
                                 <ListItemPrefix>
                                     <FaHome className="h-5 w-5 text-white mr-2" />
@@ -126,7 +120,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                             </ListItem>
                             <AccordionBody className="py-1">
                                 <List className="p-0 text-white">
-                                    <Link href="/chatbots/create">
+                                    <Link href="/chatbots/create" onClick={() => closeDrawer()}>
                                         <ListItem className='border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg'>
                                             <ListItemPrefix>
                                                 <FaPlus strokeWidth={3} className="h-3 w-5 text-white mr-2" />
@@ -134,7 +128,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                             Nuevo Chatbot
                                         </ListItem>
                                     </Link>
-                                    <Link href="/chatbots/index">
+                                    <Link href="/chatbots/index" onClick={() => closeDrawer()}>
                                         <ListItem className='border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg'>
                                             <ListItemPrefix>
                                                 <FaThList
@@ -148,8 +142,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                 </List>
                             </AccordionBody>
                         </Accordion>
-                        <Link href="/contacts">
-
+                        <Link href="/contacts" onClick={() => closeDrawer()}>
                             <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
                                 <ListItemPrefix>
                                     <FaUsers className="h-5 w-5 text-white mr-2"/>
@@ -185,7 +178,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                     </List>
                 </Card>
             </Drawer>
-            </div>
+            {/* </div> */}
         </>
     )
 }

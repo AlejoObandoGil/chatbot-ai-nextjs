@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import axios from '@/lib/axios'
 import { Button, Card, Typography } from '@material-tailwind/react'
+import Link from 'next/link';
 
 const ChatbotsIndex = () => {
     const [chatbots, setChatbots] = useState([])
@@ -103,20 +104,16 @@ const ChatbotsIndex = () => {
                                     </td>
                                     <td className={classes}>
                                         <div className="flex space-x-2">
-                                            <Button
-                                                color="blue"
-                                                size="sm"
-                                                onClick={() => router.push(`/chatbots/${chatbot.id}/edit`)}
-                                            >
-                                                Edit
-                                            </Button>
-                                            <Button
-                                                color="green"
-                                                size="sm"
-                                                onClick={() => router.push(`/chatbots/${chatbot.id}/view`)}
-                                            >
-                                                View
-                                            </Button>
+                                            <Link href={`/chatbots/${chatbot.id}/edit`} passHref>
+                                                <Button color="blue" size="sm">
+                                                    Editar
+                                                </Button>
+                                            </Link>
+                                            <Link href={`/chatbots/${chatbot.id}/show`} passHref>
+                                                <Button color="green" size="sm">
+                                                    Ver
+                                                </Button>
+                                            </Link>
                                         </div>
                                     </td>
                                 </tr>

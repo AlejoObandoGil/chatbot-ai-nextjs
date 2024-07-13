@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import ApplicationLogo from '@/components/ApplicationLogo';
-import Sidebar from '@/app/(app)/Sidebar';
+import Sidebar from '@/app/(app)/Sidebar.jsx';
 
 const Navigation = ({ user }) => {
     const { logout } = useAuth();

@@ -6,6 +6,7 @@ import 'react-chatbot-kit/build/main.css'
 import config from '@/components/react-chatbot-kit/config.js';
 import MessageParser from '@/components/react-chatbot-kit/MessageParser.jsx';
 import ActionProvider from '@/components/react-chatbot-kit/ActionProvider.jsx';
+import MyBot from '@/components/react-simple-chatbot/MyBot.jsx';
 
 export default function ChatbotShowPage() {
     const { id } = useParams()
@@ -16,7 +17,7 @@ export default function ChatbotShowPage() {
                 <h2 className="text-2xl font-bold mb-6">Vista previa del Chatbot</h2>
                 <p>ID del Chatbot: {id}</p>
 
-                <div>
+                <div className='flex items-center justify-center gap-4'>
                     <Chatbot
                         config={config}
                         messageParser={MessageParser}

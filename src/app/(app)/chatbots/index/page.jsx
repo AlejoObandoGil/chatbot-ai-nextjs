@@ -11,7 +11,7 @@ const ChatbotsIndex = () => {
     useEffect(() => {
         const fetchChatbots = async () => {
             try {
-                const response = await axios.get('/api/v1/chatbots/index')
+                const response = await axios.get('/api/v1/chatbot/index')
                 setChatbots(response.data.chatbots)
                 console.log('Chatbots fetched:', response.data.chatbots)
             } catch (error) {

@@ -1,19 +1,18 @@
-import axios from 'axios';
+import axios from '@/lib/axios'
 
 class ActionProvider {
-    constructor(createChatBotMessage, setStateFunc, config) {
+    constructor(createChatBotMessage, setState, config, stateRef) {
         this.createChatBotMessage = createChatBotMessage;
-        this.setState = setStateFunc;
+        this.setState = setState;
         this.config = config;
+        this.stateRef = stateRef;
         this.talkId = null;
     }
 
-    async handleMessage({ message }) {
+    async handleMessage(message) {
         if (!this.talkId) {
             try {
-                const talkResponse = await axios.post(`api/v1/chatbot/${chatbotId}/talk`, {
-
-                });
+                const talkResponse = await axios.post(`/api/v1/chatbot/${this.stateRef.chatbotId}/talk`, {});
                 this.talkId = talkResponse.data.talkId;
             } catch (error) {
                 console.error('Error al crear la conversación:', error);
@@ -22,7 +21,7 @@ class ActionProvider {
         }
 
         try {
-            const response = await axios.post(`api/v1/chatbot/${chatbotId}/talk/${this.talkId}/message`, {
+            const response = await axios.post(`/api/v1/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message`, {
                 message: message,
             });
 
@@ -43,6 +42,7 @@ class ActionProvider {
 }
 
 export default ActionProvider;
+
 
 
 

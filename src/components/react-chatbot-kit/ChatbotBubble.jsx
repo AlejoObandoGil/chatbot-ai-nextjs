@@ -6,8 +6,9 @@ import MessageParser from '@/components/react-chatbot-kit/MessageParser.jsx';
 import ActionProvider from '@/components/react-chatbot-kit/ActionProvider.jsx';
 import { IoChatbubbleEllipsesSharp } from 'react-icons/io5';
 
-const ChatbotBubble = () => {
+const ChatbotBubble = ({ chatbotId }) => {
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+    // console.log(chatbotId);
 
     const toggleChatbot = () => {
         setIsChatbotOpen(!isChatbotOpen);
@@ -18,9 +19,16 @@ const ChatbotBubble = () => {
             {isChatbotOpen && (
                 <div className="fixed bottom-20 right-4 bg-white shadow-lg rounded-lg overflow-hidden">
                     <Chatbot
-                        config={config}
+                        config={config(chatbotId)}
                         messageParser={MessageParser}
                         actionProvider={ActionProvider}
+                        headerText='Chatbot'
+                        placeholderText='Escribe tu consulta...'
+                        // messageHistory={loadMessages()}
+                        // saveMessages={saveMessages}
+                        // validator={validateInput}
+                        // runInitialMessagesWithHistory
+                        // disableScrollToBottom
                     />
                 </div>
             )}

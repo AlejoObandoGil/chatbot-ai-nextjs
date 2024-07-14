@@ -1,14 +1,17 @@
-// in config.js
-import { createChatBotMessage } from 'react-chatbot-kit'
-import WidgetCustome from '@/components/react-chatbot-kit/WidgetCustome.jsx'
+import { createChatBotMessage } from 'react-chatbot-kit';
+import WidgetCustome from '@/components/react-chatbot-kit/WidgetCustome.jsx';
 
-const botName = 'ExcitementBot'
+const botName = 'YouBot';
 
-const config = {
-    initialMessages: [
-        createChatBotMessage(`Hi! I'm ${botName}`)
-    ],
+const config = (chatbotId) => ({
     botName: botName,
+    placeHolderText: 'Escribe tu consulta',
+    initialMessages: [
+        createChatBotMessage(`Hola soy ${botName}! En qué puedo ayudarte hoy?`)
+    ],
+    customComponents: {
+        header: () => <div className='bg-blue-500 text-white p-4'>{botName}</div>,
+    },
     customStyles: {
         botMessageBox: {
             backgroundColor: 'bg-blue-500',
@@ -17,12 +20,15 @@ const config = {
             backgroundColor: 'bg-blue-500',
         },
     },
+    state: {
+        chatbotId: chatbotId,
+    },
     widgets: [
         {
             widgetName: 'widgetCustome',
             widgetFunc: props => <WidgetCustome {...props} />,
         },
     ],
-}
+});
 
-export default config
+export default config;

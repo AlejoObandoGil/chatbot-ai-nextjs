@@ -5,18 +5,29 @@ class ActionProvider {
         this.createChatBotMessage = createChatBotMessage;
         this.setState = setStateFunc;
         this.config = config;
+        this.talkId = null;
     }
 
     async handleMessage({ message }) {
-        // Enviar mensaje al backend usando Axios
+        if (!this.talkId) {
+            try {
+                const talkResponse = await axios.post(`api/v1/chatbot/${chatbotId}/talk`, {
+
+                });
+                this.talkId = talkResponse.data.talkId;
+            } catch (error) {
+                console.error('Error al crear la conversación:', error);
+                return;
+            }
+        }
+
         try {
-            const response = await axios.post(`api/v1/chatbot/${chatbotId}/talk/${talkId}/send-message`, {
+            const response = await axios.post(`api/v1/chatbot/${chatbotId}/talk/${this.talkId}/message`, {
                 message: message,
             });
 
-            const botResponse = response.data; // Suponiendo que el backend devuelve un campo 'message'
+            const botResponse = response.data;
 
-            // Actualizar el estado del chatbot con la respuesta del backend
             this.setBotMessage(botResponse);
         } catch (error) {
             console.error('Error al enviar mensaje al backend:', error);
@@ -32,6 +43,7 @@ class ActionProvider {
 }
 
 export default ActionProvider;
+
 
 
 

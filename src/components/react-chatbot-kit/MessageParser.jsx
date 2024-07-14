@@ -8,7 +8,6 @@ class MessageParser {
     }
 
     parse(message) {
-        // Aquí podrías implementar lógica adicional de parsing si es necesario
         this.actionProvider.handleMessage({ message });
     }
 }

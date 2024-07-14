@@ -7,16 +7,20 @@ import ActionProvider from '@/components/react-chatbot-kit/ActionProvider.jsx';
 import { IoChatbubbleEllipsesSharp } from 'react-icons/io5';
 
 const ChatbotBubble = ({ chatbotId }) => {
-    const [isChatbotOpen, setIsChatbotOpen] = useState(false);
-    // console.log(chatbotId);
+    const [showBot, toggleBot] = useState(false);
 
-    const toggleChatbot = () => {
-        setIsChatbotOpen(!isChatbotOpen);
+    const loadMessages = () => {
+        const messages = JSON.parse(localStorage.getItem('chat_messages'));
+        return messages;
     };
+
+    // const saveMessages = (messages) => {
+    //     localStorage.setItem('chat_messages', JSON.stringify(messages));
+    // };
 
     return (
         <div className="fixed bottom-4 right-4 z-50">
-            {isChatbotOpen && (
+            {showBot && (
                 <div className="fixed bottom-20 right-4 bg-white shadow-lg rounded-lg overflow-hidden">
                     <Chatbot
                         config={config(chatbotId)}
@@ -24,7 +28,7 @@ const ChatbotBubble = ({ chatbotId }) => {
                         actionProvider={ActionProvider}
                         headerText='Chatbot'
                         placeholderText='Escribe tu consulta...'
-                        // messageHistory={loadMessages()}
+                        messageHistory={loadMessages()}
                         // saveMessages={saveMessages}
                         // validator={validateInput}
                         // runInitialMessagesWithHistory
@@ -34,7 +38,7 @@ const ChatbotBubble = ({ chatbotId }) => {
             )}
             <button
                 className="bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
-                onClick={toggleChatbot}
+                onClick={() => toggleBot((prev) => !prev)}
             >
                 <IoChatbubbleEllipsesSharp size={30} />
             </button>

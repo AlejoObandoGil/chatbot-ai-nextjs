@@ -1,4 +1,5 @@
 import axios from '@/lib/axios'
+import { createClientMessage } from 'react-chatbot-kit';
 
 class ActionProvider {
     constructor(createChatBotMessage, setState, config, stateRef) {
@@ -6,14 +7,17 @@ class ActionProvider {
         this.setState = setState;
         this.config = config;
         this.stateRef = stateRef;
-        this.talkId = null;
+        this.talkId = JSON.parse(localStorage.getItem('talk_id'));
     }
 
     async handleMessage(message) {
         if (!this.talkId) {
             try {
-                const talkResponse = await axios.post(`/api/v1/chatbot/${this.stateRef.chatbotId}/talk`, {});
-                this.talkId = talkResponse.data.talkId;
+                const { data } = await axios.post(`/api/v1/chatbot/${this.stateRef.chatbotId}/talk`, {});
+                if (data) {
+                    this.talkId = data.talkId;
+                    localStorage.setItem('talk_id', JSON.stringify(this.talkId));
+                }
             } catch (error) {
                 console.error('Error al crear la conversación:', error);
                 return;
@@ -21,13 +25,21 @@ class ActionProvider {
         }
 
         try {
-            const response = await axios.post(`/api/v1/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message`, {
-                message: message,
-            });
+            const { data } = await axios.post(`/api/v1/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message`, message);
 
-            const botResponse = response.data;
+            if (data) {
+                const botResponse = data.response;
+                this.setBotMessage(botResponse);
 
-            this.setBotMessage(botResponse);
+                const savedMessages = JSON.parse(localStorage.getItem('chat_messages'));
+                const newMessageUser = createClientMessage(message.message);
+                savedMessages.push(newMessageUser);
+                localStorage.setItem('chat_messages', JSON.stringify(savedMessages));
+
+                const newMessageBot = this.createChatBotMessage(botResponse);
+                savedMessages.push(newMessageBot);
+                localStorage.setItem('chat_messages', JSON.stringify(savedMessages));
+            }
         } catch (error) {
             console.error('Error al enviar mensaje al backend:', error);
         }

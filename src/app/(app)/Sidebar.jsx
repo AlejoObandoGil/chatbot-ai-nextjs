@@ -53,7 +53,6 @@ const Sidebar = () => {
     }
     return (
         <>
-        {/* <div className={`bg-dark-900 fixed top-0 left-0 h-full w-34 transition-width duration-300`}> */}
             <IconButton variant="text" size="sm" onClick={isDrawerOpen ? closeDrawer : openDrawer}>
                 {isDrawerOpen ? (
                     <FaWindowClose className="h-8 w-8 stroke-2 right-4" />

@@ -14,9 +14,9 @@ const ChatbotBubble = ({ chatbotId }) => {
         return messages;
     };
 
-    // const saveMessages = (messages) => {
-    //     localStorage.setItem('chat_messages', JSON.stringify(messages));
-    // };
+    const saveMessages = (messages) => {
+        localStorage.setItem('chat_messages', JSON.stringify(messages));
+    };
 
     return (
         <div className="fixed bottom-4 right-4 z-50">
@@ -29,7 +29,7 @@ const ChatbotBubble = ({ chatbotId }) => {
                         headerText='Chatbot'
                         placeholderText='Escribe tu consulta...'
                         messageHistory={loadMessages()}
-                        // saveMessages={saveMessages}
+                        saveMessages={saveMessages}
                         // validator={validateInput}
                         // runInitialMessagesWithHistory
                         // disableScrollToBottom

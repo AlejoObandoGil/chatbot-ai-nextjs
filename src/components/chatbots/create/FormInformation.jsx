@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import axios from '@/lib/axios';
+import { useRouter } from 'next/router';
 
 const FormInformation = ({ selectedType }) => {
     const [name, setName] = useState('');
@@ -24,6 +25,7 @@ const FormInformation = ({ selectedType }) => {
 
         if (dataResponse.saved) {
             console.log('Chatbot created successfully');
+            router.push('/chatbots/edit/structure');
         } else {
             console.log('Error creating chatbot');
         }

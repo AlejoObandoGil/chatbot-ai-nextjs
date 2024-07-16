@@ -76,25 +76,18 @@ const PasswordReset = () => {
 
                 {/* Confirm Password */}
                 <div className="mt-4">
-                    <Label htmlFor="passwordConfirmation">
-                        Confirm Password
-                    </Label>
+                    <Label htmlFor="passwordConfirmation">Confirm Password</Label>
 
                     <Input
                         id="passwordConfirmation"
                         type="password"
                         value={passwordConfirmation}
                         className="block mt-1 w-full"
-                        onChange={event =>
-                            setPasswordConfirmation(event.target.value)
-                        }
+                        onChange={event => setPasswordConfirmation(event.target.value)}
                         required
                     />
 
-                    <InputError
-                        messages={errors.password_confirmation}
-                        className="mt-2"
-                    />
+                    <InputError messages={errors.password_confirmation} className="mt-2" />
                 </div>
 
                 <div className="flex items-center justify-end mt-4">

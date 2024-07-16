@@ -22,15 +22,7 @@ const ChatbotsIndex = () => {
         fetchChatbots();
     }, []);
 
-    const TABLE_HEAD = [
-        'Nombre',
-        'Descripción',
-        'Tipo',
-        'Habilitado',
-        'Fecha de creación',
-        'Fecha de actualización',
-        'Acciones'
-    ];
+    const TABLE_HEAD = ['Nombre', 'Descripción', 'Tipo', 'Habilitado', 'Fecha de creación', 'Fecha de actualización', 'Acciones'];
 
     return (
         <>
@@ -40,15 +32,8 @@ const ChatbotsIndex = () => {
                     <thead>
                         <tr>
                             {TABLE_HEAD.map(head => (
-                                <th
-                                    key={head}
-                                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                                >
-                                    <Typography
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-normal leading-none opacity-70"
-                                    >
+                                <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
                                         {head}
                                     </Typography>
                                 </th>
@@ -58,84 +43,48 @@ const ChatbotsIndex = () => {
                     <tbody>
                         {chatbots.map((chatbot, index) => {
                             const isLast = index === chatbots.length - 1;
-                            const classes = isLast
-                                ? 'p-4'
-                                : 'p-4 border-b border-blue-gray-50';
+                            const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
 
                             return (
                                 <tr key={chatbot.id}>
                                     <td className={classes}>
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal"
-                                        >
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
                                             {chatbot.name}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal"
-                                        >
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
                                             {chatbot.description}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal"
-                                        >
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
                                             {chatbot.type}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal"
-                                        >
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
                                             {chatbot.enabled ? 'Yes' : 'No'}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal"
-                                        >
-                                            {new Date(
-                                                chatbot.created_at
-                                            ).toLocaleDateString()}
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {new Date(chatbot.created_at).toLocaleDateString()}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal"
-                                        >
-                                            {new Date(
-                                                chatbot.updated_at
-                                            ).toLocaleDateString()}
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {new Date(chatbot.updated_at).toLocaleDateString()}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex space-x-2">
-                                            <Link
-                                                href={`/chatbots/${chatbot.id}/edit`}
-                                                passHref
-                                            >
+                                            <Link href={`/chatbots/${chatbot.id}/edit`} passHref>
                                                 <Button color="blue" size="sm">
                                                     Editar
                                                 </Button>
                                             </Link>
-                                            <Link
-                                                href={`/chatbots/${chatbot.id}/show`}
-                                                passHref
-                                            >
+                                            <Link href={`/chatbots/${chatbot.id}/show`} passHref>
                                                 <Button color="green" size="sm">
                                                     Ver
                                                 </Button>

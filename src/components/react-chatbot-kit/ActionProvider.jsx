@@ -13,16 +13,10 @@ class ActionProvider {
     async handleMessage(message) {
         if (!this.talkId) {
             try {
-                const { data } = await axios.post(
-                    `/api/chatbot/${this.stateRef.chatbotId}/talk`,
-                    {}
-                );
+                const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk`, {});
                 if (data) {
                     this.talkId = data.talkId;
-                    localStorage.setItem(
-                        'talk_id',
-                        JSON.stringify(this.talkId)
-                    );
+                    localStorage.setItem('talk_id', JSON.stringify(this.talkId));
                 }
             } catch (error) {
                 console.error('Error al crear la conversación:', error);
@@ -31,31 +25,20 @@ class ActionProvider {
         }
 
         try {
-            const { data } = await axios.post(
-                `/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message`,
-                message
-            );
+            const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message`, message);
 
             if (data) {
                 const botResponse = data.response;
                 this.setBotMessage(botResponse);
 
-                const savedMessages = JSON.parse(
-                    localStorage.getItem('chat_messages')
-                );
+                const savedMessages = JSON.parse(localStorage.getItem('chat_messages'));
                 const newMessageUser = createClientMessage(message.message);
                 savedMessages.push(newMessageUser);
-                localStorage.setItem(
-                    'chat_messages',
-                    JSON.stringify(savedMessages)
-                );
+                localStorage.setItem('chat_messages', JSON.stringify(savedMessages));
 
                 const newMessageBot = this.createChatBotMessage(botResponse);
                 savedMessages.push(newMessageBot);
-                localStorage.setItem(
-                    'chat_messages',
-                    JSON.stringify(savedMessages)
-                );
+                localStorage.setItem('chat_messages', JSON.stringify(savedMessages));
             }
         } catch (error) {
             console.error('Error al enviar mensaje al backend:', error);
@@ -65,10 +48,7 @@ class ActionProvider {
     setBotMessage = message => {
         this.setState(prevState => ({
             ...prevState,
-            messages: [
-                ...prevState.messages,
-                this.createChatBotMessage(message)
-            ]
+            messages: [...prevState.messages, this.createChatBotMessage(message)]
         }));
     };
 }

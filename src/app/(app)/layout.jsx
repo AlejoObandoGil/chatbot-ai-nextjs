@@ -1,6 +1,6 @@
 'use client';
 
-import React, { } from 'react';
+import React from 'react';
 import { useAuth } from '@/hooks/auth';
 import Navigation from '@/app/(app)/Navigation.jsx';
 import Loading from '@/app/(app)/Loading.jsx';

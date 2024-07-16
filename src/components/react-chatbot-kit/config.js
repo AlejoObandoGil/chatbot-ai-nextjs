@@ -6,13 +6,9 @@ const botName = 'YouBot';
 const config = chatbotId => ({
     botName: botName,
     placeHolderText: 'Escribe tu consulta',
-    initialMessages: [
-        createChatBotMessage(`Hola soy ${botName}! En qué puedo ayudarte hoy?`)
-    ],
+    initialMessages: [createChatBotMessage(`Hola soy ${botName}! En qué puedo ayudarte hoy?`)],
     customComponents: {
-        header: () => (
-            <div className="bg-blue-500 text-white p-4">{botName}</div>
-        )
+        header: () => <div className="bg-blue-500 text-white p-4">{botName}</div>
     },
     customStyles: {
         botMessageBox: {

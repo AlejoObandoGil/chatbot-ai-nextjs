@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Chatbot from '@/components/react-chatbot-kit/ChatbotBubble.jsx';
+import '@/styles/tailwind.css';
 
 window.renderChatbot = (containerId, chatbotId) => {
     const container = document.getElementById(containerId);

@@ -11,15 +11,7 @@ const ChatbotCreate = () => {
         setSelectedType(type);
     };
 
-    return (
-        <>
-            {selectedType === '' ? (
-                <CardSelection onSelect={handleSelect} />
-            ) : (
-                <FormInformation selectedType={selectedType} />
-            )}
-        </>
-    );
+    return <>{selectedType === '' ? <CardSelection onSelect={handleSelect} /> : <FormInformation selectedType={selectedType} />}</>;
 };
 
 export default ChatbotCreate;

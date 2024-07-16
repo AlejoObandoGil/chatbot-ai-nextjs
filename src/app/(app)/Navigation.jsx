@@ -32,9 +32,7 @@ const Navigation = ({ user }) => {
                         <Sidebar />
 
                         {/* Enlaces de navegación */}
-                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            {/* Agrega más enlaces de navegación según sea necesario */}
-                        </div>
+                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">{/* Agrega más enlaces de navegación según sea necesario */}</div>
                     </div>
 
                     {/* Dropdown de configuración */}
@@ -47,11 +45,7 @@ const Navigation = ({ user }) => {
                                     <div>{user?.name}</div>
 
                                     <div className="ml-1">
-                                        <svg
-                                            className="fill-current h-4 w-4"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                        >
+                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                             <path
                                                 fillRule="evenodd"
                                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -62,9 +56,7 @@ const Navigation = ({ user }) => {
                                 </button>
                             }
                         >
-                            <DropdownButton onClick={logout}>
-                                Logout
-                            </DropdownButton>
+                            <DropdownButton onClick={logout}>Logout</DropdownButton>
                         </Dropdown>
                     </div>
                 </div>
@@ -104,20 +96,14 @@ const Navigation = ({ user }) => {
                             </div>
 
                             <div className="ml-3">
-                                <div className="font-medium text-base text-gray-800">
-                                    {user?.name}
-                                </div>
-                                <div className="font-medium text-sm text-gray-500">
-                                    {user?.email}
-                                </div>
+                                <div className="font-medium text-base text-gray-800">{user?.name}</div>
+                                <div className="font-medium text-sm text-gray-500">{user?.email}</div>
                             </div>
                         </div>
 
                         <div className="mt-3 space-y-1">
                             {/* Autenticación */}
-                            <ResponsiveNavButton onClick={logout}>
-                                Logout
-                            </ResponsiveNavButton>
+                            <ResponsiveNavButton onClick={logout}>Logout</ResponsiveNavButton>
                         </div>
                     </div>
                 </div>

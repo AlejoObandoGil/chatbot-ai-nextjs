@@ -1,5 +1,6 @@
-const path = require('path')
+const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     mode: 'development',
@@ -10,11 +11,11 @@ module.exports = {
         library: 'Chatbot',
         libraryTarget: 'window',
     },
-    devtool: "source-map",
+    // devtool: 'source-map',
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
@@ -25,7 +26,7 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
+                use: ['style-loader', 'css-loader'],
             },
         ],
     },
@@ -33,15 +34,13 @@ module.exports = {
         alias: {
             '@': path.resolve(__dirname, 'src'),
         },
-        extensions: [".ts", ".jsx", ".js", ".css"],
-    },
-    externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
+        extensions: ['.ts', '.jsx', '.js', '.css'],
     },
     plugins: [
+        new Dotenv(),
         new webpack.DefinePlugin({
-            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('http://localhost:8007'),
+            // 'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('http://localhost:8007'),
+            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify(process.env.NEXT_PUBLIC_BACKEND_URL),
         }),
     ],
-}
+};

@@ -1,34 +1,45 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 
 const ChatbotTest = () => {
     useEffect(() => {
-        const script = document.createElement('script')
-        script.src = '/chatbot.bundle.js'
-        script.async = true
-        script.onload = () => {
-            if (window.Chatbot && typeof window.Chatbot.init === 'function') {
-                window.Chatbot.init({
-                    chatbotId: 1,
-                })
-            } else {
-                console.error('Chatbot script not loaded properly');
-            }
-        }
-        document.body.appendChild(script)
+        const reactScript = document.createElement('script');
+        reactScript.src = 'https://unpkg.com/react/umd/react.production.min.js';
+        reactScript.async = true;
+        document.body.appendChild(reactScript);
+
+        const reactDOMScript = document.createElement('script');
+        reactDOMScript.src = 'https://unpkg.com/react-dom/umd/react-dom.production.min.js';
+        reactDOMScript.async = true;
+        document.body.appendChild(reactDOMScript);
+
+        reactDOMScript.onload = () => {
+            const chatbotScript = document.createElement('script');
+            chatbotScript.src = '/chatbot.bundle.js';
+            chatbotScript.async = true;
+            chatbotScript.onload = () => {
+                if (window.renderChatbot && typeof window.renderChatbot === 'function') {
+                    window.renderChatbot('chatbot-root', 1);
+                } else {
+                    console.error('Chatbot script not loaded properly');
+                }
+            };
+            document.body.appendChild(chatbotScript);
+        };
 
         return () => {
-            document.body.removeChild(script)
-        }
-    }, [])
+            document.body.removeChild(reactScript);
+            document.body.removeChild(reactDOMScript);
+        };
+    }, []);
 
     return (
         <div>
             <h1>Chatbot Test Page</h1>
-            <div id="chatbot-container"></div>
+            <div id="chatbot-root">Chatbot aqui</div>
         </div>
-    )
-}
+    );
+};
 
-export default ChatbotTest
+export default ChatbotTest;

@@ -1,14 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Chatbot from '@/components/react-chatbot-kit/ChatbotBubble.jsx';
 
-const renderChatbot = ({ chatbotId }) => {
-    ReactDOM.render(
-        <Chatbot chatbotId={chatbotId} />,
-        document.getElementById('chatbot-container')
-    );
+window.renderChatbot = (containerId, chatbotId) => {
+    const container = document.getElementById(containerId);
+    if (container) {
+        const root = createRoot(container);
+        root.render(<Chatbot chatbotId={chatbotId} />);
+    } else {
+        console.error(`Container with ID ${containerId} not found`);
+    }
 };
 
-window.Chatbot = {
-    init: renderChatbot,
-};
+console.log('Chatbot script loaded');

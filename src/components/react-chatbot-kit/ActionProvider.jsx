@@ -13,7 +13,7 @@ class ActionProvider {
     async handleMessage(message) {
         if (!this.talkId) {
             try {
-                const { data } = await axios.post(`/api/v1/chatbot/${this.stateRef.chatbotId}/talk`, {});
+                const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk`, {});
                 if (data) {
                     this.talkId = data.talkId;
                     localStorage.setItem('talk_id', JSON.stringify(this.talkId));
@@ -25,7 +25,7 @@ class ActionProvider {
         }
 
         try {
-            const { data } = await axios.post(`/api/v1/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message`, message);
+            const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message`, message);
 
             if (data) {
                 const botResponse = data.response;

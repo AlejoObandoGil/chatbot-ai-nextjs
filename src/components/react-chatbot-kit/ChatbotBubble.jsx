@@ -30,9 +30,6 @@ const ChatbotBubble = ({ chatbotId }) => {
                         placeholderText='Escribe tu consulta...'
                         messageHistory={loadMessages()}
                         saveMessages={saveMessages}
-                        // validator={validateInput}
-                        // runInitialMessagesWithHistory
-                        // disableScrollToBottom
                     />
                 </div>
             )}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Test</title>
+</head>
+<body>
+    <div id="chatbot-container"></div>
+    <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+    <script src="/chatbot.bundle.js"></script>
+    <script>
+        if (window.Chatbot && typeof window.Chatbot.init === 'function') {
+            window.Chatbot.init({
+                chatbotId: 1,
+            });
+        } else {
+            console.error('Chatbot script not loaded properly');
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Test</title>
+</head>
+
+<body>
+    <h1>Chatbot Test</h1>
+    <script src="http://localhost:3000/chatbot.bundle.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const chatbotId = 1; // Cambia esto por el ID del chatbot que estás probando
+            const chatbotContainer = document.createElement('div');
+            chatbotContainer.id = 'chatbot-root';
+            document.body.appendChild(chatbotContainer);
+
+            window.renderChatbot('chatbot-root', chatbotId);
+        });
+    </script>
+</body>
+
+</html> -->

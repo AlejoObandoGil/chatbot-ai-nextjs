@@ -31,7 +31,7 @@ class ActionProvider {
                 const botResponse = data.response;
                 this.setBotMessage(botResponse);
 
-                const savedMessages = JSON.parse(localStorage.getItem('chat_messages'));
+                const savedMessages = JSON.parse(localStorage.getItem('chat_messages')) || [];
                 const newMessageUser = createClientMessage(message.message);
                 savedMessages.push(newMessageUser);
                 localStorage.setItem('chat_messages', JSON.stringify(savedMessages));

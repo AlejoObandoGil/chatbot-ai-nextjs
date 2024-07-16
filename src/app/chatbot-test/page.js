@@ -10,7 +10,8 @@ const ChatbotTest = () => {
         document.body.appendChild(reactScript);
 
         const reactDOMScript = document.createElement('script');
-        reactDOMScript.src = 'https://unpkg.com/react-dom/umd/react-dom.production.min.js';
+        reactDOMScript.src =
+            'https://unpkg.com/react-dom/umd/react-dom.production.min.js';
         reactDOMScript.async = true;
         document.body.appendChild(reactDOMScript);
 
@@ -19,7 +20,10 @@ const ChatbotTest = () => {
             chatbotScript.src = '/chatbot.bundle.js';
             chatbotScript.async = true;
             chatbotScript.onload = () => {
-                if (window.renderChatbot && typeof window.renderChatbot === 'function') {
+                if (
+                    window.renderChatbot &&
+                    typeof window.renderChatbot === 'function'
+                ) {
                     window.renderChatbot('chatbot-root', 1);
                 } else {
                     console.error('Chatbot script not loaded properly');

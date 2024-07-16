@@ -3,32 +3,34 @@ import WidgetCustome from '@/components/react-chatbot-kit/WidgetCustome.jsx';
 
 const botName = 'YouBot';
 
-const config = (chatbotId) => ({
+const config = chatbotId => ({
     botName: botName,
     placeHolderText: 'Escribe tu consulta',
     initialMessages: [
         createChatBotMessage(`Hola soy ${botName}! En qué puedo ayudarte hoy?`)
     ],
     customComponents: {
-        header: () => <div className='bg-blue-500 text-white p-4'>{botName}</div>,
+        header: () => (
+            <div className="bg-blue-500 text-white p-4">{botName}</div>
+        )
     },
     customStyles: {
         botMessageBox: {
-            backgroundColor: 'bg-blue-500',
+            backgroundColor: 'bg-blue-500'
         },
         chatButton: {
-            backgroundColor: 'bg-blue-500',
-        },
+            backgroundColor: 'bg-blue-500'
+        }
     },
     state: {
-        chatbotId: chatbotId,
+        chatbotId: chatbotId
     },
     widgets: [
         {
             widgetName: 'widgetCustome',
-            widgetFunc: props => <WidgetCustome {...props} />,
-        },
-    ],
+            widgetFunc: props => <WidgetCustome {...props} />
+        }
+    ]
 });
 
 export default config;

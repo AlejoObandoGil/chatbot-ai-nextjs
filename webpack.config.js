@@ -9,7 +9,7 @@ module.exports = {
         path: path.resolve(__dirname, 'public'),
         filename: 'chatbot.bundle.js',
         library: 'Chatbot',
-        libraryTarget: 'window',
+        libraryTarget: 'window'
     },
     // devtool: 'source-map',
     module: {
@@ -20,27 +20,29 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-react'],
-                    },
-                },
+                        presets: ['@babel/preset-react']
+                    }
+                }
             },
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-        ],
+                use: ['style-loader', 'css-loader']
+            }
+        ]
     },
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, 'src'),
+            '@': path.resolve(__dirname, 'src')
         },
-        extensions: ['.ts', '.jsx', '.js', '.css'],
+        extensions: ['.ts', '.jsx', '.js', '.css']
     },
     plugins: [
         new Dotenv(),
         new webpack.DefinePlugin({
             // 'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('http://localhost:8007'),
-            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify(process.env.NEXT_PUBLIC_BACKEND_URL),
-        }),
-    ],
+            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify(
+                process.env.NEXT_PUBLIC_BACKEND_URL
+            )
+        })
+    ]
 };

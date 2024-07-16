@@ -1,28 +1,36 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import axios from '@/lib/axios'
-import { Button, Card, Typography } from '@material-tailwind/react'
+import { useState, useEffect } from 'react';
+import axios from '@/lib/axios';
+import { Button, Card, Typography } from '@material-tailwind/react';
 import Link from 'next/link';
 
 const ChatbotsIndex = () => {
-    const [chatbots, setChatbots] = useState([])
+    const [chatbots, setChatbots] = useState([]);
 
     useEffect(() => {
         const fetchChatbots = async () => {
             try {
-                const response = await axios.get('/api/v1/chatbot')
-                setChatbots(response.data.chatbots)
-                console.log('Chatbots fetched:', response.data.chatbots)
+                const response = await axios.get('/api/v1/chatbot');
+                setChatbots(response.data.chatbots);
+                console.log('Chatbots fetched:', response.data.chatbots);
             } catch (error) {
-                console.error('Error fetching chatbots:', error)
+                console.error('Error fetching chatbots:', error);
             }
-        }
+        };
 
-        fetchChatbots()
-    }, [])
+        fetchChatbots();
+    }, []);
 
-    const TABLE_HEAD = ['Nombre', 'Descripción', 'Tipo', 'Habilitado', 'Fecha de creación', 'Fecha de actualización', 'Acciones']
+    const TABLE_HEAD = [
+        'Nombre',
+        'Descripción',
+        'Tipo',
+        'Habilitado',
+        'Fecha de creación',
+        'Fecha de actualización',
+        'Acciones'
+    ];
 
     return (
         <>
@@ -34,11 +42,13 @@ const ChatbotsIndex = () => {
                             {TABLE_HEAD.map(head => (
                                 <th
                                     key={head}
-                                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                                >
                                     <Typography
                                         variant="small"
                                         color="blue-gray"
-                                        className="font-normal leading-none opacity-70">
+                                        className="font-normal leading-none opacity-70"
+                                    >
                                         {head}
                                     </Typography>
                                 </th>
@@ -47,10 +57,10 @@ const ChatbotsIndex = () => {
                     </thead>
                     <tbody>
                         {chatbots.map((chatbot, index) => {
-                            const isLast = index === chatbots.length - 1
+                            const isLast = index === chatbots.length - 1;
                             const classes = isLast
                                 ? 'p-4'
-                                : 'p-4 border-b border-blue-gray-50'
+                                : 'p-4 border-b border-blue-gray-50';
 
                             return (
                                 <tr key={chatbot.id}>
@@ -58,7 +68,8 @@ const ChatbotsIndex = () => {
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal">
+                                            className="font-normal"
+                                        >
                                             {chatbot.name}
                                         </Typography>
                                     </td>
@@ -66,7 +77,8 @@ const ChatbotsIndex = () => {
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal">
+                                            className="font-normal"
+                                        >
                                             {chatbot.description}
                                         </Typography>
                                     </td>
@@ -74,7 +86,8 @@ const ChatbotsIndex = () => {
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal">
+                                            className="font-normal"
+                                        >
                                             {chatbot.type}
                                         </Typography>
                                     </td>
@@ -82,7 +95,8 @@ const ChatbotsIndex = () => {
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal">
+                                            className="font-normal"
+                                        >
                                             {chatbot.enabled ? 'Yes' : 'No'}
                                         </Typography>
                                     </td>
@@ -90,26 +104,38 @@ const ChatbotsIndex = () => {
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal">
-                                            {new Date(chatbot.created_at).toLocaleDateString()}
+                                            className="font-normal"
+                                        >
+                                            {new Date(
+                                                chatbot.created_at
+                                            ).toLocaleDateString()}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal">
-                                            {new Date(chatbot.updated_at).toLocaleDateString()}
+                                            className="font-normal"
+                                        >
+                                            {new Date(
+                                                chatbot.updated_at
+                                            ).toLocaleDateString()}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex space-x-2">
-                                            <Link href={`/chatbots/${chatbot.id}/edit`} passHref>
+                                            <Link
+                                                href={`/chatbots/${chatbot.id}/edit`}
+                                                passHref
+                                            >
                                                 <Button color="blue" size="sm">
                                                     Editar
                                                 </Button>
                                             </Link>
-                                            <Link href={`/chatbots/${chatbot.id}/show`} passHref>
+                                            <Link
+                                                href={`/chatbots/${chatbot.id}/show`}
+                                                passHref
+                                            >
                                                 <Button color="green" size="sm">
                                                     Ver
                                                 </Button>
@@ -117,13 +143,13 @@ const ChatbotsIndex = () => {
                                         </div>
                                     </td>
                                 </tr>
-                            )
+                            );
                         })}
                     </tbody>
                 </table>
             </Card>
         </>
-    )
-}
+    );
+};
 
-export default ChatbotsIndex
+export default ChatbotsIndex;

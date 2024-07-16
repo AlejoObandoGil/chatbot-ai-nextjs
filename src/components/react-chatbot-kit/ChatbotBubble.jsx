@@ -14,7 +14,7 @@ const ChatbotBubble = ({ chatbotId }) => {
         return messages;
     };
 
-    const saveMessages = (messages) => {
+    const saveMessages = messages => {
         localStorage.setItem('chat_messages', JSON.stringify(messages));
     };
 
@@ -26,8 +26,8 @@ const ChatbotBubble = ({ chatbotId }) => {
                         config={config(chatbotId)}
                         messageParser={MessageParser}
                         actionProvider={ActionProvider}
-                        headerText='Chatbot'
-                        placeholderText='Escribe tu consulta...'
+                        headerText="Chatbot"
+                        placeholderText="Escribe tu consulta..."
                         messageHistory={loadMessages()}
                         saveMessages={saveMessages}
                     />
@@ -35,7 +35,7 @@ const ChatbotBubble = ({ chatbotId }) => {
             )}
             <button
                 className="bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
-                onClick={() => toggleBot((prev) => !prev)}
+                onClick={() => toggleBot(prev => !prev)}
             >
                 <IoChatbubbleEllipsesSharp size={30} />
             </button>
@@ -44,4 +44,3 @@ const ChatbotBubble = ({ chatbotId }) => {
 };
 
 export default ChatbotBubble;
-

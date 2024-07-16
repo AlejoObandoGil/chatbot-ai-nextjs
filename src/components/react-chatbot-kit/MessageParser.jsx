@@ -1,6 +1,6 @@
 // in MessageParser.jsx
 
-import React from 'react';
+// import React from 'react';
 
 class MessageParser {
     constructor(actionProvider) {
@@ -13,9 +13,6 @@ class MessageParser {
 }
 
 export default MessageParser;
-
-
-
 
 // const MessageParser = ({ children, actions }) => {
 //     const parse = (message) => {

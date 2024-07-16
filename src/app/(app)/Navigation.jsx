@@ -1,33 +1,31 @@
-import Link from 'next/link';
-import NavLink from '@/components/NavLink';
 import ResponsiveNavLink, { ResponsiveNavButton } from '@/components/ResponsiveNavLink';
 import Dropdown from '@/components/Dropdown';
 import { DropdownButton } from '@/components/DropdownLink';
 import { useAuth } from '@/hooks/auth';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { FaBars } from 'react-icons/fa';
-import ApplicationLogo from '@/components/ApplicationLogo';
 import Sidebar from '@/app/(app)/Sidebar.jsx';
 
 const Navigation = ({ user }) => {
     const { logout } = useAuth();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false); // Agrega setOpen para controlar el estado de 'open'
+
+    // Llama a usePathname fuera del render condicional
+    const currentPath = usePathname();
 
     return (
         <nav className="bg-white border-b border-gray-100">
             <div className="mx-auto sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
-
                     {/* Icono del menú para dispositivos móviles */}
-                    {/* <div className="flex items-center sm:hidden">
+                    <div className="flex items-center sm:hidden">
                         <button
                             onClick={() => setOpen(!open)}
                             className="inline-flex items-center justify-center rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                         >
-                            <FaBars className="h-6 w-6" />
+                            {/* <FaBars className="h-6 w-6" /> */}
                         </button>
-                    </div> */}
+                    </div>
 
                     {/* Logo y enlaces de navegación */}
                     <div className="px-0 hidden sm:flex sm:items-center">
@@ -35,7 +33,6 @@ const Navigation = ({ user }) => {
 
                         {/* Enlaces de navegación */}
                         <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-
                             {/* Agrega más enlaces de navegación según sea necesario */}
                         </div>
                     </div>
@@ -79,7 +76,7 @@ const Navigation = ({ user }) => {
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
                             href="/dashboard"
-                            active={usePathname() === '/dashboard'}
+                            active={currentPath === '/dashboard'} // Usa currentPath en lugar de llamar usePathname aquí
                         >
                             Dashboard
                         </ResponsiveNavLink>

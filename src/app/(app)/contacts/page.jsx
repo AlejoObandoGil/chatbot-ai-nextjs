@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
 import {
     MagnifyingGlassIcon,
-    ChevronUpDownIcon,
-} from '@heroicons/react/24/outline'
-import { PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid'
+    ChevronUpDownIcon
+} from '@heroicons/react/24/outline';
+import { PencilIcon } from '@heroicons/react/24/solid';
 import {
     Card,
     CardHeader,
@@ -19,25 +19,25 @@ import {
     Tab,
     Avatar,
     IconButton,
-    Tooltip,
-} from '@material-tailwind/react'
+    Tooltip
+} from '@material-tailwind/react';
 
 const TABS = [
     {
         label: 'All',
-        value: 'all',
+        value: 'all'
     },
     {
         label: 'Monitored',
-        value: 'monitored',
+        value: 'monitored'
     },
     {
         label: 'Unmonitored',
-        value: 'unmonitored',
-    },
-]
+        value: 'unmonitored'
+    }
+];
 
-const TABLE_HEAD = ['Member', 'Function', 'Status', 'Employed', '']
+const TABLE_HEAD = ['Member', 'Function', 'Status', 'Employed', ''];
 
 const TABLE_ROWS = [
     {
@@ -47,7 +47,7 @@ const TABLE_ROWS = [
         job: 'Manager',
         org: 'Organization',
         online: true,
-        date: '23/04/18',
+        date: '23/04/18'
     },
     {
         img: 'https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg',
@@ -56,7 +56,7 @@ const TABLE_ROWS = [
         job: 'Programator',
         org: 'Developer',
         online: false,
-        date: '23/04/18',
+        date: '23/04/18'
     },
     {
         img: 'https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg',
@@ -65,7 +65,7 @@ const TABLE_ROWS = [
         job: 'Executive',
         org: 'Projects',
         online: false,
-        date: '19/09/17',
+        date: '19/09/17'
     },
     {
         img: 'https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg',
@@ -74,7 +74,7 @@ const TABLE_ROWS = [
         job: 'Programator',
         org: 'Developer',
         online: true,
-        date: '24/12/08',
+        date: '24/12/08'
     },
     {
         img: 'https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg',
@@ -83,9 +83,9 @@ const TABLE_ROWS = [
         job: 'Manager',
         org: 'Executive',
         online: false,
-        date: '04/10/21',
-    },
-]
+        date: '04/10/21'
+    }
+];
 
 export default function SortableTable() {
     return (
@@ -131,11 +131,13 @@ export default function SortableTable() {
                             {TABLE_HEAD.map((head, index) => (
                                 <th
                                     key={head}
-                                    className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
+                                    className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
+                                >
                                     <Typography
                                         variant="small"
                                         color="blue-gray"
-                                        className="flex items-center justify-between gap-2 font-normal leading-none opacity-70">
+                                        className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
+                                    >
                                         {head}{' '}
                                         {index !== TABLE_HEAD.length - 1 && (
                                             <ChevronUpDownIcon
@@ -152,12 +154,12 @@ export default function SortableTable() {
                         {TABLE_ROWS.map(
                             (
                                 { img, name, email, job, org, online, date },
-                                index,
+                                index
                             ) => {
-                                const isLast = index === TABLE_ROWS.length - 1
+                                const isLast = index === TABLE_ROWS.length - 1;
                                 const classes = isLast
                                     ? 'p-4'
-                                    : 'p-4 border-b border-blue-gray-50'
+                                    : 'p-4 border-b border-blue-gray-50';
 
                                 return (
                                     <tr key={name}>
@@ -172,13 +174,15 @@ export default function SortableTable() {
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
-                                                        className="font-normal">
+                                                        className="font-normal"
+                                                    >
                                                         {name}
                                                     </Typography>
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
-                                                        className="font-normal opacity-70">
+                                                        className="font-normal opacity-70"
+                                                    >
                                                         {email}
                                                     </Typography>
                                                 </div>
@@ -189,13 +193,15 @@ export default function SortableTable() {
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="font-normal">
+                                                    className="font-normal"
+                                                >
                                                     {job}
                                                 </Typography>
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="font-normal opacity-70">
+                                                    className="font-normal opacity-70"
+                                                >
                                                     {org}
                                                 </Typography>
                                             </div>
@@ -222,7 +228,8 @@ export default function SortableTable() {
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="font-normal">
+                                                className="font-normal"
+                                            >
                                                 {date}
                                             </Typography>
                                         </td>
@@ -234,8 +241,8 @@ export default function SortableTable() {
                                             </Tooltip>
                                         </td>
                                     </tr>
-                                )
-                            },
+                                );
+                            }
                         )}
                     </tbody>
                 </table>
@@ -244,7 +251,8 @@ export default function SortableTable() {
                 <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal">
+                    className="font-normal"
+                >
                     Page 1 of 10
                 </Typography>
                 <div className="flex gap-2">
@@ -257,5 +265,5 @@ export default function SortableTable() {
                 </div>
             </CardFooter>
         </Card>
-    )
+    );
 }

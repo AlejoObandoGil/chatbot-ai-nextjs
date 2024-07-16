@@ -1,5 +1,5 @@
 import { createChatBotMessage } from 'react-chatbot-kit';
-import WidgetCustome from '@/components/react-chatbot-kit/WidgetCustome.jsx';
+// import WidgetCustome from '@/components/react-chatbot-kit/WidgetCustome.jsx';
 
 const botName = 'YouBot';
 
@@ -21,12 +21,12 @@ const config = chatbotId => ({
     state: {
         chatbotId: chatbotId
     },
-    widgets: [
-        {
-            widgetName: 'widgetCustome',
-            widgetFunc: props => <WidgetCustome {...props} />
-        }
-    ]
+    // widgets: [
+    //     {
+    //         widgetName: 'widgetCustome',
+    //         widgetFunc: props => <WidgetCustome {...props} />
+    //     }
+    // ]
 });
 
 export default config;

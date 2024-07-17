@@ -3,8 +3,11 @@
 import React, { useState } from 'react';
 import IntentCard from '@/components/intents/IntentCard';
 import Modal from 'react-modal';
+import { useParams } from 'next/navigation';
 
 const StructurePage = () => {
+    const { id } = useParams();
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedIntent, setSelectedIntent] = useState(null);
 

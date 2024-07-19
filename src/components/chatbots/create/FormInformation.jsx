@@ -79,7 +79,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
         <>
             <div className="bg-gray-100 flex items-center justify-center">
                 <div className="bg-white p-8 rounded shadow-md w-full max-w-5xl">
-                    <Typography variant="h5" color="indigo" className='mb-4' textGradient>
+                    <Typography variant="h4" color="indigo" className='mb-4' textGradient>
                         {chatbot ? `Editar Información del Chatbot (${selectedType})` : `Nuevo Chatbot (${selectedType})`}
                     </Typography>
                     <form onSubmit={handleSubmit} className='mb-4'>

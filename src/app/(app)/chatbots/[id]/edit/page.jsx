@@ -42,7 +42,7 @@ const EditChatbot = () => {
         const components = {
             informacion: <FormInformation selectedType={chatbot.type} chatbot={chatbot} />,
             personalizacion: <div>Personalización - Contenido no disponible</div>,
-            estructura_de_flujo: <Structure selectedType={chatbot.type} chatbot={chatbot} />,
+            estructura_de_flujo: <Structure chatbot={chatbot} />,
             vista_previa: <div>Vista Previa - Contenido no disponible</div>
         };
 

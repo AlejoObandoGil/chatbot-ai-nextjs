@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import { Alert } from "@material-tailwind/react";
-import { Input, Textarea, Typography } from "@material-tailwind/react";
+import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 
 const FormInformation = ({ selectedType, chatbot }) => {
+    const router = useRouter();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [knowledgeBase, setKnowledgeBase] = useState('');
@@ -13,7 +14,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [alertColor, setAlertColor] = useState('');
-    const router = useRouter();
+    const [loadingSave, setloadingSave] = useState(false);
 
     useEffect(() => {
         if (chatbot) {
@@ -22,12 +23,12 @@ const FormInformation = ({ selectedType, chatbot }) => {
             setKnowledgeBase(chatbot.knowledgeBase || '');
             setLink(chatbot.link || '');
             setDocument(chatbot.document || '');
-            selectedType = chatbot.type;
         }
     }, [chatbot]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setloadingSave(true);
 
         const data = { name, description, type: selectedType, knowledgeBase };
 
@@ -56,8 +57,11 @@ const FormInformation = ({ selectedType, chatbot }) => {
                 handleErrorResponse(response);
             }
         } catch (error) {
-            console.error('Error:', error);
+            // eslint-disable-next-line no-console
+            console.error('Ocurrió un error:', error);
             handleErrorResponse(error.response);
+        } finally {
+            setloadingSave(false);
         }
     };
 
@@ -75,8 +79,8 @@ const FormInformation = ({ selectedType, chatbot }) => {
         <>
             <div className="bg-gray-100 flex items-center justify-center">
                 <div className="bg-white p-8 rounded shadow-md w-full max-w-5xl">
-                    <Typography variant="h5" color="blue-gray" className='mb-4' textGradient>
-                        {chatbot ? `Editar Chatbot (${selectedType})` : `Nuevo Chatbot (${selectedType})`}
+                    <Typography variant="h5" color="indigo" className='mb-4' textGradient>
+                        {chatbot ? `Editar Información del Chatbot (${selectedType})` : `Nuevo Chatbot (${selectedType})`}
                     </Typography>
                     <form onSubmit={handleSubmit} className='mb-4'>
                         <div className="mb-4">
@@ -128,6 +132,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                         placeholder="Agrega el link de tu sitio web"
                                     />
                                 </div>
+
                                 <div className="mb-4">
                                     <Input
                                         label="Documento PDF"
@@ -140,9 +145,14 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                 </div>
                             </>
                         )}
-                        <button type="submit" className="w-full max-w-lg float-right bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+                        {/* {!chatbot && (
+                            <Button  type="submit" variant="gradient" color='indigo' size="md" className='me-2'>
+                                Volver
+                            </Button>
+                        )} */}
+                        <Button type="submit" variant="gradient" color='indigo' size="md"  loading={loadingSave}>
                             {chatbot ? 'Actualizar Chatbot' : 'Crear Chatbot'}
-                        </button>
+                        </Button>
                     </form>
                     <div className="mt-4 mb-4">
                         {showAlert && (

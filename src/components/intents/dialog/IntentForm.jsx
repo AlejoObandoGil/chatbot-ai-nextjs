@@ -1,17 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Checkbox } from "@material-tailwind/react";
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
 
-const IntentForm = ({ intent, onChange }) => {
-    const [formData, setFormData] = useState(intent || {
-        name: '',
-        level: 1,
-        intent_category_id: 1,
-        is_choices: false,
-        phrases: [''],
-        responses: [''],
-        options: ['']
-    });
+const IntentForm = ({ node, onChange }) => {
+    const [formData, setFormData] = useState(node)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

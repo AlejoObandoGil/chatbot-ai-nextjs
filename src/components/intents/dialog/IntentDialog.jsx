@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-// import IntentNavBarDialog from './IntentNavBarDialog'
-import IntentForm from './IntentForm'
+import React, { useState, useEffect } from 'react';
+import IntentForm from './IntentForm';
 import { Dialog, DialogHeader, DialogBody, DialogFooter, Button, Typography } from "@material-tailwind/react";
 
-const IntentDialog = ({ open, onClose, intent }) => {
+const IntentDialog = ({ open, onClose, node }) => {
+    console.log('ok', node);
 
-    const [formData, setFormData] = useState(intent);
+    const [formData, setFormData] = useState(node);
+
+    console.log('formdata', formData);
 
     const handleFormChange = (updatedData) => {
         setFormData(updatedData);
@@ -13,22 +15,19 @@ const IntentDialog = ({ open, onClose, intent }) => {
 
     return (
         <Dialog open={open} handler={onClose} size="lg" className='px-4 py-4'>
-            {intent && (
+            {node && (
                 <>
                     <DialogHeader>
-                    <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full">
                             <div className="flex items-start">
                                 <Typography variant="h5" color="indigo">
-                                    Editar {intent.name}
+                                    Editar Nodo
                                 </Typography>
                             </div>
-                            {/* <div className="flex justify-center w-full mt-4">
-                                <IntentNavBarDialog />
-                            </div> */}
                         </div>
                     </DialogHeader>
                     <DialogBody className="custom-scroll max-h-[calc(100vh-200px)]">
-                        <IntentForm intent={formData} onChange={handleFormChange} />
+                        <IntentForm node={formData} onChange={handleFormChange} />
                     </DialogBody>
                     <DialogFooter>
                         <Button

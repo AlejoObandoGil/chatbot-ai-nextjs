@@ -10,49 +10,28 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import CustomeNode from '@/components/react-flow/CustomeNode';
-import '@/styles/custome-node.css';
-
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 
 const initialNodes = [
     {
-        id: 'node-1',
+        id: '1',
         type: 'customeNode',
         position: { x: 0, y: 0 },
-        data: { value: 123 },
-        intent: {
-            id: 1,
+        data: { label: 'Mensaje de bienvenida' },
             name: 'Mensaje de bienvenida',
-        },
+            phrases: [],
+            responses: [],
+            options: [],
     },
     {
-        id: 'node-2',
-        type: 'output',
-        targetPosition: 'top',
-        position: { x: 0, y: 200 },
-        data: { label: 'node 2' },
-        intent: {
-            id: 2,
-            name: 'Mensaje bot de ejemplo',
-        },
-    },
-    {
-        id: 'node-3',
-        type: 'output',
-        targetPosition: 'top',
-        position: { x: 200, y: 200 },
-        data: { label: 'node 3' },
-    },
-];
-
-const intents = [
-    {
-        id: 1,
-        name: 'Mensaje de bienvenida',
-    },
-    {
-        id: 2,
-        name: 'Mensaje bot de ejemplo',
+        id: '2',
+        type: 'customeNode',
+        position: { x: 0, y: 100 },
+        data: { label: 'En que puedo ayudarte hoy' },
+            name: 'En que puedo ayudarte hoy',
+            phrases: [],
+            responses: [],
+            options: [],
     },
 ];
 
@@ -64,16 +43,16 @@ function FlowChart() {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [selectedIntent, setSelectedIntent] = useState(null);
+    const [selectedNode, setSelectedNode] = useState(null);
 
-    const openModal = (intent) => {
-        setSelectedIntent(intent);
+    const openModal = (node) => {
+        setSelectedNode(node);
         setModalIsOpen(true);
     };
 
     const closeModal = () => {
         setModalIsOpen(false);
-        setSelectedIntent(null);
+        setSelectedNode(null);
     };
 
     const onNodesChange = useCallback(
@@ -96,13 +75,13 @@ function FlowChart() {
     }, []);
 
     const onNodeDoubleClick = useCallback((event, node) => {
-        openModal(intents[0]);
+        openModal(node);
         // eslint-disable-next-line no-console
         console.log('Node double-clicked:', node);
     }, []);
 
     return (
-        <div style={{ height: 750 }}>
+        <div style={{ height: 600 }}>
             <ReactFlow
                 nodes={nodes}
                 onNodesChange={onNodesChange}
@@ -118,11 +97,12 @@ function FlowChart() {
                 <MiniMap />
                 <Controls />
             </ReactFlow>
-            <IntentDialog
-                open={modalIsOpen}
-                onClose={closeModal}
-                intent={selectedIntent}
-            />
+            {modalIsOpen &&
+                <IntentDialog
+                    open={modalIsOpen}
+                    onClose={closeModal}
+                    node={selectedNode}
+            />}
         </div>
     );
 }

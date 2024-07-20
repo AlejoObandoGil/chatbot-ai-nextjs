@@ -14,7 +14,7 @@ const EditChatbot = () => {
     const { id } = useParams();
     const [chatbot, setChatbot] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [selectedTab, setSelectedTab] = useState('informacion');
+    const [selectedTab, setSelectedTab] = useState('personalizacion');
 
     useEffect(() => {
         if (id) {

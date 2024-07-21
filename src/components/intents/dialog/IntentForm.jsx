@@ -1,40 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Checkbox } from "@material-tailwind/react";
+import { Input, Checkbox, Button } from "@material-tailwind/react";
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
 
-const IntentForm = ({ node, onChange }) => {
-    const [formData, setFormData] = useState(node)
+const IntentForm = ({ node, onChange, onSave, onClose }) => {
+    const [formData, setFormData] = useState(node);
+
+    useEffect(() => {
+        setFormData(node);
+    }, [node]);
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({ ...prevState, [name]: value }));
-        onChange && onChange({ ...formData, [name]: value });
+        const { name, value, type, checked } = e.target;
+        const updatedValue = type === 'checkbox' ? checked : value;
+
+        const updatedData = {
+            ...formData,
+            [name]: updatedValue,
+            data: {
+                ...formData.data,
+                label: name === 'name' ? updatedValue : formData.data.label
+            }
+        };
+
+        setFormData(updatedData);
+        onChange(updatedData);
     };
 
     const handleArrayChange = (name, index, value) => {
         const updatedArray = [...formData[name]];
         updatedArray[index] = value;
-        setFormData(prevState => ({ ...prevState, [name]: updatedArray }));
-        onChange && onChange({ ...formData, [name]: updatedArray });
+        const updatedData = { ...formData, [name]: updatedArray };
+        setFormData(updatedData);
+        onChange(updatedData);
     };
 
     const addArrayItem = (name) => {
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: [...prevState[name], '']
-        }));
+        const updatedData = {
+            ...formData,
+            [name]: [...formData[name], '']
+        };
+        setFormData(updatedData);
+        onChange(updatedData);
     };
 
     const removeArrayItem = (name, index) => {
         const updatedArray = formData[name].filter((_, i) => i !== index);
-        setFormData(prevState => ({ ...prevState, [name]: updatedArray }));
-        onChange && onChange({ ...formData, [name]: updatedArray });
+        const updatedData = { ...formData, [name]: updatedArray };
+        setFormData(updatedData);
+        onChange(updatedData);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSave();
     };
 
     return (
-        <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
             <Input
-                label="Nombre"
+                label="Escribe un nombre identificador para esta intención. Por ejemplo: 'Saludos', 'Despedidas', 'Información'"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
@@ -42,31 +66,18 @@ const IntentForm = ({ node, onChange }) => {
                 color="indigo"
                 variant="standard"
             />
-            <Input
-                type="number"
-                label="Nivel"
-                name="level"
-                value={formData.level}
-                onChange={handleInputChange}
-                required
-                color="indigo"
-                variant="standard"
-            />
-            <Input
-                type="number"
-                label="ID de Categoría de Intención"
-                name="intent_category_id"
-                value={formData.intent_category_id}
-                onChange={handleInputChange}
-                required
-                color="indigo"
-                variant="standard"
-            />
             <Checkbox
-                label="Es Elección"
+                label="Es Tipo menú o seleccion multiple"
                 name="is_choices"
                 checked={formData.is_choices}
-                onChange={(e) => handleInputChange({ target: { name: 'is_choices', value: e.target.checked } })}
+                onChange={handleInputChange}
+                color="indigo"
+            />
+            <Checkbox
+                label="Deseas guardar la respuesta del cliente?"
+                name="save_information"
+                checked={formData.save_information}
+                onChange={handleInputChange}
                 color="indigo"
             />
             <div>
@@ -98,65 +109,86 @@ const IntentForm = ({ node, onChange }) => {
                     Añadir Frase
                 </button>
             </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-700">Respuestas</label>
-                {formData.responses.map((response, index) => (
-                    <div key={index} className="flex items-center space-x-2 mb-2">
-                        <Input
-                            value={response}
-                            onChange={(e) => handleArrayChange('responses', index, e.target.value)}
-                            placeholder="Respuesta"
-                            color="indigo"
-                            variant="standard"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => removeArrayItem('responses', index)}
-                            className="text-red-500"
-                        >
-                            <TrashIcon className="w-5 h-5" />
-                        </button>
-                    </div>
-                ))}
-                <button
-                    type="button"
-                    onClick={() => addArrayItem('responses')}
-                    className="flex items-center text-blue-500"
+            {!formData.is_choices && (
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Respuestas</label>
+                    {formData.responses.map((response, index) => (
+                        <div key={index} className="flex items-center space-x-2 mb-2">
+                            <Input
+                                value={response}
+                                onChange={(e) => handleArrayChange('responses', index, e.target.value)}
+                                placeholder="Respuesta"
+                                color="indigo"
+                                variant="standard"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => removeArrayItem('responses', index)}
+                                className="text-red-500"
+                            >
+                                <TrashIcon className="w-5 h-5" />
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => addArrayItem('responses')}
+                        className="flex items-center text-blue-500"
+                    >
+                        <PlusIcon className="w-5 h-5 mr-1" />
+                        Añadir Respuesta
+                    </button>
+                </div>
+            )}
+            {formData.is_choices && (
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Opciones</label>
+                    {formData.options.map((option, index) => (
+                        <div key={index} className="flex items-center space-x-2 mb-2">
+                            <Input
+                                value={option}
+                                onChange={(e) => handleArrayChange('options', index, e.target.value)}
+                                placeholder="Opción"
+                                color="indigo"
+                                variant="standard"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => removeArrayItem('options', index)}
+                                className="text-red-500"
+                            >
+                                <TrashIcon className="w-5 h-5" />
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => addArrayItem('options')}
+                        className="flex items-center text-blue-500"
+                    >
+                        <PlusIcon className="w-5 h-5 mr-1" />
+                        Añadir Opción
+                    </button>
+                </div>
+            )}
+            <div className="flex justify-end space-x-2">
+                <Button
+                    variant='gradient'
+                    className='me-2'
+                    color="indigo"
+                    onClick={onClose}
                 >
-                    <PlusIcon className="w-5 h-5 mr-1" />
-                    Añadir Respuesta
-                </button>
-            </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-700">Opciones</label>
-                {formData.options.map((option, index) => (
-                    <div key={index} className="flex items-center space-x-2 mb-2">
-                        <Input
-                            value={option}
-                            onChange={(e) => handleArrayChange('options', index, e.target.value)}
-                            placeholder="Opción"
-                            color="indigo"
-                            variant="standard"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => removeArrayItem('options', index)}
-                            className="text-red-500"
-                        >
-                            <TrashIcon className="w-5 h-5" />
-                        </button>
-                    </div>
-                ))}
-                <button
-                    type="button"
-                    onClick={() => addArrayItem('options')}
-                    className="flex items-center text-blue-500"
+                    Cerrar
+                </Button>
+                <Button
+                    type="submit"
+                    variant='gradient'
+                    color="indigo"
                 >
-                    <PlusIcon className="w-5 h-5 mr-1" />
-                    Añadir Opción
-                </button>
+                    Guardar
+                </Button>
             </div>
-        </div>
+        </form>
     );
 };
 

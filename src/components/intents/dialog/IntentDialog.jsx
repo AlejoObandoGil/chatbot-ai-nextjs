@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import IntentForm from './IntentForm';
-import { Dialog, DialogHeader, DialogBody, DialogFooter, Button, Typography } from "@material-tailwind/react";
+import { Dialog, DialogHeader, DialogBody, Typography } from "@material-tailwind/react";
 
-const IntentDialog = ({ open, onClose, node }) => {
-    console.log('ok', node);
-
+const IntentDialog = ({ open, onClose, node, onSave }) => {
     const [formData, setFormData] = useState(node);
-
-    console.log('formdata', formData);
 
     const handleFormChange = (updatedData) => {
         setFormData(updatedData);
+    };
+
+    const handleFormSubmit = () => {
+        onSave(formData);
+        onClose();
     };
 
     return (
@@ -27,25 +28,8 @@ const IntentDialog = ({ open, onClose, node }) => {
                         </div>
                     </DialogHeader>
                     <DialogBody className="custom-scroll max-h-[calc(100vh-200px)]">
-                        <IntentForm node={formData} onChange={handleFormChange} />
+                        <IntentForm node={formData} onChange={handleFormChange} onSave={handleFormSubmit} onClose={onClose} />
                     </DialogBody>
-                    <DialogFooter>
-                        <Button
-                            variant='gradient'
-                            className='me-2'
-                            color="indigo"
-                            onClick={onClose}
-                        >
-                            Cerrar
-                        </Button>
-                        <Button
-                            variant='gradient'
-                            color="indigo"
-                            onClick={onClose}
-                        >
-                            Guardar
-                        </Button>
-                    </DialogFooter>
                 </>
             )}
         </Dialog>

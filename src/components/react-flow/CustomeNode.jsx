@@ -11,7 +11,7 @@ function CustomeNode({ id, data, isConnectable, selected }) {
     };
 
     const handleDeleteClick = () => {
-        // Aquí puedes manejar la lógica para eliminar el nodo
+        // eslint-disable-next-line no-unused-expressions
         console.log(`Eliminar nodo ${id}`);
     };
 

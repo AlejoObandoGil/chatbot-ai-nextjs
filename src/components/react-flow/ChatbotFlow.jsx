@@ -23,7 +23,7 @@ const nodeTypes = { customeNode: CustomeNode };
 
 const initialEdges = [];
 
-function FlowChart({ chatbotId }) {
+function ChatbotFlow({ chatbotId }) {
     const [nodes, setNodes] = useState([]);
     const [edges, setEdges] = useState(initialEdges);
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -191,4 +191,4 @@ function FlowChart({ chatbotId }) {
     );
 }
 
-export default FlowChart;
+export default ChatbotFlow;

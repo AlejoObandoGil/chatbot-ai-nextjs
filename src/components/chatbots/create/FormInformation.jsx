@@ -52,7 +52,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                 setShowAlert(true);
                 setTimeout(() => {
                     setShowAlert(false);
-                    router.replace('/chatbots/edit/structure');
+                    router.replace(`/chatbots/${response.data.chatbot.id}/edit`);
                 }, 5000);
             } else {
                 handleErrorResponse(response);

@@ -3,6 +3,7 @@ import axios from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import { Alert } from "@material-tailwind/react";
 import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
+import { formatErrorMessage } from '@/utils/alertUtils';
 
 const FormInformation = ({ selectedType, chatbot }) => {
     const router = useRouter();
@@ -52,7 +53,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                 setTimeout(() => {
                     setShowAlert(false);
                     router.replace('/chatbots/edit/structure');
-                }, 3000);
+                }, 5000);
             } else {
                 handleErrorResponse(response);
             }
@@ -66,11 +67,8 @@ const FormInformation = ({ selectedType, chatbot }) => {
     };
 
     const handleErrorResponse = (response) => {
-        if (response && response.data && response.data.message) {
-            setAlertMessage(response.data.message);
-        } else {
-            setAlertMessage('Error al guardar el chatbot.');
-        }
+        const alertMessage = formatErrorMessage(response);
+        setAlertMessage(alertMessage);
         setAlertColor('red');
         setShowAlert(true);
     };

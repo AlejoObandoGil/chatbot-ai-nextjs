@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation';
 import axios from '@/lib/axios';
 import NavbarEditChatbot from '@/components/chatbots/edit/NavBar';
 import FormInformation from '@/components/chatbots/create/FormInformation';
-import Structure from '@/components/chatbots/edit/structure/Structure';
 import ChatbotFlow from '@/components/react-flow/ChatbotFlow';
 import { Spinner } from "@material-tailwind/react";
 import { motion } from 'framer-motion';
@@ -14,7 +13,7 @@ const EditChatbot = () => {
     const { id } = useParams();
     const [chatbot, setChatbot] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [selectedTab, setSelectedTab] = useState('personalizacion');
+    const [selectedTab, setSelectedTab] = useState('editor_de_flujo');
 
     useEffect(() => {
         if (id) {

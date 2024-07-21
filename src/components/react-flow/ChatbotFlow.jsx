@@ -181,6 +181,7 @@ function FlowChart({ chatbotId }) {
             </ReactFlow>
             {modalIsOpen &&
                 <IntentDialog
+                    chatbotId={chatbotId}
                     open={modalIsOpen}
                     onClose={closeModal}
                     node={selectedNode}

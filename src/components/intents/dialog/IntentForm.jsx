@@ -26,18 +26,23 @@ const IntentForm = ({ node, onChange, onSave, onClose }) => {
         onChange(updatedData);
     };
 
-    const handleArrayChange = (name, index, value) => {
-        const updatedArray = [...formData[name]];
-        updatedArray[index] = value;
+    const handleArrayChange = (name, index, key, value) => {
+        const updatedArray = formData[name].map((item, i) =>
+            i === index ? { ...item, [key]: value } : item
+        );
         const updatedData = { ...formData, [name]: updatedArray };
         setFormData(updatedData);
         onChange(updatedData);
     };
 
     const addArrayItem = (name) => {
+        const newItem = name === 'training_phrases' ? { phrase: '' }
+            : name === 'responses' ? { response: '' }
+            : { option: '' };
+
         const updatedData = {
             ...formData,
-            [name]: [...formData[name], '']
+            [name]: [...formData[name], newItem]
         };
         setFormData(updatedData);
         onChange(updatedData);
@@ -68,8 +73,8 @@ const IntentForm = ({ node, onChange, onSave, onClose }) => {
             />
             <Checkbox
                 label="Es Tipo menú o seleccion multiple"
-                name="is_choices"
-                checked={formData.is_choices}
+                name="is_choice"
+                checked={formData.is_choice}
                 onChange={handleInputChange}
                 color="indigo"
             />
@@ -82,18 +87,18 @@ const IntentForm = ({ node, onChange, onSave, onClose }) => {
             />
             <div>
                 <label className="block text-sm font-medium text-gray-700">Frases</label>
-                {formData.phrases.map((phrase, index) => (
+                {formData.training_phrases.map((training_phrase, index) => (
                     <div key={index} className="flex items-center space-x-2 mb-2">
                         <Input
-                            value={phrase}
-                            onChange={(e) => handleArrayChange('phrases', index, e.target.value)}
+                            value={training_phrase.phrase}
+                            onChange={(e) => handleArrayChange('training_phrases', index, 'phrase', e.target.value)}
                             placeholder="Frase"
                             color="indigo"
                             variant="standard"
                         />
                         <button
                             type="button"
-                            onClick={() => removeArrayItem('phrases', index)}
+                            onClick={() => removeArrayItem('training_phrases', index)}
                             className="text-red-500"
                         >
                             <TrashIcon className="w-5 h-5" />
@@ -102,52 +107,50 @@ const IntentForm = ({ node, onChange, onSave, onClose }) => {
                 ))}
                 <button
                     type="button"
-                    onClick={() => addArrayItem('phrases')}
+                    onClick={() => addArrayItem('training_phrases')}
                     className="flex items-center text-blue-500"
                 >
                     <PlusIcon className="w-5 h-5 mr-1" />
                     Añadir Frase
                 </button>
             </div>
-            {!formData.is_choices && (
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Respuestas</label>
-                    {formData.responses.map((response, index) => (
-                        <div key={index} className="flex items-center space-x-2 mb-2">
-                            <Input
-                                value={response}
-                                onChange={(e) => handleArrayChange('responses', index, e.target.value)}
-                                placeholder="Respuesta"
-                                color="indigo"
-                                variant="standard"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => removeArrayItem('responses', index)}
-                                className="text-red-500"
-                            >
-                                <TrashIcon className="w-5 h-5" />
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => addArrayItem('responses')}
-                        className="flex items-center text-blue-500"
-                    >
-                        <PlusIcon className="w-5 h-5 mr-1" />
-                        Añadir Respuesta
-                    </button>
-                </div>
-            )}
-            {formData.is_choices && (
+            <div>
+                <label className="block text-sm font-medium text-gray-700">Respuestas</label>
+                {formData.responses.map((response, index) => (
+                    <div key={index} className="flex items-center space-x-2 mb-2">
+                        <Input
+                            value={response.response}
+                            onChange={(e) => handleArrayChange('responses', index, 'response', e.target.value)}
+                            placeholder="Respuesta"
+                            color="indigo"
+                            variant="standard"
+                        />
+                        <button
+                            type="button"
+                            onClick={() => removeArrayItem('responses', index)}
+                            className="text-red-500"
+                        >
+                            <TrashIcon className="w-5 h-5" />
+                        </button>
+                    </div>
+                ))}
+                <button
+                    type="button"
+                    onClick={() => addArrayItem('responses')}
+                    className="flex items-center text-blue-500"
+                >
+                    <PlusIcon className="w-5 h-5 mr-1" />
+                    Añadir Respuesta
+                </button>
+            </div>
+            {formData.is_choice && (
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Opciones</label>
                     {formData.options.map((option, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <Input
-                                value={option}
-                                onChange={(e) => handleArrayChange('options', index, e.target.value)}
+                                value={option.option}
+                                onChange={(e) => handleArrayChange('options', index, 'option', e.target.value)}
                                 placeholder="Opción"
                                 color="indigo"
                                 variant="standard"

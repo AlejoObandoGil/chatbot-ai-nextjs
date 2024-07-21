@@ -17,8 +17,8 @@ const NavbarEditChatbot = ({ selectedTab, setSelectedTab }) => {
             icon: FaAdjust,
         },
         {
-            label: 'Estructura de Flujo',
-            value: 'estructura_de_flujo',
+            label: 'Editor de Flujo',
+            value: 'editor_de_flujo',
             icon: TiFlowMerge ,
         },
         {

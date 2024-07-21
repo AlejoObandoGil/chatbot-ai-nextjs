@@ -15,7 +15,7 @@ const IntentDialog = ({ open, onClose, node, onSave }) => {
     };
 
     return (
-        <Dialog open={open} handler={onClose} size="lg" className='px-4 py-4'>
+        <Dialog open={open} handler={onClose} size="xl" className='px-4 py-4'>
             {node && (
                 <>
                     <DialogHeader>

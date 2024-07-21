@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { FaEllipsisV } from 'react-icons/fa'; // Icono de tres puntos
-import '@/styles/custome-node.css'; // Asegúrate de tener esta hoja de estilos
+import { FaEllipsisV } from 'react-icons/fa';
 
 function CustomeNode({ id, data, isConnectable, selected }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);

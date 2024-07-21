@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import {
     ReactFlow,
@@ -10,52 +10,72 @@ import {
     MiniMap,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import axios from '@/lib/axios';
 import CustomeNode from '@/components/react-flow/CustomeNode';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 import { Button } from "@material-tailwind/react";
 
-// Tamaño del nodo (ajustar según tu diseño)
-const NODE_WIDTH = 150; // Ancho del nodo en píxeles
-const NODE_HEIGHT = 100; // Altura del nodo en píxeles
-const NODE_SPACING = 20; // Espacio entre nodos en píxeles
-
-const initialNodes = [
-    {
-        id: uuidv4(),
-        name: 'Mensaje de bienvenida',
-        is_choice: false,
-        save_information: false,
-        type: 'customeNode',
-        position: { x: 0, y: 0 },
-        data: { label: 'Mensaje de bienvenida' },
-        phrases: [],
-        responses: [],
-        options: [],
-    },
-    {
-        id: uuidv4(),
-        name: 'En que puedo ayudarte hoy',
-        is_choice: false,
-        save_information: false,
-        type: 'customeNode',
-        position: { x: 0, y: NODE_HEIGHT + NODE_SPACING },
-        data: { label: 'En que puedo ayudarte hoy' },
-        phrases: [],
-        responses: [],
-        options: [],
-    },
-];
+const NODE_WIDTH = 150;
+const NODE_HEIGHT = 100;
+const NODE_SPACING = 20;
 
 const nodeTypes = { customeNode: CustomeNode };
 
 const initialEdges = [];
 
-function FlowChart() {
-    const [nodes, setNodes] = useState(initialNodes);
+function FlowChart({ chatbotId }) {
+    const [nodes, setNodes] = useState([]);
     const [edges, setEdges] = useState(initialEdges);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
     const buttonRef = useRef(null);
+
+    useEffect(() => {
+        const fetchIntents = async () => {
+            try {
+                const { data } = await axios.get(`/api/v1/chatbot/${chatbotId}/intent`);
+                console.log('Raw data from API:', data);
+
+                const dataIntents = data.intents;
+
+                console.log('Chatbots fetched:', dataIntents);
+
+                const fetchedNodes = dataIntents.map(intent => {
+                    let position = { x: 0, y: 0 };
+
+                    if (intent.position) {
+                        try {
+                            position = JSON.parse(intent.position);
+                        } catch (e) {
+                            console.error('Error parsing position:', intent.position, e);
+                        }
+                    }
+
+                    const x = Number.isFinite(position.x) ? position.x : 0;
+                    const y = Number.isFinite(position.y) ? position.y : 0;
+
+                    return {
+                        id: intent.id,
+                        name: intent.name,
+                        is_choice: intent.is_choice,
+                        save_information: intent.save_information,
+                        type: 'customeNode',
+                        position: { x, y },
+                        data: { label: intent.name },
+                        training_phrases: intent.training_phrases || [],
+                        responses: intent.responses || [],
+                        options: [],
+                    };
+                });
+
+                setNodes(fetchedNodes);
+            } catch (error) {
+                console.error('Error fetching intents:', error);
+            }
+        };
+
+        fetchIntents();
+    }, [chatbotId]);
 
     const openModal = (node) => {
         setSelectedNode(node);
@@ -82,12 +102,12 @@ function FlowChart() {
     );
 
     const onNodeClick = useCallback((event, node) => {
-        console.log('Node clicked:', node);
+        // console.log('Node clicked:', node);
     }, []);
 
     const onNodeDoubleClick = useCallback((event, node) => {
         openModal(node);
-        console.log('Node double-clicked:', node);
+        // console.log('Node double-clicked:', node);
     }, []);
 
     const handleNodeSave = (updatedNode) => {
@@ -106,7 +126,7 @@ function FlowChart() {
                 y: lastNode.position.y + NODE_HEIGHT + NODE_SPACING,
             };
         } else {
-            newPosition= { x: 0, y: 0 }
+            newPosition = { x: 0, y: 0 }
         }
 
         const newNode = {
@@ -117,7 +137,7 @@ function FlowChart() {
             type: 'customeNode',
             position: newPosition,
             data: { label: 'Nuevo nodo' },
-            phrases: [],
+            training_phrases: [],
             responses: [],
             options: [],
         };
@@ -137,7 +157,6 @@ function FlowChart() {
                     Agregar nuevo nodo
                 </Button>
                 <Button
-                    ref={buttonRef}
                     variant='gradient'
                     className='me-2'
                     color="green"

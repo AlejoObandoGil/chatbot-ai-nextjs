@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs, TabsHeader, Tab } from '@material-tailwind/react';
-import { FaAdjust , FaEye } from 'react-icons/fa';
+import { FaAdjust, FaEye, FaSave } from 'react-icons/fa';
 import { TiFlowMerge } from 'react-icons/ti';
 import { TbMessageChatbot } from "react-icons/tb";
 
@@ -20,6 +20,11 @@ const NavbarEditChatbot = ({ selectedTab, setSelectedTab }) => {
             label: 'Editor de Flujo',
             value: 'editor_de_flujo',
             icon: TiFlowMerge ,
+        },
+        {
+            label: 'Entidades',
+            value: 'entidades',
+            icon: FaSave,
         },
         {
             label: 'Vista Previa',

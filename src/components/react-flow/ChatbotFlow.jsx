@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { v4 as uuidv4 } from 'uuid'; // Importa la función para generar UUIDs
+import { v4 as uuidv4 } from 'uuid';
 import {
     ReactFlow,
     Controls,
@@ -14,9 +14,14 @@ import CustomeNode from '@/components/react-flow/CustomeNode';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 import { Button } from "@material-tailwind/react";
 
+// Tamaño del nodo (ajustar según tu diseño)
+const NODE_WIDTH = 150; // Ancho del nodo en píxeles
+const NODE_HEIGHT = 100; // Altura del nodo en píxeles
+const NODE_SPACING = 20; // Espacio entre nodos en píxeles
+
 const initialNodes = [
     {
-        id: uuidv4(), // Genera un UUID único para el ID del nodo
+        id: uuidv4(),
         name: 'Mensaje de bienvenida',
         is_choice: false,
         save_information: false,
@@ -28,12 +33,12 @@ const initialNodes = [
         options: [],
     },
     {
-        id: uuidv4(), // Genera un UUID único para el ID del nodo
+        id: uuidv4(),
         name: 'En que puedo ayudarte hoy',
         is_choice: false,
         save_information: false,
         type: 'customeNode',
-        position: { x: 0, y: 100 },
+        position: { x: 0, y: NODE_HEIGHT + NODE_SPACING },
         data: { label: 'En que puedo ayudarte hoy' },
         phrases: [],
         responses: [],
@@ -92,26 +97,31 @@ function FlowChart() {
     };
 
     const addNewNode = () => {
-        if (buttonRef.current) {
-            const buttonRect = buttonRef.current.getBoundingClientRect();
-            const flowChartRect = document.getElementById('flow-chart').getBoundingClientRect();
-            const newNode = {
-                id: uuidv4(), // Usa UUID para el nuevo ID
-                name: 'Nuevo nodo',
-                is_choice: false,
-                save_information: false,
-                type: 'customeNode',
-                position: {
-                    x: (buttonRect.left - flowChartRect.left) + buttonRect.width / 2,
-                    y: buttonRect.bottom - flowChartRect.top + 20
-                },
-                data: { label: 'Nuevo nodo' },
-                phrases: [],
-                responses: [],
-                options: [],
+        let newPosition = {};
+        if (nodes.length > 0) {
+            const lastNode = nodes[nodes.length - 1];
+
+            newPosition = {
+                x: lastNode.position.x,
+                y: lastNode.position.y + NODE_HEIGHT + NODE_SPACING,
             };
-            setNodes((nds) => [...nds, newNode]);
+        } else {
+            newPosition= { x: 0, y: 0 }
         }
+
+        const newNode = {
+            id: uuidv4(),
+            name: 'Nuevo nodo',
+            is_choice: false,
+            save_information: false,
+            type: 'customeNode',
+            position: newPosition,
+            data: { label: 'Nuevo nodo' },
+            phrases: [],
+            responses: [],
+            options: [],
+        };
+        setNodes((nds) => [...nds, newNode]);
     };
 
     return (

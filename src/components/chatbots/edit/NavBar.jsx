@@ -17,14 +17,14 @@ const NavbarEditChatbot = ({ selectedTab, setSelectedTab }) => {
             icon: FaAdjust,
         },
         {
-            label: 'Editor de Flujo',
-            value: 'editor_de_flujo',
-            icon: TiFlowMerge ,
-        },
-        {
             label: 'Entidades',
             value: 'entidades',
             icon: FaSave,
+        },
+        {
+            label: 'Editor de Flujo',
+            value: 'editor_de_flujo',
+            icon: TiFlowMerge ,
         },
         {
             label: 'Vista Previa',

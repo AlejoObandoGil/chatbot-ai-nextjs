@@ -6,7 +6,7 @@ import axios from '@/lib/axios';
 import NavbarEditChatbot from '@/components/chatbots/edit/NavBar';
 import FormInformation from '@/components/chatbots/create/FormInformation';
 import ChatbotFlow from '@/components/react-flow/ChatbotFlow';
-import EntitiesIndex from '@/components/entities/EntitiesIndex';
+import EntitiesIndex from '@/components/Entities/Index';
 import { Spinner } from "@material-tailwind/react";
 import { motion } from 'framer-motion';
 
@@ -14,7 +14,7 @@ const EditChatbot = () => {
     const { id } = useParams();
     const [chatbot, setChatbot] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [selectedTab, setSelectedTab] = useState('editor_de_flujo');
+    const [selectedTab, setSelectedTab] = useState('entidades');
 
     useEffect(() => {
         if (id) {
@@ -43,8 +43,8 @@ const EditChatbot = () => {
         const components = {
             informacion: <FormInformation selectedType={chatbot.type} chatbot={chatbot} />,
             personalizacion: <div>Vista Previa - Contenido no disponible</div>,
-            editor_de_flujo: <ChatbotFlow chatbotId={chatbot.id}/>,
             entidades: <EntitiesIndex chatbotId={chatbot.id}/>,
+            editor_de_flujo: <ChatbotFlow chatbotId={chatbot.id}/>,
             vista_previa: <div>Vista Previa - Contenido no disponible</div>
         };
 

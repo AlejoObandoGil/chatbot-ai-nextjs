@@ -2,61 +2,53 @@
 
 import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
-import { Button, Card, Typography, Input } from '@material-tailwind/react';
+import { Button, Card, Typography } from '@material-tailwind/react';
 import Link from 'next/link';
+import EntityDialog from './dialog/EntityDialog';
 
-const EntitiesIndex = () => {
+const EntitiesIndex = ({chatbotId}) => {
     const [entities, setEntities] = useState([]);
-    const [entity, setEntity] = useState({});
+    const [modalEntityIsOpen, setModalEntityIsOpen] = useState(false);
 
-    // useEffect(() => {
-    //     const fetchEntities = async () => {
-    //         try {
-    //             const response = await axios.get('/api/v1/entity');
-    //             setEntities(response.data.entities);
-    //             console.log('Entities fetched:', response.data.entities);
-    //         } catch (error) {
-    //             console.error('Error fetching entities:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchEntities = async () => {
+            try {
+                const response = await axios.get(`/api/v1/chatbot/${chatbotId}/entity`);
+                setEntities(response.data.entities);
+                console.log('Entities fetched:', response.data.entities);
+            } catch (error) {
+                console.error('Error fetching entities:', error);
+            }
+        };
 
-    //     fetchEntities();
-    // }, []);
+        fetchEntities();
+    }, []);
+
+    const openModal = (node) => {
+        setModalEntityIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalEntityIsOpen(false);
+    };
+
+    const handleEntitySave = (entity) => {
+        setEntities([...entities, entity]);
+        closeModal();
+    };
 
     const TABLE_HEAD = ['Nombre', 'Tipo de dato', 'Fecha de creación', 'Fecha de actualización', 'Acciones'];
 
     return (
         <>
-            {/* <h1>Lista de entidades</h1>
+            <Button type="submit" variant="gradient" color='indigo' size="md" onClick={openModal}>
+                Agregar nueva entidad
+            </Button>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <Input
-                    label="Escribe el nombre de la entidad. Por ejemplo: 'Cédula', 'Edad', 'Nombre'"
-                    name="name"
-                    value={entity.name}
-                    onChange={e => setName(e.target.value)}
-                    required
-                    color="indigo"
-                    variant="standard"
-                />
-                <Select
-                    variant="standard"
-                    label="Seleccione el tipo de dato"
-                    name="datatype"
-                    value={entity.datatype}
-                    onChange={e => setName(e.target.value)}
-                    required>
-                        <Option>String</Option>
-                        <Option>Integer</Option>
-                        <Option>Float</Option>
-                        <Option>Boolean</Option>
-                </Select>
-                <Button type="submit" variant="gradient" color='indigo' size="md"  loading={loadingSave}>
-                    {entity.id ? 'Actualizar Entidad' : 'Agregar Entidad'}
-                </Button>
-            </form> */}
-
-            <Card className="h-full w-full overflow-scroll">
+            <Typography variant="h5" color="indigo" className="font-normal m-5">
+                Lista de entidades
+            </Typography>
+            <Card className="h-full w-full overflow-scroll mt-4">
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>
@@ -111,6 +103,13 @@ const EntitiesIndex = () => {
                     </tbody>
                 </table>
             </Card>
+            {modalEntityIsOpen &&
+            <EntityDialog
+                chatbotId={chatbotId}
+                open={modalEntityIsOpen}
+                onClose={closeModal}
+                onSave={handleEntitySave}
+            />}
         </>
     );
 };

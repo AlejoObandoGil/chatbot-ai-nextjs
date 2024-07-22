@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useParams } from 'next/navigation';
 
 const ChatbotTest = () => {
+    const { chatbotId } = useParams();
     useEffect(() => {
         const reactScript = document.createElement('script');
         reactScript.src = 'https://unpkg.com/react/umd/react.production.min.js';
@@ -20,7 +22,7 @@ const ChatbotTest = () => {
             chatbotScript.async = true;
             chatbotScript.onload = () => {
                 if (window.renderChatbot && typeof window.renderChatbot === 'function') {
-                    window.renderChatbot('chatbot-root', 1);
+                    window.renderChatbot('chatbot-root', chatbotId);
                 } else {
                     console.error('Chatbot script not loaded properly');
                 }
@@ -32,7 +34,7 @@ const ChatbotTest = () => {
             document.body.removeChild(reactScript);
             document.body.removeChild(reactDOMScript);
         };
-    }, []);
+    }, [chatbotId]);
 
     return (
         <div>

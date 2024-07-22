@@ -39,7 +39,7 @@ module.exports = {
     plugins: [
         new Dotenv(),
         new webpack.DefinePlugin({
-            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('https://chatbot-ai-nextjs-production.up.railway.app'),
+            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('https://chatbot-ai-api-production.up.railway.app'),
             // 'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify(process.env.NEXT_PUBLIC_BACKEND_URL)
         })
     ]

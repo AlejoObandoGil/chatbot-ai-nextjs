@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Dialog, DialogHeader, DialogBody, Typography, Select, Option, Input, Button } from "@material-tailwind/react";
+import axios from '@/lib/axios';
+import { formatErrorMessage } from '@/utils/alertUtils.js';
+import { Dialog, DialogHeader, DialogBody, Typography, Select, Option, Input, Button, Alert } from "@material-tailwind/react";
 
 const EntityDialog = ({ chatbotId, open, onClose, onSave }) => {
     const [entity, setEntity] = useState({});
@@ -13,7 +15,7 @@ const EntityDialog = ({ chatbotId, open, onClose, onSave }) => {
         setloadingSave(true);
 
         try {
-            let response = await axios.post(`/api/v1/chatbot/${chatbotId}/entity`, formData);
+            let response = await axios.post(`/api/v1/chatbot/${chatbotId}/entity`, entity);
 
             if (response.status === 200 || response.status === 201) {
                 setAlertMessage(response.data.message);

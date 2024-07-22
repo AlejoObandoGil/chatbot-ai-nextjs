@@ -11,10 +11,6 @@ import {
     Button,
     CardBody,
     CardFooter,
-    Tabs,
-    TabsHeader,
-    Tab,
-    Tooltip,
     Select,
     Option
 } from '@material-tailwind/react';

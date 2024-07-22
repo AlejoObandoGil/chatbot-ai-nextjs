@@ -16,7 +16,7 @@ module.exports = {
         'react/no-unescaped-entities': 'off',
         'react/react-in-jsx-scope': 'off',
         'no-unused-vars': 'warn',
-        'no-console': 'warn',
+        'no-console': 'off',
         'react/self-closing-comp': 'warn'
         // "prettier/prettier": ["error"],
     },

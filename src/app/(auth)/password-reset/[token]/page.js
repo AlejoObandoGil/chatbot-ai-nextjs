@@ -20,6 +20,12 @@ const PasswordReset = () => {
     const [errors, setErrors] = useState([]);
     const [status, setStatus] = useState(null);
 
+    const emailParam = searchParams.get('email');
+
+    useEffect(() => {
+        setEmail(emailParam);
+    }, [emailParam]);
+
     const submitForm = event => {
         event.preventDefault();
 
@@ -31,10 +37,6 @@ const PasswordReset = () => {
             setStatus
         });
     };
-
-    useEffect(() => {
-        setEmail(searchParams.get('email'));
-    }, [searchParams.get('email')]);
 
     return (
         <>

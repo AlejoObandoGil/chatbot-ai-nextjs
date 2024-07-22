@@ -22,9 +22,9 @@ const EntitiesIndex = ({chatbotId}) => {
         };
 
         fetchEntities();
-    }, []);
+    }, [chatbotId]);
 
-    const openModal = (node) => {
+    const openModal = () => {
         setModalEntityIsOpen(true);
     };
 

@@ -15,7 +15,6 @@ import CustomeNode from '@/components/react-flow/CustomeNode';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 import { Button } from "@material-tailwind/react";
 
-const NODE_WIDTH = 150;
 const NODE_HEIGHT = 100;
 const NODE_SPACING = 20;
 
@@ -101,13 +100,12 @@ function ChatbotFlow({ chatbotId }) {
         [],
     );
 
-    const onNodeClick = useCallback((event, node) => {
-        // console.log('Node clicked:', node);
-    }, []);
+    // const onNodeClick = useCallback((event, node) => {
+    //     // console.log('Node clicked:', node);
+    // }, []);
 
     const onNodeDoubleClick = useCallback((event, node) => {
         openModal(node);
-        // console.log('Node double-clicked:', node);
     }, []);
 
     const handleNodeSave = (updatedNode) => {
@@ -172,7 +170,7 @@ function ChatbotFlow({ chatbotId }) {
                 onConnect={onConnect}
                 nodeTypes={nodeTypes}
                 fitView
-                onNodeClick={onNodeClick}
+                // onNodeClick={onNodeClick}
                 onNodeDoubleClick={onNodeDoubleClick}
             >
                 <Background />

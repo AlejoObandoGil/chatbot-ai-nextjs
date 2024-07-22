@@ -15,7 +15,7 @@ const WidgetCustome = () => {
 
     return (
         <div>
-            <Image src={imageUrl} width={400} height={400} />
+            <Image src={imageUrl} width={400} height={400} alt="Random Dog Image"/>
         </div>
     );
 };

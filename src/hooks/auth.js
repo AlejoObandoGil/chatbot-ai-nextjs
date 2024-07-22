@@ -30,7 +30,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([]);
 
         axios
-            .post('/register', props)
+            .post('/register', props, {
+                headers: {
+                    accept: 'application/json',
+                    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                },
+                withCredentials: true
+            })
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error;
@@ -46,7 +52,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null);
 
         axios
-            .post('/login', props)
+            .post('/login', props, {
+                headers: {
+                    accept: 'application/json',
+                    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                },
+                withCredentials: true
+            })
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error;

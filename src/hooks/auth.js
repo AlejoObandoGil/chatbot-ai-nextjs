@@ -28,9 +28,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
 
     function getCookie(name) {
-        // const value = `; ${document.cookie}`;
-        // const parts = value.split(`; ${name}=`);
-        // if (parts.length === 2) return parts.pop().split(';').shift();
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
     const register = async ({ setErrors, ...props }) => {
@@ -41,13 +41,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([]);
 
         axios
-            .post('/register', props, {
-                headers: {
-                    accept: 'application/json',
-                    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-                },
-                withCredentials: true
-            })
+            .post('/register', props)
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error;
@@ -65,13 +59,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null);
 
         axios
-            .post('/login', props, {
-                headers: {
-                    accept: 'application/json',
-                    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-                },
-                withCredentials: true
-            })
+            .post('/login', props)
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error;

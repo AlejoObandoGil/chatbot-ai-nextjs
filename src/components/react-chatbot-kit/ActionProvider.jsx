@@ -8,6 +8,7 @@ class ActionProvider {
         this.config = config;
         this.stateRef = stateRef;
         this.talkId = JSON.parse(localStorage.getItem('talk_id'));
+        this.intentId = JSON.parse(localStorage.getItem('intent_id'));
     }
 
     async handleMessage(message) {
@@ -25,10 +26,10 @@ class ActionProvider {
         }
 
         try {
-            const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message`, message);
+            const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message/${this.intentId}`, message);
 
             if (data) {
-                const botResponse = data.response;
+                const botResponse = data.response.response;
                 this.setBotMessage(botResponse);
 
                 const savedMessages = JSON.parse(localStorage.getItem('chat_messages')) || [];
@@ -39,6 +40,11 @@ class ActionProvider {
                 const newMessageBot = this.createChatBotMessage(botResponse);
                 savedMessages.push(newMessageBot);
                 localStorage.setItem('chat_messages', JSON.stringify(savedMessages));
+
+                if (data.response?.intent) {
+                    this.intentId = data.response.intent.id;
+                    localStorage.setItem('intent_id', JSON.stringify(this.intentId));
+                }
             }
         } catch (error) {
             console.error('Error al enviar mensaje al backend:', error);
@@ -54,44 +60,3 @@ class ActionProvider {
 }
 
 export default ActionProvider;
-
-// const ActionProvider = ({ createChatBotMessage, setState, children }) => {
-//     const handleHello = () => {
-//         const botMessage = createChatBotMessage('Hello. Nice to meet you.');
-
-//         setState((prev) => ({
-//             ...prev,
-//             messages: [...prev.messages, botMessage],
-//         }));
-//     };
-
-//     const handleWidgetCustome = () => {
-//         const botMessage = createChatBotMessage(
-//             "Here's a nice dog picture for you!",
-//             {
-//                 widget: 'widgetCustome',
-//             }
-//         );
-
-//         setState((prev) => ({
-//             ...prev,
-//             messages: [...prev.messages, botMessage],
-//         }));
-//     };
-
-//     // Put the handleHello function in the actions object to pass to the MessageParser
-//     return (
-//         <div>
-//             {React.Children.map(children, (child) => {
-//                 return React.cloneElement(child, {
-//                     actions: {
-//                         handleHello,
-//                         handleWidgetCustome
-//                     },
-//                 });
-//             })}
-//         </div>
-//     );
-// };
-
-// export default ActionProvider;

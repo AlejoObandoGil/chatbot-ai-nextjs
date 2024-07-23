@@ -15,7 +15,7 @@ import {
     Option
 } from '@material-tailwind/react';
 
-export default function SortableTable() {
+export default function contactTable() {
     const [columns, setColumns] = useState([]);
     const [rows, setRows] = useState([]);
     const [chatbots, setChatbots] = useState([]);
@@ -43,21 +43,24 @@ export default function SortableTable() {
 
                     const columns = data.intents.map(intent => intent.name);
                     columns.push('Acciones');
-                    const rows = data.intents.reduce((rowsIntent, intent) => {
-                        intent.contact_informations.forEach((contact, index) => {
-                            if (!rowsIntent[index]) {
-                                rowsIntent[index] = { status: contact.status || 'sin contactar' };
-                            }
+                    setColumns(columns);
 
-                            rowsIntent[index][intent.name] = contact.value;
-                        });
+                    const rows = data.intents.reduce((rowsIntent, intent) => {
+                        if (intent.contact_informations && intent.contact_informations.length > 0) {
+                            intent.contact_informations.forEach((contact, index) => {
+                                if (!rowsIntent[index]) {
+                                    rowsIntent[index] = { status: contact.status || 'sin contactar' };
+                                }
+
+                                rowsIntent[index][intent.name] = contact.value;
+                            });
+                        }
                         return rowsIntent;
                     }, []);
 
-                    setColumns(columns);
                     setRows(rows);
-
                     console.log('rows:', rows);
+
                 } catch (error) {
                     console.error('Error fetching contact information:', error);
                 }
@@ -133,31 +136,33 @@ export default function SortableTable() {
                                     ))}
                                 </tr>
                             </thead>
-                            <tbody>
-                                {rows.map((row, index) => {
-                                    const isLast = index === rows.length - 1;
-                                    const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+                            { rows && rows.length !== 0 && (
+                                <tbody>
+                                    {rows.map((row, index) => {
+                                        const isLast = index === rows.length - 1;
+                                        const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
 
-                                    return (
-                                        <tr key={index}>
-                                            {columns.map((column, colIndex) => (
-                                                <td key={colIndex} className={classes}>
-                                                    <Typography variant="small" color="blue-gray" className="font-normal">
-                                                        {column !== 'Acciones' ? row[column] : (
-                                                            <Button
-                                                                className={`text-white ${getStatusColor(row.status)}`}
-                                                                onClick={() => handleStatusChange(index)}
-                                                            >
-                                                                {row.status}
-                                                            </Button>
-                                                        )}
-                                                    </Typography>
-                                                </td>
-                                            ))}
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
+                                        return (
+                                            <tr key={index}>
+                                                {columns.map((column, colIndex) => (
+                                                    <td key={colIndex} className={classes}>
+                                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                                            {column !== 'Acciones' ? row[column] : (
+                                                                <Button
+                                                                    className={`text-white ${getStatusColor(row.status)}`}
+                                                                    onClick={() => handleStatusChange(index)}
+                                                                >
+                                                                    {row.status}
+                                                                </Button>
+                                                            )}
+                                                        </Typography>
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            )}
                         </table>
                     </CardBody>
                     <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">

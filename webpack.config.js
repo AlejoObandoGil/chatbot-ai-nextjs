@@ -11,7 +11,6 @@ module.exports = {
         library: 'Chatbot',
         libraryTarget: 'window'
     },
-    // devtool: 'source-map',
     module: {
         rules: [
             {
@@ -39,8 +38,13 @@ module.exports = {
     plugins: [
         new Dotenv(),
         new webpack.DefinePlugin({
-            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('https://chatbot-ai-api-production.up.railway.app'),
-            // 'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify(process.env.NEXT_PUBLIC_BACKEND_URL)
+            // 'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('https://chatbot-ai-api-production.up.railway.app'),
+            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('http://localhost:8007')
         })
-    ]
+    ],
+
+    externals: {
+        react: 'React',
+        'react-dom': 'ReactDOM'
+    }
 };

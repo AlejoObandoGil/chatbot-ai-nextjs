@@ -74,7 +74,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                 setTimeout(() => {
                     setShowAlert(false);
                     onSave();
-                }, 5000);
+                }, 3000);
             } else {
                 handleErrorResponse(response);
             }
@@ -113,7 +113,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     color="indigo"
                 />
                 <Checkbox
-                    label="¿Deseas guardar la respuesta del usuario?"
+                    label="¿Deseas guardar la proxima respuesta del usuario?"
                     name="save_information"
                     checked={formData.save_information}
                     onChange={handleInputChange}
@@ -132,7 +132,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                         </Select>
                     </div>
                 )}
-                {!formData.save_information && (
+                {/* {!formData.save_information && ( */}
                     <div>
                         <label className="block text-sm font-medium text-indigo-500 mb-2">Frases</label>
                         {formData.training_phrases.map((training_phrase, index) => (
@@ -163,7 +163,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                             Añadir Frase
                         </button>
                     </div>
-                )}
+                {/* )} */}
                 <div>
                     <label className="block text-sm font-medium text-indigo-500 mb-2">Respuestas</label>
                     {formData.responses.map((response, index) => (
@@ -227,14 +227,14 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     </div>
                 )}
                 <div className="flex justify-end space-x-2">
-                    <Button
+                    {/* <Button
                         variant='gradient'
                         className='me-2'
                         color="indigo"
                         onClick={onClose}
                     >
                         Cerrar
-                    </Button>
+                    </Button> */}
                     <Button
                         type="submit"
                         variant='gradient'

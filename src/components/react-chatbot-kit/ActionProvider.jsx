@@ -29,7 +29,9 @@ class ActionProvider {
             const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message/${this.intentId}`, message);
 
             if (data) {
-                const botResponse = data.response.response;
+                const botResponse = typeof data.response === 'object' && data.response !== null
+                    ? data.response.response
+                    : data.response;
                 this.setBotMessage(botResponse);
 
                 const savedMessages = JSON.parse(localStorage.getItem('chat_messages')) || [];
@@ -41,7 +43,7 @@ class ActionProvider {
                 savedMessages.push(newMessageBot);
                 localStorage.setItem('chat_messages', JSON.stringify(savedMessages));
 
-                if (data.response?.intent) {
+                if (typeof data.response === 'object' && data.response?.intent) {
                     this.intentId = data.response.intent.id;
                     localStorage.setItem('intent_id', JSON.stringify(this.intentId));
                 }

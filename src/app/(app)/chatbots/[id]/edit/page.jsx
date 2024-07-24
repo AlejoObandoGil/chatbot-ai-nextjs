@@ -14,7 +14,7 @@ const EditChatbot = () => {
     const { id } = useParams();
     const [chatbot, setChatbot] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [selectedTab, setSelectedTab] = useState('entidades');
+    const [selectedTab, setSelectedTab] = useState('editor_de_flujo');
 
     useEffect(() => {
         if (id) {
@@ -24,7 +24,6 @@ const EditChatbot = () => {
                     setLoading(false);
                 })
                 .catch(error => {
-                    // eslint-disable-next-line no-console
                     console.error('Error fetching chatbot:', error);
                     setLoading(false);
                 });

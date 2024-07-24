@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import IntentForm from './IntentForm';
-import { Dialog, DialogHeader, DialogBody, Typography } from "@material-tailwind/react";
+import { Dialog, DialogHeader, DialogBody, Typography, DialogFooter } from "@material-tailwind/react";
 
-const IntentDialog = ({ chatbotId, open, onClose, node, onSave }) => {
+const IntentDialog = ({ chatbotId, node, typeInformationRequired, open, onClose, onSave }) => {
     const [formData, setFormData] = useState(node);
 
     const handleFormChange = (updatedData) => {
@@ -28,8 +28,16 @@ const IntentDialog = ({ chatbotId, open, onClose, node, onSave }) => {
                         </div>
                     </DialogHeader>
                     <DialogBody className="custom-scroll max-h-[calc(100vh-200px)]">
-                        <IntentForm chatbotId={chatbotId} node={formData} onChange={handleFormChange} onSave={handleFormSubmit} onClose={onClose} />
+                        <IntentForm
+                            chatbotId={chatbotId}
+                            typeInformationRequired={typeInformationRequired}
+                            node={formData}
+                            onChange={handleFormChange}
+                            onSave={handleFormSubmit}
+                            onClose={onClose} />
                     </DialogBody>
+                    {/* <DialogFooter
+                    >Hola</DialogFooter> */}
                 </>
             )}
         </Dialog>

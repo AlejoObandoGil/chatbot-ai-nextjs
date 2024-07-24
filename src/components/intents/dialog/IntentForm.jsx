@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Checkbox, Button, Alert } from "@material-tailwind/react";
+import { Input, Checkbox, Button, Alert, Select, Option } from "@material-tailwind/react";
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
 import axios from '@/lib/axios';
 import { formatErrorMessage } from '@/utils/alertUtils.js';
 
-const IntentForm = ({ chatbotId, node, onChange, onSave, onClose }) => {
+const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave, onClose }) => {
     const [formData, setFormData] = useState(node);
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
@@ -79,7 +79,6 @@ const IntentForm = ({ chatbotId, node, onChange, onSave, onClose }) => {
                 handleErrorResponse(response);
             }
         } catch (error) {
-            // eslint-disable-next-line no-console
             console.error('Ocurrió un error:', error);
             handleErrorResponse(error.response);
         } finally {
@@ -120,36 +119,51 @@ const IntentForm = ({ chatbotId, node, onChange, onSave, onClose }) => {
                     onChange={handleInputChange}
                     color="indigo"
                 />
-                <div>
-                    <label className="block text-sm font-medium text-indigo-500 mb-2">Frases</label>
-                    {formData.training_phrases.map((training_phrase, index) => (
-                        <div key={index} className="flex items-center space-x-2 mb-2">
-                            <Input
-                                label="Frase de entrenamiento (Es lo que es esperas que escriba o pregunte el usuario)"
-                                value={training_phrase.phrase}
-                                onChange={(e) => handleArrayChange('training_phrases', index, 'phrase', e.target.value)}
-                                placeholder="Frase"
-                                color="indigo"
-                                variant="standard"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => removeArrayItem('training_phrases', index)}
-                                className="text-red-500"
-                            >
-                                <TrashIcon className="w-5 h-5" />
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => addArrayItem('training_phrases')}
-                        className="flex items-center text-blue-500"
-                    >
-                        <PlusIcon className="w-5 h-5 mr-1" />
-                        Añadir Frase
-                    </button>
-                </div>
+                {formData.save_information && (
+                    <div>
+                        <Select
+                            label="Selecciona el tipo de información requerida"
+                            value={formData.information_required || ''}
+                            onChange={(value) => handleInputChange({ target: { name: 'information_required', value } })}
+                        >
+                            {typeInformationRequired.map((type) => (
+                                <Option key={type} value={type}>{type}</Option>
+                            ))}
+                        </Select>
+                    </div>
+                )}
+                {!formData.save_information && (
+                    <div>
+                        <label className="block text-sm font-medium text-indigo-500 mb-2">Frases</label>
+                        {formData.training_phrases.map((training_phrase, index) => (
+                            <div key={index} className="flex items-center space-x-2 mb-2">
+                                <Input
+                                    label="Frase de entrenamiento (Es lo que es esperas que escriba o pregunte el usuario)"
+                                    value={training_phrase.phrase}
+                                    onChange={(e) => handleArrayChange('training_phrases', index, 'phrase', e.target.value)}
+                                    placeholder="Frase"
+                                    color="indigo"
+                                    variant="standard"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => removeArrayItem('training_phrases', index)}
+                                    className="text-red-500"
+                                >
+                                    <TrashIcon className="w-5 h-5" />
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={() => addArrayItem('training_phrases')}
+                            className="flex items-center text-blue-500"
+                        >
+                            <PlusIcon className="w-5 h-5 mr-1" />
+                            Añadir Frase
+                        </button>
+                    </div>
+                )}
                 <div>
                     <label className="block text-sm font-medium text-indigo-500 mb-2">Respuestas</label>
                     {formData.responses.map((response, index) => (
@@ -232,13 +246,14 @@ const IntentForm = ({ chatbotId, node, onChange, onSave, onClose }) => {
                     </Button>
                 </div>
             </form>
-            <div className="mt-4 mb-4">
+            <div className="mt-4">
                 {showAlert && (
-                    <div>
-                        <Alert color={alertColor}>
-                            {alertMessage}
-                        </Alert>
-                    </div>
+                    <Alert
+                        color={alertColor}
+                        onClose={() => setShowAlert(false)}
+                    >
+                        {alertMessage}
+                    </Alert>
                 )}
             </div>
         </div>

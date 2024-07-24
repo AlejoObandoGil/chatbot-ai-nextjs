@@ -27,6 +27,7 @@ function ChatbotFlow({ chatbotId }) {
     const [edges, setEdges] = useState(initialEdges);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
+    const [typeInformationRequired, setTypeInformationRequired] = useState([]);
     const buttonRef = useRef(null);
 
     useEffect(() => {
@@ -62,12 +63,14 @@ function ChatbotFlow({ chatbotId }) {
                         position: { x, y },
                         data: { label: intent.name },
                         training_phrases: intent.training_phrases || [],
+                        information_required: intent.information_required || [],
                         responses: intent.responses || [],
-                        options: [],
+                        options: intent.options || [],
                     };
                 });
 
                 setNodes(fetchedNodes);
+                setTypeInformationRequired(data.type_information_required);
             } catch (error) {
                 console.error('Error fetching intents:', error);
             }
@@ -180,9 +183,10 @@ function ChatbotFlow({ chatbotId }) {
             {modalIsOpen &&
                 <IntentDialog
                     chatbotId={chatbotId}
+                    node={selectedNode}
+                    typeInformationRequired={typeInformationRequired}
                     open={modalIsOpen}
                     onClose={closeModal}
-                    node={selectedNode}
                     onSave={handleNodeSave}
                 />}
         </div>

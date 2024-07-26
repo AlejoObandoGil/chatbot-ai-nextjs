@@ -132,38 +132,47 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                         </Select>
                     </div>
                 )}
-                {/* {!formData.save_information && ( */}
-                    <div>
-                        <label className="block text-sm font-medium text-indigo-500 mb-2">Frases</label>
-                        {formData.training_phrases.map((training_phrase, index) => (
-                            <div key={index} className="flex items-center space-x-2 mb-2">
-                                <Input
-                                    label="Frase de entrenamiento (Es lo que es esperas que escriba o pregunte el usuario)"
-                                    value={training_phrase.phrase}
-                                    onChange={(e) => handleArrayChange('training_phrases', index, 'phrase', e.target.value)}
-                                    placeholder="Frase"
-                                    color="indigo"
-                                    variant="standard"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => removeArrayItem('training_phrases', index)}
-                                    className="text-red-500"
-                                >
-                                    <TrashIcon className="w-5 h-5" />
-                                </button>
-                            </div>
-                        ))}
-                        <button
-                            type="button"
-                            onClick={() => addArrayItem('training_phrases')}
-                            className="flex items-center text-blue-500"
+                <div>
+                    <Select
+                        label="Selecciona tipo de categoría de información"
+                        value={formData.category || ''}
+                        onChange={(value) => handleInputChange({ target: { name: 'category', value } })}
                         >
-                            <PlusIcon className="w-5 h-5 mr-1" />
-                            Añadir Frase
-                        </button>
-                    </div>
-                {/* )} */}
+                        <Option value="información general">Información general</Option>
+                        <Option value="saludo">Saludo</Option>
+                        <Option value="despedida">Despedida</Option>
+                    </Select>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-indigo-500 mb-2">Frases</label>
+                    {formData.training_phrases.map((training_phrase, index) => (
+                        <div key={index} className="flex items-center space-x-2 mb-2">
+                            <Input
+                                label="Frase de entrenamiento (Es lo que es esperas que escriba o pregunte el usuario)"
+                                value={training_phrase.phrase}
+                                onChange={(e) => handleArrayChange('training_phrases', index, 'phrase', e.target.value)}
+                                placeholder="Frase"
+                                color="indigo"
+                                variant="standard"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => removeArrayItem('training_phrases', index)}
+                                className="text-red-500"
+                            >
+                                <TrashIcon className="w-5 h-5" />
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => addArrayItem('training_phrases')}
+                        className="flex items-center text-blue-500"
+                    >
+                        <PlusIcon className="w-5 h-5 mr-1" />
+                        Añadir Frase
+                    </button>
+                </div>
                 <div>
                     <label className="block text-sm font-medium text-indigo-500 mb-2">Respuestas</label>
                     {formData.responses.map((response, index) => (
@@ -227,14 +236,6 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     </div>
                 )}
                 <div className="flex justify-end space-x-2">
-                    {/* <Button
-                        variant='gradient'
-                        className='me-2'
-                        color="indigo"
-                        onClick={onClose}
-                    >
-                        Cerrar
-                    </Button> */}
                     <Button
                         type="submit"
                         variant='gradient'
@@ -246,16 +247,16 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     </Button>
                 </div>
             </form>
-            <div className="mt-4">
-                {showAlert && (
-                    <Alert
-                        color={alertColor}
-                        onClose={() => setShowAlert(false)}
-                    >
-                        {alertMessage}
-                    </Alert>
-                )}
-            </div>
+            {showAlert && (
+                <Alert
+                    color={alertColor}
+                    onClose={() => setShowAlert(false)}
+                    dismissible
+                    className="mt-4"
+                >
+                    {alertMessage}
+                </Alert>
+            )}
         </div>
     );
 };

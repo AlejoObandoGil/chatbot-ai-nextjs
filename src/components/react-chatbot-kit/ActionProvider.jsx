@@ -8,7 +8,7 @@ class ActionProvider {
         this.config = config;
         this.stateRef = stateRef;
         this.talkId = JSON.parse(localStorage.getItem('talk_id'));
-        this.intentId = JSON.parse(localStorage.getItem('intent_id'));
+        this.intentId = JSON.parse(localStorage.getItem('intent_id')) ?? null;
     }
 
     async handleMessage(message) {

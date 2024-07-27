@@ -26,7 +26,6 @@ export default function contactTable() {
             try {
                 const { data } = await axios.get('/api/v1/chatbot');
                 setChatbots(data.chatbots);
-                console.log('Chatbots:', data.chatbots);
             } catch (error) {
                 console.error('Error fetching chatbots:', error);
             }
@@ -59,7 +58,6 @@ export default function contactTable() {
                     }, []);
 
                     setRows(rows);
-                    console.log('rows:', rows);
 
                 } catch (error) {
                     console.error('Error fetching contact information:', error);

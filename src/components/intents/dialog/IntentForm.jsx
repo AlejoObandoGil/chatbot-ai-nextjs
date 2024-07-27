@@ -15,51 +15,6 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
         setFormData(node);
     }, [node]);
 
-    const handleInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        const updatedValue = type === 'checkbox' ? checked : value;
-
-        const updatedData = {
-            ...formData,
-            [name]: updatedValue,
-            data: {
-                ...formData.data,
-                label: name === 'name' ? updatedValue : formData.data.label
-            }
-        };
-        setFormData(updatedData);
-        onChange(updatedData);
-    };
-
-    const handleArrayChange = (name, index, key, value) => {
-        const updatedArray = formData[name].map((item, i) =>
-            i === index ? { ...item, [key]: value } : item
-        );
-        const updatedData = { ...formData, [name]: updatedArray };
-        setFormData(updatedData);
-        onChange(updatedData);
-    };
-
-    const addArrayItem = (name) => {
-        const newItem = name === 'training_phrases' ? { phrase: '' }
-            : name === 'responses' ? { response: '' }
-            : { option: '' };
-
-        const updatedData = {
-            ...formData,
-            [name]: [...formData[name], newItem]
-        };
-        setFormData(updatedData);
-        onChange(updatedData);
-    };
-
-    const removeArrayItem = (name, index) => {
-        const updatedArray = formData[name].filter((_, i) => i !== index);
-        const updatedData = { ...formData, [name]: updatedArray };
-        setFormData(updatedData);
-        onChange(updatedData);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setloadingSave(true);
@@ -91,6 +46,58 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
         setAlertMessage(alertMessage);
         setAlertColor('red');
         setShowAlert(true);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        const updatedValue = type === 'checkbox' ? checked : value;
+
+        const updatedData = {
+            ...formData,
+            [name]: updatedValue,
+            data: {
+                ...formData.data,
+                label: name === 'name' ? updatedValue : formData.data.label
+            }
+        };
+        setFormData(updatedData);
+        onChange(updatedData);
+    };
+
+    const handleArrayChange = (name, index, key, value) => {
+        const updatedArray = formData[name].map((item, i) =>
+            i === index ? { ...item, [key]: value } : item
+        );
+        const updatedData = {
+            ...formData,
+            [name]: updatedArray,
+            data: {
+                ...formData.data,
+                options: updatedArray
+            }
+        };
+        setFormData(updatedData);
+        onChange(updatedData);
+    };
+
+    const addArrayItem = (name) => {
+        const newItem = name === 'training_phrases' ? { phrase: '' }
+            : name === 'responses' ? { response: '' }
+            : { option: '' };
+
+        const updatedData = {
+            ...formData,
+            [name]: [...formData[name], newItem]
+        };
+        setFormData(updatedData);
+        onChange(updatedData);
+    };
+
+    const removeArrayItem = (name, index) => {
+        const updatedArray = formData[name].filter((_, i) => i !== index);
+        const updatedData = { ...formData, [name]: updatedArray };
+        setFormData(updatedData);
+        onChange(updatedData);
     };
 
     return (

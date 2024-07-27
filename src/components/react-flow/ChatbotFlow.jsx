@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+// ChatbotFlow.js
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import {
     ReactFlow,
@@ -6,40 +7,35 @@ import {
     Background,
     applyNodeChanges,
     applyEdgeChanges,
-    addEdge,
     MiniMap,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import axios from '@/lib/axios';
 import CustomeNode from '@/components/react-flow/CustomeNode';
+import CustomeEdge from '@/components/react-flow/CustomeEdge';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
-import { Button } from "@material-tailwind/react";
+import useSaveProgress from './SaveProgress';
+import { Button, Alert } from "@material-tailwind/react";
 
 const NODE_HEIGHT = 100;
 const NODE_SPACING = 20;
 
-const nodeTypes = { customeNode: CustomeNode };
-
-const initialEdges = [];
-
 function ChatbotFlow({ chatbotId }) {
     const [nodes, setNodes] = useState([]);
-    const [edges, setEdges] = useState(initialEdges);
+    const [edges, setEdges] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
     const [typeInformationRequired, setTypeInformationRequired] = useState([]);
-    const buttonRef = useRef(null);
+
+    const nodeTypes = useMemo(() => ({ customeNode: CustomeNode }), []);
+    const edgeTypes = useMemo(() => ({ customeEdge: CustomeEdge }), []);
 
     useEffect(() => {
         const fetchIntents = async () => {
             try {
                 const { data } = await axios.get(`/api/v1/chatbot/${chatbotId}/intent`);
-                console.log('Raw data from API:', data);
 
                 const dataIntents = data.intents;
-
-                console.log('Chatbots fetched:', dataIntents);
-
                 const fetchedNodes = dataIntents.map(intent => {
                     let position = { x: 0, y: 0 };
 
@@ -62,7 +58,10 @@ function ChatbotFlow({ chatbotId }) {
                         save_information: intent.save_information,
                         type: 'customeNode',
                         position: { x, y },
-                        data: { label: intent.name },
+                        data: {
+                            label: intent.name,
+                            options: intent.options || []
+                        },
                         training_phrases: intent.training_phrases || [],
                         information_required: intent.information_required,
                         responses: intent.responses || [],
@@ -79,38 +78,6 @@ function ChatbotFlow({ chatbotId }) {
 
         fetchIntents();
     }, [chatbotId]);
-
-    const openModal = (node) => {
-        setSelectedNode(node);
-        setModalIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-        setSelectedNode(null);
-    };
-
-    const onNodesChange = useCallback(
-        (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-        [],
-    );
-    const onEdgesChange = useCallback(
-        (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-        [],
-    );
-
-    const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [],
-    );
-
-    // const onNodeClick = useCallback((event, node) => {
-    //     // console.log('Node clicked:', node);
-    // }, []);
-
-    const onNodeDoubleClick = useCallback((event, node) => {
-        openModal(node);
-    }, []);
 
     const handleNodeSave = (updatedNode) => {
         setNodes((nodes) =>
@@ -135,33 +102,92 @@ function ChatbotFlow({ chatbotId }) {
             id: uuidv4(),
             name: 'Nuevo nodo',
             is_choice: false,
+            category: 'información general',
             save_information: false,
             type: 'customeNode',
             position: newPosition,
-            data: { label: 'Nuevo nodo' },
+            data: {
+                label: 'Nuevo nodo',
+                options: []
+            },
             training_phrases: [],
             responses: [],
             options: [],
+            // parentId: "1586da8c-5d12-4e9a-9f32-b89017bf9c64",
         };
         setNodes((nds) => [...nds, newNode]);
     };
 
+    const openModal = (node) => {
+        setSelectedNode(node);
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setSelectedNode(null);
+    };
+
+    const onNodesChange = useCallback(
+        (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+        [],
+    );
+
+    const onNodeDoubleClick = useCallback((event, node) => {
+        openModal(node);
+    }, []);
+
+    const onEdgesChange = useCallback(
+        (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+        [],
+    );
+
+    const onConnect = useCallback(
+        (params) => setEdges((eds) => [
+            ...eds,
+            {
+                id: uuidv4(),
+                ...params,
+                type: 'customeEdge'
+            }
+        ]),
+        [],
+    );
+
+    const {
+        saveProgress,
+        loadingSave,
+        alertMessage,
+        showAlert,
+        alertColor,
+    } = useSaveProgress(chatbotId, nodes, edges);
+
     return (
         <div id="flow-chart" style={{ height: 600, position: 'relative' }}>
+            {showAlert && (
+                <Alert
+                    color={alertColor}
+                    onClose={() => setShowAlert(false)}
+                    dismissible
+                    className="mt-2 mb-2"
+                >
+                    {alertMessage}
+                </Alert>
+            )}
             <div style={{ display: 'flex', justifyContent: 'end', marginTop: 0 }}>
                 <Button
-                    ref={buttonRef}
                     variant='gradient'
-                    className='me-2'
                     color="indigo"
+                    className='mr-2'
                     onClick={addNewNode}
                 >
                     Agregar nuevo nodo
                 </Button>
                 <Button
                     variant='gradient'
-                    className='me-2'
                     color="green"
+                    onClick={saveProgress}
+                    disabled={loadingSave}
                 >
                     Guardar progreso
                 </Button>
@@ -173,8 +199,8 @@ function ChatbotFlow({ chatbotId }) {
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
                 fitView
-                // onNodeClick={onNodeClick}
                 onNodeDoubleClick={onNodeDoubleClick}
             >
                 <Background />

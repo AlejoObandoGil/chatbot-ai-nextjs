@@ -13,7 +13,6 @@ const ChatbotsIndex = () => {
             try {
                 const response = await axios.get('/api/v1/chatbot');
                 setChatbots(response.data.chatbots);
-                console.log('Chatbots fetched:', response.data.chatbots);
             } catch (error) {
                 console.error('Error fetching chatbots:', error);
             }

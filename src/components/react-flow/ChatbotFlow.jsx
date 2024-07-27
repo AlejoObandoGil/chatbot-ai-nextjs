@@ -1,4 +1,3 @@
-// ChatbotFlow.js
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -26,6 +25,7 @@ function ChatbotFlow({ chatbotId }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
     const [typeInformationRequired, setTypeInformationRequired] = useState([]);
+    const [flowKey, setFlowKey] = useState(0);
 
     const nodeTypes = useMemo(() => ({ customeNode: CustomeNode }), []);
     const edgeTypes = useMemo(() => ({ customeEdge: CustomeEdge }), []);
@@ -35,6 +35,11 @@ function ChatbotFlow({ chatbotId }) {
             try {
                 const { data } = await axios.get(`/api/v1/chatbot/${chatbotId}/intent`);
 
+                const dataEdges = data.edges;
+                const fetchedEdges = dataEdges.map(edge => ({
+                    ...edge,
+                    type: 'customeEdge'
+                }));
                 const dataIntents = data.intents;
                 const fetchedNodes = dataIntents.map(intent => {
                     let position = { x: 0, y: 0 };
@@ -69,6 +74,7 @@ function ChatbotFlow({ chatbotId }) {
                     };
                 });
 
+                setEdges(fetchedEdges);
                 setNodes(fetchedNodes);
                 setTypeInformationRequired(data.type_information_required);
             } catch (error) {
@@ -83,6 +89,7 @@ function ChatbotFlow({ chatbotId }) {
         setNodes((nodes) =>
             nodes.map((node) => (node.id === updatedNode.id ? updatedNode : node))
         );
+        setFlowKey(prevKey => prevKey + 1);
     };
 
     const addNewNode = () => {
@@ -113,7 +120,6 @@ function ChatbotFlow({ chatbotId }) {
             training_phrases: [],
             responses: [],
             options: [],
-            // parentId: "1586da8c-5d12-4e9a-9f32-b89017bf9c64",
         };
         setNodes((nds) => [...nds, newNode]);
     };
@@ -193,6 +199,7 @@ function ChatbotFlow({ chatbotId }) {
                 </Button>
             </div>
             <ReactFlow
+                key={flowKey} // Forzar re-renderizado
                 nodes={nodes}
                 onNodesChange={onNodesChange}
                 edges={edges}

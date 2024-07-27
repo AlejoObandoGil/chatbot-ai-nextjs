@@ -95,7 +95,14 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
 
     const removeArrayItem = (name, index) => {
         const updatedArray = formData[name].filter((_, i) => i !== index);
-        const updatedData = { ...formData, [name]: updatedArray };
+        const updatedData = {
+            ...formData,
+            [name]: updatedArray,
+            data: {
+                ...formData.data,
+                options: updatedArray
+            }
+        };
         setFormData(updatedData);
         onChange(updatedData);
     };

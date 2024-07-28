@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MagnifyingGlassIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
 import axios from '@/lib/axios';
+import ChatbotCrm from '@/components/react-chatbot-kit/ChatbotCrm';
+
 import {
     Card,
     CardHeader,
@@ -20,7 +22,8 @@ export default function contactTable() {
     const [columns, setColumns] = useState([]);
     const [rows, setRows] = useState([]);
     const [chatbots, setChatbots] = useState([]);
-    const [selectedChatbot, setSelectedChatbot] = useState('');
+    const [selectedChatbotId, setselectedChatbotId] = useState('');
+    const [toggleChatBot, setToggleChatBot] = useState(false);
 
     useEffect(() => {
         const fetchChatbots = async () => {
@@ -36,10 +39,10 @@ export default function contactTable() {
     }, []);
 
     useEffect(() => {
-        if (selectedChatbot) {
+        if (selectedChatbotId) {
             const fetchContactInformations = async () => {
                 try {
-                    const { data } = await axios.get(`/api/v1/chatbot/${selectedChatbot}/contact-information`);
+                    const { data } = await axios.get(`/api/v1/chatbot/${selectedChatbotId}/contact-information`);
 
                     const columns = data.intents.map(intent => intent.name);
                     columns.push('Acciones');
@@ -68,7 +71,7 @@ export default function contactTable() {
 
             fetchContactInformations();
         }
-    }, [selectedChatbot]);
+    }, [selectedChatbotId]);
 
     const handleStatusChange = (index) => {
         setRows(prevRows => {
@@ -95,8 +98,8 @@ export default function contactTable() {
             <div className="w-1/3 mb-6 mt-4">
                 <Select
                     label="Selecciona un Chatbot"
-                    value={selectedChatbot}
-                    onChange={(value) => setSelectedChatbot(value)}
+                    value={selectedChatbotId}
+                    onChange={(value) => setselectedChatbotId(value)}
                 >
                     {chatbots.map((chatbot) => (
                         <Option key={chatbot.id} value={chatbot.id}>
@@ -105,7 +108,7 @@ export default function contactTable() {
                     ))}
                 </Select>
             </div>
-            {selectedChatbot ? (
+            {selectedChatbotId ? (
                 <>
                     <CardHeader floated={false} shadow={false} className="rounded-none mb-4">
                         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -153,15 +156,23 @@ export default function contactTable() {
                                                                     >
                                                                         {row.status}
                                                                     </Button>
-                                                                    <Link href={{
-                                                                            pathname: `/contacts/talk/${row.talk?.id}`,
-                                                                            query: { chatbotId: selectedChatbot }
-                                                                        }}>
+                                                                    { row.talk?.id &&
+                                                                        <Link href={{
+                                                                                pathname: `/contacts/talk/${row.talk?.id}`,
+                                                                                query: { chatbotId: selectedChatbotId }
+                                                                            }}>
 
-                                                                        <Button color="indigo" variant="gradient">
-                                                                            Ver chat
-                                                                        </Button>
-                                                                    </Link>
+                                                                            <Button color="indigo" variant="gradient">
+                                                                                Ver chat
+                                                                            </Button>
+                                                                            {/*<Button color="indigo" variant="gradient" onClick={() => setToggleChatBot(true)}>
+                                                                                Ver chat
+                                                                            </Button>
+                                                                            { toggleChatBot && row.talk?.id &&
+                                                                                <ChatbotCrm chatbotId={selectedChatbotId} talkId={row.talk.id} toggleChatBot={toggleChatBot} />
+                                                                            } */}
+                                                                        </Link>
+                                                                    }
                                                                 </div>
                                                             )}
                                                         </Typography>

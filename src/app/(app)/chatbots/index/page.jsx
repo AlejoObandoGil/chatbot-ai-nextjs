@@ -25,8 +25,8 @@ const ChatbotsIndex = () => {
 
     return (
         <>
-            <h1>Mi lista de chatbots</h1>
-            <Card className="h-full w-full overflow-scroll">
+            <Typography variant="h5" color="indigo" className='text-center'>Lista de chatbots</Typography>
+            <Card className="h-full w-full overflow-scroll mt-4">
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>

@@ -1,0 +1,57 @@
+// src/components/ChatbotHeader.jsx
+import React, { useState } from 'react';
+import { FaRobot, FaTimes } from 'react-icons/fa';
+
+
+const ChatbotHeader = ({ botName, onClearMessages }) => {
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
+
+    const handleClearLocalStorage = () => {
+        onClearMessages();
+        setShowDropdown(false);
+    };
+
+    return (
+        <div className='relative'>
+            <div className='flex justify-between items-center w-full bg-indigo-400 text-white p-4'>
+                <div className='flex items-center'>
+                    <FaRobot className="mr-2 text-2xl" />
+                    <div>{botName}</div>
+                </div>
+                <button
+                    onClick={toggleDropdown}
+                    className="text-white hover:text-gray-200"
+                    aria-label="Cerrar"
+                >
+                    <FaTimes />
+                </button>
+            </div>
+
+            {showDropdown && (
+                <div className="absolute top-0 left-0 w-full bg-white text-black p-4 shadow-md z-10">
+                    <p>¿Estás seguro de que deseas cerrar el chatbot? Se borrará la conversación actual.</p>
+                    <div className="flex justify-end mt-2">
+                        <button
+                            onClick={toggleDropdown}
+                            className="mr-2 px-4 py-2 text-sm text-white bg-red-500 rounded hover:bg-red-700"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            onClick={handleClearLocalStorage}
+                            className="px-4 py-2 text-sm text-white bg-green-500 rounded hover:bg-green-700"
+                        >
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default ChatbotHeader;

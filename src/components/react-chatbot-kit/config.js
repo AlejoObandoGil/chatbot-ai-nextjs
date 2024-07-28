@@ -1,32 +1,29 @@
+import React from 'react';
 import { createChatBotMessage } from 'react-chatbot-kit';
-// import WidgetCustome from '@/components/react-chatbot-kit/WidgetCustome.jsx';
+import '@/styles/react-chatbot-kit.css';
+import ChatbotHeader from './ChatbotHeader';
 
-const botName = 'YouBot';
-
-const config = (chatbotId, botName, initialMessages) => ({
+const config = (chatbotId, botName, initialMessages, onClearMessages) => ({
     botName: botName,
-    placeHolderText: 'Escribe tu consulta',
+    placeHolderText: 'Escribe tu pregunta...',
     initialMessages: [createChatBotMessage(initialMessages)],
     customComponents: {
-        header: () => <div className="bg-blue-500 text-white p-4">{botName}</div>
+        header: () => <ChatbotHeader botName={botName} onClearMessages={onClearMessages} />,
     },
     customStyles: {
         botMessageBox: {
-            backgroundColor: 'bg-blue-500'
+            backgroundColor: '#7986CB',
         },
         chatButton: {
-            backgroundColor: 'bg-blue-500'
+            backgroundColor: '#5C6BC0',
+        },
+        userChatMessage: {
+            className: 'break-words'
         }
     },
     state: {
-        chatbotId: chatbotId
+        chatbotId: chatbotId,
     },
-    // widgets: [
-    //     {
-    //         widgetName: 'widgetCustome',
-    //         widgetFunc: props => <WidgetCustome {...props} />
-    //     }
-    // ]
 });
 
 export default config;

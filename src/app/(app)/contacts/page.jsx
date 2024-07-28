@@ -87,12 +87,12 @@ export default function contactTable() {
 
     return (
         <Card className="h-full w-full p-6">
-            <div className="mb-6 flex items-center justify-between">
-                <Typography variant="h5" color="blue-gray">
-                    Contact Information
+            {/* <div className="mb-6 flex items-center justify-between"> */}
+                <Typography variant="h5" color="indigo" className='text-center'>
+                    Gestión de Relaciones con el Cliente (CRM)
                 </Typography>
-            </div>
-            <div className="w-1/3 mb-6">
+            {/* </div> */}
+            <div className="w-1/3 mb-6 mt-4">
                 <Select
                     label="Selecciona un Chatbot"
                     value={selectedChatbot}

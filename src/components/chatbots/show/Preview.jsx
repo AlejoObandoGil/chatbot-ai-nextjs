@@ -52,12 +52,13 @@ export default function Preview({ chatbot }) {
     };
 
     const scriptContent = `
-        <script src="/chatbot.bundle.js"></script>
+        <div id="chatbot-root">Chatbot aqui</div>
+        <script src="https://chatbot-ai-nextjs-production.up.railway.app/chatbot.bundle.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 window.renderChatbot('chatbot-root', '${chatbot.id}');
             });
-        </script>`;
+        </script>;`
 
     return (
         <div className="flex items-center justify-center bg-gray-100 mt-2">

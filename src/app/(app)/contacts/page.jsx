@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { MagnifyingGlassIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
 import axios from '@/lib/axios';
 import {
@@ -52,6 +53,7 @@ export default function contactTable() {
                                 }
 
                                 rowsIntent[index][intent.name] = contact.value;
+                                rowsIntent[index]['talk'] =  contact?.talk;
                             });
                         }
                         return rowsIntent;
@@ -87,11 +89,9 @@ export default function contactTable() {
 
     return (
         <Card className="h-full w-full p-6">
-            {/* <div className="mb-6 flex items-center justify-between"> */}
-                <Typography variant="h5" color="indigo" className='text-center'>
-                    Gestión de Relaciones con el Cliente (CRM)
-                </Typography>
-            {/* </div> */}
+            <Typography variant="h5" color="indigo" className='text-center'>
+                Administración de Relaciones con el Cliente (CRM)
+            </Typography>
             <div className="w-1/3 mb-6 mt-4">
                 <Select
                     label="Selecciona un Chatbot"
@@ -146,12 +146,23 @@ export default function contactTable() {
                                                     <td key={colIndex} className={classes}>
                                                         <Typography variant="small" color="blue-gray" className="font-normal">
                                                             {column !== 'Acciones' ? row[column] : (
-                                                                <Button
-                                                                    className={`text-white ${getStatusColor(row.status)}`}
-                                                                    onClick={() => handleStatusChange(index)}
-                                                                >
-                                                                    {row.status}
-                                                                </Button>
+                                                                <div className="flex gap-2">
+                                                                    <Button
+                                                                        className={`text-white ${getStatusColor(row.status)}`}
+                                                                        onClick={() => handleStatusChange(index)}
+                                                                    >
+                                                                        {row.status}
+                                                                    </Button>
+                                                                    <Link href={{
+                                                                            pathname: `/contacts/talk/${row.talk?.id}`,
+                                                                            query: { chatbotId: selectedChatbot }
+                                                                        }}>
+
+                                                                        <Button color="indigo" variant="gradient">
+                                                                            Ver chat
+                                                                        </Button>
+                                                                    </Link>
+                                                                </div>
                                                             )}
                                                         </Typography>
                                                     </td>

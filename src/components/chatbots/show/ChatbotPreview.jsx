@@ -40,9 +40,11 @@ export default function ChatbotShow({ chatbotId }) {
                             </code>
                         </pre>
                     </div>
-                    <Button color="indigo" onClick={copyToClipboard}>
-                        Copiar Script
-                    </Button>
+                    <div className="flex justify-end">
+                        <Button color="indigo" variant="gradient" onClick={copyToClipboard} className="w-38">
+                            Copiar Script
+                        </Button>
+                    </div>
                 </Card>
 
                 <div className="mt-6">

@@ -4,7 +4,8 @@ import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 
 const ChatbotTest = () => {
-    const { chatbotId } = useParams();
+    // const { chatbotId } = useParams();
+    const chatbotId = "4cbda66d-2ba5-470e-956e-037946e96307";
     useEffect(() => {
         const reactScript = document.createElement('script');
         reactScript.src = 'https://unpkg.com/react/umd/react.production.min.js';

@@ -52,13 +52,10 @@ export default function Preview({ chatbot }) {
     };
 
     const scriptContent = `
-        <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
-        <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
         <script src="/chatbot.bundle.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const chatbotId = '${chatbot.id}';
-                window.renderChatbot('chatbot-root', chatbotId);
+                window.renderChatbot('chatbot-root', '${chatbot.id}');
             });
         </script>`;
 

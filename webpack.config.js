@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     mode: 'development',
-    entry: './src/chatbot.js',
+    entry: './src/bundle/chatbot.js',
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'chatbot.bundle.js',
@@ -19,7 +19,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-react']
+                        configFile: path.resolve(__dirname, './src/bundle/babel.config.js')
                     }
                 }
             },
@@ -35,15 +35,15 @@ module.exports = {
         },
         extensions: ['.ts', '.jsx', '.js', '.css']
     },
-    externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM'
-    },
+    // externals: {
+    //     react: 'React',
+    //     'react-dom': 'ReactDOM'
+    // },
     plugins: [
         new Dotenv(),
         new webpack.DefinePlugin({
-            // 'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('https://chatbot-ai-api-production.up.railway.app'),
-            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('http://localhost:8007')
+            'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('https://chatbot-ai-api-production.up.railway.app'),
+            // 'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('http://localhost:8007')
         })
     ]
 };

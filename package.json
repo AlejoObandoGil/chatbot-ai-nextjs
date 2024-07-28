@@ -9,7 +9,7 @@
         "lint": "next lint",
         "lint:fix": "next lint --fix",
         "format": "prettier --write .",
-        "build:widget": "webpack --config webpack.config.js"
+        "build:chatbot": "webpack --config webpack.config.js"
     },
     "dependencies": {
         "@headlessui/react": "^1.4.2",

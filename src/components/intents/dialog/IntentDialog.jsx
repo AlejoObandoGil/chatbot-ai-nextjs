@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import IntentForm from './IntentForm';
-import { Dialog, DialogHeader, DialogBody, Typography, DialogFooter } from "@material-tailwind/react";
+import { Dialog, DialogHeader, DialogBody, Typography } from "@material-tailwind/react";
 
 const IntentDialog = ({ chatbotId, node, typeInformationRequired, open, onClose, onSave }) => {
     const [formData, setFormData] = useState(node);
@@ -36,8 +36,6 @@ const IntentDialog = ({ chatbotId, node, typeInformationRequired, open, onClose,
                             onSave={handleFormSubmit}
                             onClose={onClose} />
                     </DialogBody>
-                    {/* <DialogFooter
-                    >Hola</DialogFooter> */}
                 </>
             )}
         </Dialog>

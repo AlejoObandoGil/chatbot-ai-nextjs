@@ -173,7 +173,6 @@ function ChatbotFlow({ chatbotId }) {
             {showAlert && (
                 <Alert
                     color={alertColor}
-                    onClose={() => setShowAlert(false)}
                     dismissible
                     className="mt-2 mb-2"
                 >
@@ -199,7 +198,7 @@ function ChatbotFlow({ chatbotId }) {
                 </Button>
             </div>
             <ReactFlow
-                key={flowKey} // Forzar re-renderizado
+                key={flowKey}
                 nodes={nodes}
                 onNodesChange={onNodesChange}
                 edges={edges}

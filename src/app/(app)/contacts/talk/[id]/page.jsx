@@ -9,7 +9,7 @@ import Link from 'next/link';
 const TalkIndex = () => {
     const searchParams = useSearchParams();
     const { id } = useParams();
-    const [chatbotId, setChatbotId] = useState(searchParams.get('chatbotId'));
+    const [chatbotId] = useState(searchParams.get('chatbotId'));
     const [talk, setTalk] = useState({ messages: [] });
 
     useEffect(() => {

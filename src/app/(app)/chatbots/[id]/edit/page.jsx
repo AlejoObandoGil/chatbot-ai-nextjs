@@ -8,7 +8,7 @@ import FormInformation from '@/components/chatbots/create/FormInformation';
 import EntitiesIndex from '@/components/Entities/Index';
 import ChatbotFlow from '@/components/react-flow/ChatbotFlow';
 import Preview from '@/components/chatbots/show/Preview.jsx';
-import Flow from '@/components/react-flow/ExampleFlow';
+// import Flow from '@/components/react-flow/ExampleFlow';
 import { Spinner } from "@material-tailwind/react";
 import { motion } from 'framer-motion';
 

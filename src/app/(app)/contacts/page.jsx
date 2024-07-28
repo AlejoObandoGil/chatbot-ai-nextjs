@@ -17,12 +17,11 @@ import {
     Option
 } from '@material-tailwind/react';
 
-export default function contactTable() {
+export default function ContactTable() {
     const [columns, setColumns] = useState([]);
     const [rows, setRows] = useState([]);
     const [chatbots, setChatbots] = useState([]);
     const [selectedChatbotId, setselectedChatbotId] = useState('');
-    const [toggleChatBot, setToggleChatBot] = useState(false);
 
     useEffect(() => {
         const fetchChatbots = async () => {
@@ -164,12 +163,6 @@ export default function contactTable() {
                                                                             <Button color="indigo" variant="gradient">
                                                                                 Ver chat
                                                                             </Button>
-                                                                            {/*<Button color="indigo" variant="gradient" onClick={() => setToggleChatBot(true)}>
-                                                                                Ver chat
-                                                                            </Button>
-                                                                            { toggleChatBot && row.talk?.id &&
-                                                                                <ChatbotCrm chatbotId={selectedChatbotId} talkId={row.talk.id} toggleChatBot={toggleChatBot} />
-                                                                            } */}
                                                                         </Link>
                                                                     }
                                                                 </div>

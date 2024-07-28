@@ -4,7 +4,7 @@ import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
 import axios from '@/lib/axios';
 import { formatErrorMessage } from '@/utils/alertUtils.js';
 
-const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave, onClose }) => {
+const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave }) => {
     const [formData, setFormData] = useState(node);
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);

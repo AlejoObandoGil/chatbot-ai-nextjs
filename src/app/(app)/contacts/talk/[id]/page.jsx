@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import axios from '@/lib/axios';
-import { Card, Typography } from '@material-tailwind/react';
+import { Button, Card, Typography } from '@material-tailwind/react';
+import Link from 'next/link';
 
 const TalkIndex = () => {
     const searchParams = useSearchParams();
@@ -31,6 +32,13 @@ const TalkIndex = () => {
             { talk && talk.messages.length > 0 &&
                 <div>
                     <Typography variant="h5" color="indigo" className='text-center'>Lista de Mensajes del chat</Typography>
+                    <Link href={{
+                            pathname: `/contacts`,
+                        }}>
+                        <Button color="indigo" variant="gradient">
+                            Volver
+                        </Button>
+                    </Link>
                     <Card className="h-full w-full overflow-scroll mt-4">
                         <table className="w-full min-w-max table-auto text-left">
                             <thead>
@@ -63,12 +71,12 @@ const TalkIndex = () => {
                                             </td>
                                             <td className={classes}>
                                                 <Typography variant="small" color="blue-gray" className="font-normal">
-                                                    {new Date(talkMessage.created_at).toLocaleDateString()}
+                                                    {new Date(talkMessage.created_at).toLocaleString()}
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
                                                 <Typography variant="small" color="blue-gray" className="font-normal">
-                                                    {new Date(talkMessage.updated_at).toLocaleDateString()}
+                                                    {new Date(talkMessage.updated_at).toLocaleString()}
                                                 </Typography>
                                             </td>
                                         </tr>

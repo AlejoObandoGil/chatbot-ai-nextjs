@@ -35,16 +35,15 @@ module.exports = {
         },
         extensions: ['.ts', '.jsx', '.js', '.css']
     },
+    externals: {
+        react: 'React',
+        'react-dom': 'ReactDOM'
+    },
     plugins: [
         new Dotenv(),
         new webpack.DefinePlugin({
             // 'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('https://chatbot-ai-api-production.up.railway.app'),
             'process.env.NEXT_PUBLIC_BACKEND_URL': JSON.stringify('http://localhost:8007')
         })
-    ],
-
-    externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM'
-    }
+    ]
 };

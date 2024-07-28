@@ -8,17 +8,15 @@ import ActionProvider from '@/components/react-chatbot-kit/ActionProvider.jsx';
 import { IoChatbubbleEllipsesSharp } from 'react-icons/io5';
 
 
-const ChatbotBubble = ({ chatbotId }) => {
+const ChatbotPreview = ({ chatbotId }) => {
     const [showBot, toggleBot] = useState(false);
     const [botName, setBotName] = useState(null);
-    const [chatbot, setChatbot] = useState(null);
     const [initialMessages, setInitialMessages] = useState([]);
 
     useEffect(() => {
         const fetchBotConfig = async () => {
             try {
                 const { data } = await axios.get(`/api/chatbot/${chatbotId}/talk/create`);
-                setChatbot(data.chatbot);
                 setBotName(data.chatbot?.name || 'Chatbot');
 
                 if (data.chatbot?.intents.length > 0 && data.chatbot.intents[0]?.responses.length > 0) {
@@ -50,31 +48,29 @@ const ChatbotBubble = ({ chatbotId }) => {
 
     return (
         <>
-            { chatbot && chatbot.enabled &&
-                <div className="fixed bottom-3 right-8 z-50">
-                    {showBot && (
-                        <div className="fixed bottom-20 right-8 bg-white shadow-lg rounded-lg overflow-hidden">
-                            <Chatbot
-                                config={config(chatbotId, botName, initialMessages, clearMessages)}
-                                messageParser={MessageParser}
-                                actionProvider={ActionProvider}
-                                headerText="Chatbot"
-                                placeholderText="Escribe tu consulta..."
-                                messageHistory={loadMessages()}
-                                // saveMessages={saveMessages}
-                            />
-                        </div>
-                    )}
-                    <button
-                        className="bg-indigo-400 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
-                        onClick={() => toggleBot(prev => !prev)}
-                    >
-                        <IoChatbubbleEllipsesSharp size={40} />
-                    </button>
-                </div>
-            }
+            <div className="fixed bottom-3 right-8 z-50">
+                {showBot && (
+                    <div className="fixed bottom-20 right-8 bg-white shadow-lg rounded-lg overflow-hidden">
+                        <Chatbot
+                            config={config(chatbotId, botName, initialMessages, clearMessages)}
+                            messageParser={MessageParser}
+                            actionProvider={ActionProvider}
+                            headerText="Chatbot"
+                            placeholderText="Escribe tu consulta..."
+                            messageHistory={loadMessages()}
+                            // saveMessages={saveMessages}
+                        />
+                    </div>
+                )}
+                <button
+                    className="bg-indigo-400 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
+                    onClick={() => toggleBot(prev => !prev)}
+                >
+                    <IoChatbubbleEllipsesSharp size={40} />
+                </button>
+            </div>
         </>
     );
 };
 
-export default ChatbotBubble;
+export default ChatbotPreview;

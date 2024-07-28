@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MagnifyingGlassIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
 import axios from '@/lib/axios';
-import ChatbotCrm from '@/components/react-chatbot-kit/ChatbotCrm';
 
 import {
     Card,

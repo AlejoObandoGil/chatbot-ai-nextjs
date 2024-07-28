@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
 import { useRouter } from 'next/navigation';
-import { Alert } from "@material-tailwind/react";
-import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
+import { Alert, Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import { formatErrorMessage } from '@/utils/alertUtils';
 
 const FormInformation = ({ selectedType, chatbot }) => {

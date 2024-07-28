@@ -2,14 +2,14 @@
 
 import { useParams } from 'next/navigation';
 import 'react-chatbot-kit/build/main.css';
-import ChatbotPreview from '@/components/chatbots/show/ChatbotPreview.jsx';
+import Preview from '@/components/chatbots/show/Preview.jsx';
 
 export default function ChatbotShow() {
     const { id } = useParams();
 
     return (
         <>
-            <ChatbotPreview chatbotId={id} />
+            <Preview chatbotId={id} />
         </>
     );
 }

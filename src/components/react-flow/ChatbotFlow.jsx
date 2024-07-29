@@ -169,7 +169,7 @@ function ChatbotFlow({ chatbotId }) {
     } = useSaveProgress(chatbotId, nodes, edges);
 
     return (
-        <div id="flow-chart" style={{ height: 600, position: 'relative' }}>
+        <div id="flow-chart" className="relative" style={{ height: 'calc(100vh - 200px)' }}>
             {showAlert && (
                 <Alert
                     color={alertColor}

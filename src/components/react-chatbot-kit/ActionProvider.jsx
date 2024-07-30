@@ -2,13 +2,19 @@ import axios from '@/lib/axios';
 import { createClientMessage } from 'react-chatbot-kit';
 
 class ActionProvider {
-    constructor(createChatBotMessage, setState, config, stateRef) {
+    constructor(createChatBotMessage, setStateFunc, config, stateRef) {
         this.createChatBotMessage = createChatBotMessage;
-        this.setState = setState;
+        this.setState = setStateFunc;
         this.config = config;
         this.stateRef = stateRef;
-        this.talkId = JSON.parse(localStorage.getItem('talk_id'));
-        this.intentId = JSON.parse(localStorage.getItem('intent_id')) || 'false';
+        this.talkId = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('talk_id')) : null;
+        this.intentId = JSON.parse(localStorage.getItem('intent_id')) ?? 'false';
+    }
+
+    handleOptionClick = (optionValue) => {
+        console.log('Opción seleccionada:', optionValue);
+        const message = this.createChatBotMessage(`Has seleccionado: ${optionValue}`);
+        this.addMessageToState(message);
     }
 
     async handleMessage(message) {
@@ -20,6 +26,8 @@ class ActionProvider {
                     localStorage.setItem('talk_id', JSON.stringify(this.talkId));
                 }
             } catch (error) {
+                const newErrorMessageBot = this.createChatBotMessage('Oops! Parece que ha habido un error, por favor intenta más tarde.');
+                this.setBotMessage(newErrorMessageBot);
                 console.error('Error al crear la conversación:', error);
                 return;
             }
@@ -32,14 +40,32 @@ class ActionProvider {
                 const botResponse = typeof data.response === 'object' && data.response !== null
                     ? data.response.response
                     : data.response;
-                this.setBotMessage(botResponse);
 
                 const savedMessages = JSON.parse(localStorage.getItem('chat_messages')) || [];
                 const newMessageUser = createClientMessage(message.message);
                 savedMessages.push(newMessageUser);
-                localStorage.setItem('chat_messages', JSON.stringify(savedMessages));
 
-                const newMessageBot = this.createChatBotMessage(botResponse);
+                let newMessageBot;
+                if (data.response?.intent?.options.length > 0) {
+                    console.log('Intent options:', data.response.intent.options);
+
+                    const options = data.response.intent.options.map((option) => ({
+                        option: option.option,
+                        id: option.id
+                    }));
+
+                    newMessageBot = this.createChatBotMessage(botResponse, {
+                        widget: "widgetOptions",
+                        payload: {
+                            options: options
+                        }
+                    });
+                } else {
+                    newMessageBot = this.createChatBotMessage(botResponse);
+                }
+
+                this.addMessageToState(newMessageBot);
+
                 savedMessages.push(newMessageBot);
                 localStorage.setItem('chat_messages', JSON.stringify(savedMessages));
 
@@ -49,16 +75,19 @@ class ActionProvider {
                 }
             }
         } catch (error) {
+            const newErrorMessageBot = this.createChatBotMessage('Oops! Parece que ha habido un error al enviar el mensaje, por favor intenta más tarde.');
+            this.setBotMessage(newErrorMessageBot);
             console.error('Error al enviar mensaje al backend:', error);
         }
     }
 
-    setBotMessage = message => {
-        this.setState(prevState => ({
+    addMessageToState = (message) => {
+        this.setState((prevState) => ({
             ...prevState,
-            messages: [...prevState.messages, this.createChatBotMessage(message)]
+            messages: [...prevState.messages, message],
         }));
-    };
+    }
 }
 
 export default ActionProvider;
+

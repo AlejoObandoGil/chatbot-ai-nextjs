@@ -1,0 +1,32 @@
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.option-button {
+    margin: 5px;
+    border-radius: 25px;
+    padding: 8px 10px;
+    color: #fff;
+    background: #7986CB;
+    text-align: center;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+
+    &.active {
+        background: #5D6BC0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    &:hover {
+        background: #5D6BC0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+}
+
+

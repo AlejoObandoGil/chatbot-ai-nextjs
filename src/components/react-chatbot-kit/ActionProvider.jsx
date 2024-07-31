@@ -11,13 +11,7 @@ class ActionProvider {
         this.intentId = JSON.parse(localStorage.getItem('intent_id')) ?? 'false';
     }
 
-    handleOptionClick = (optionValue) => {
-        console.log('Opción seleccionada:', optionValue);
-        const message = this.createChatBotMessage(`Has seleccionado: ${optionValue}`);
-        this.addMessageToState(message);
-    }
-
-    async handleMessage(message) {
+    async handleTalk() {
         if (!this.talkId) {
             try {
                 const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk`, {});
@@ -27,14 +21,33 @@ class ActionProvider {
                 }
             } catch (error) {
                 const newErrorMessageBot = this.createChatBotMessage('Oops! Parece que ha habido un error, por favor intenta más tarde.');
-                this.setBotMessage(newErrorMessageBot);
+                this.addMessageToState(newErrorMessageBot);
                 console.error('Error al crear la conversación:', error);
                 return;
             }
         }
+    }
 
+    handleMessage(message) {
+        this.handleTalk();
+        this.handleSendMessage(message.message, false);
+    }
+
+    handleOption(option) {
+        console.log('Opción seleccionada:', option);
+        this.handleSendMessage(option.option, true, option.id);
+        const message = this.createChatBotMessage(`${option.option}`);
+        this.addMessageToState(message);
+    }
+
+    async handleSendMessage(message, type, id) {
+        // console.log(this.talkId)
         try {
-            const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message/${this.intentId}`, message);
+            const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message/${this.intentId}`, {
+                message: message,
+                is_option: type,
+                id: id ?? null
+            });
 
             if (data) {
                 const botResponse = typeof data.response === 'object' && data.response !== null
@@ -42,28 +55,10 @@ class ActionProvider {
                     : data.response;
 
                 const savedMessages = JSON.parse(localStorage.getItem('chat_messages')) || [];
-                const newMessageUser = createClientMessage(message.message);
+                const newMessageUser = createClientMessage(message);
                 savedMessages.push(newMessageUser);
 
-                let newMessageBot;
-                if (data.response?.intent?.options.length > 0) {
-                    console.log('Intent options:', data.response.intent.options);
-
-                    const options = data.response.intent.options.map((option) => ({
-                        option: option.option,
-                        id: option.id
-                    }));
-
-                    newMessageBot = this.createChatBotMessage(botResponse, {
-                        widget: "widgetOptions",
-                        payload: {
-                            options: options
-                        }
-                    });
-                } else {
-                    newMessageBot = this.createChatBotMessage(botResponse);
-                }
-
+                let newMessageBot = this.handleTypeMessage(data, botResponse);
                 this.addMessageToState(newMessageBot);
 
                 savedMessages.push(newMessageBot);
@@ -76,12 +71,32 @@ class ActionProvider {
             }
         } catch (error) {
             const newErrorMessageBot = this.createChatBotMessage('Oops! Parece que ha habido un error al enviar el mensaje, por favor intenta más tarde.');
-            this.setBotMessage(newErrorMessageBot);
+            this.addMessageToState(newErrorMessageBot);
             console.error('Error al enviar mensaje al backend:', error);
         }
     }
 
-    addMessageToState = (message) => {
+    handleTypeMessage(data, botResponse) {
+        if (data.response?.intent?.options.length > 0) {
+            console.log('Intent options:', data.response.intent.options);
+
+            const options = data.response.intent.options.map((option) => ({
+                option: option.option,
+                id: option.id
+            }));
+
+            return this.createChatBotMessage(botResponse, {
+                widget: "widgetOptions",
+                payload: {
+                    options: options
+                }
+            });
+        } else {
+            return this.createChatBotMessage(botResponse);
+        }
+    }
+
+    addMessageToState(message) {
         this.setState((prevState) => ({
             ...prevState,
             messages: [...prevState.messages, message],

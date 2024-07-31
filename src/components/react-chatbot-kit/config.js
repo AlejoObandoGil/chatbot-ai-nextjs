@@ -32,7 +32,6 @@ const config = (chatbotId, botName, initialMessages, onClearMessages) => ({
         {
             widgetName: 'widgetOptions',
             widgetFunc: (props) => {
-                console.log('WidgetProps:', props);
                 return <WidgetOptions {...props} />;
             },
             mapStateToProps: ['widgetOptions']

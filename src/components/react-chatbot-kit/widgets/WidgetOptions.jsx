@@ -1,6 +1,5 @@
 import React from "react";
 import "@/styles/widget-options.css";
-import ActionProvider from './../ActionProvider';
 
 const WidgetOptions = (props) => {
     console.log('WidgetOptions props:', props);
@@ -13,7 +12,7 @@ const WidgetOptions = (props) => {
         <button
             key={index}
             onClick={() => {
-                    props.actionProvider.handleOptionClick(option)
+                    props.actionProvider.handleOption(option)
                 }
             }
             className="option-button"

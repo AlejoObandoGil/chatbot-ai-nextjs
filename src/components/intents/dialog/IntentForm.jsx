@@ -82,8 +82,8 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
     };
 
     const addArrayItem = (name) => {
-        const newItem = name === 'training_phrases' ? { id: uuidv4(), phrase: '' }
-            : name === 'responses' ? { id: uuidv4(), response: '' }
+        const newItem = name === 'training_phrases' ? { phrase: '' }
+            : name === 'responses' ? { response: '' }
             : { id: uuidv4(), option: '' };
 
         const updatedData = {
@@ -160,8 +160,43 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                         <Option value="despedida">Despedida</Option>
                     </Select>
                 </div>
+                {formData.is_choice && (
+                    <div>
+                        <label className="block text-sm font-medium text-indigo-500 mb-2">Opciones</label>
+                        {formData.options.map((option, index) => (
+                            <div key={index} className="flex items-center space-x-2 mb-2">
+                                <Input
+                                    label={`Opción ${index + 1} (Dale a tu usuario una opción que puede escoger)`}
+                                    value={option.option}
+                                    onChange={(e) => handleArrayChange('options', index, 'option', e.target.value)}
+                                    placeholder="Opción"
+                                    color="indigo"
+                                    variant="standard"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => removeArrayItem('options', index)}
+                                    className="text-red-500"
+                                >
+                                    <TrashIcon className="w-5 h-5" />
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={() => addArrayItem('options')}
+                            className="flex items-center text-blue-500"
+                        >
+                            <PlusIcon className="w-5 h-5 mr-1" />
+                            Añadir Opción
+                        </button>
+                    </div>
+                )}
                 <div>
-                    <label className="block text-sm font-medium text-indigo-500 mb-2">Frases</label>
+                    {formData.save_information && (
+                        <small className='text-red-500'>Recuerda que si en tu intención pasada también guardaste la respuesta del usuario no es necesario una frase de entrenamiento</small>
+                    )}
+                    <label className="block text-sm font-medium text-indigo-500 mb-2">Frases (Opcional)</label>
                     {formData.training_phrases.map((training_phrase, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <Input
@@ -220,38 +255,6 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                         Añadir Respuesta
                     </button>
                 </div>
-                {formData.is_choice && (
-                    <div>
-                        <label className="block text-sm font-medium text-indigo-500 mb-2">Opciones</label>
-                        {formData.options.map((option, index) => (
-                            <div key={index} className="flex items-center space-x-2 mb-2">
-                                <Input
-                                    label={`Opción ${index + 1} (Dale a tu usuario una opción que puede escoger)`}
-                                    value={option.option}
-                                    onChange={(e) => handleArrayChange('options', index, 'option', e.target.value)}
-                                    placeholder="Opción"
-                                    color="indigo"
-                                    variant="standard"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => removeArrayItem('options', index)}
-                                    className="text-red-500"
-                                >
-                                    <TrashIcon className="w-5 h-5" />
-                                </button>
-                            </div>
-                        ))}
-                        <button
-                            type="button"
-                            onClick={() => addArrayItem('options')}
-                            className="flex items-center text-blue-500"
-                        >
-                            <PlusIcon className="w-5 h-5 mr-1" />
-                            Añadir Opción
-                        </button>
-                    </div>
-                )}
                 <div className="flex justify-end space-x-2">
                     <Button
                         type="submit"

@@ -34,7 +34,7 @@ class ActionProvider {
 
     handleOption(option) {
         this.handleSendMessage(option.option, true, option.id);
-        const message = this.createClientMessage(`${option.option}`);
+        const message = createClientMessage(`${option.option}`);
         this.addMessageToState(message);
     }
 

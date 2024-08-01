@@ -7,7 +7,6 @@ import MessageParser from '@/components/react-chatbot-kit/MessageParser.jsx';
 import ActionProvider from '@/components/react-chatbot-kit/ActionProvider.jsx';
 import { IoChatbubbleEllipsesSharp } from 'react-icons/io5';
 
-
 const ChatbotPreview = ({ chatbotId }) => {
     const [showBot, toggleBot] = useState(false);
     const [botName, setBotName] = useState(null);

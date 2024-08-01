@@ -4,11 +4,16 @@ import '@/styles/react-chatbot-kit.css';
 import ChatbotHeader from './custom/ChatbotHeader';
 import WidgetOptions from './widgets/WidgetOptions';
 
-const config = (chatbotId, botName, initialMessages, onClearMessages) => ({
+const config = (chatbotId, botName, initialMessages, initialOptions, onClearMessages) => ({
     botName: botName,
     placeHolderText: 'Escribe tu pregunta...',
     initialMessages: [
-        createChatBotMessage(initialMessages)
+        createChatBotMessage(initialMessages, {
+            widget: 'widgetOptions',
+            payload: {
+                options: initialOptions
+            },
+        })
     ],
     customComponents: {
         header: () => <ChatbotHeader botName={botName} onClearMessages={onClearMessages} />,

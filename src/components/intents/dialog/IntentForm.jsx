@@ -121,11 +121,12 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     variant="standard"
                 />
                 <Checkbox
-                    label="Es Tipo menú o seleccion multiple"
+                    label="Es Tipo menú o selección multiple"
                     name="is_choice"
                     checked={formData.is_choice}
                     onChange={handleInputChange}
                     color="indigo"
+                    disabled={formData.save_information}
                 />
                 <Checkbox
                     label="¿Deseas guardar la proxima respuesta del usuario?"
@@ -133,6 +134,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     checked={formData.save_information}
                     onChange={handleInputChange}
                     color="indigo"
+                    disabled={formData.is_choice}
                 />
                 {formData.save_information && (
                     <div>

@@ -12,6 +12,7 @@ const ChatbotPreview = ({ chatbotId }) => {
     const [showBot, toggleBot] = useState(false);
     const [botName, setBotName] = useState(null);
     const [initialMessages, setInitialMessages] = useState([]);
+    const [initialOptions, setInitialOptions] = useState([]);
 
     useEffect(() => {
         const fetchBotConfig = async () => {
@@ -21,8 +22,12 @@ const ChatbotPreview = ({ chatbotId }) => {
 
                 if (data.chatbot?.intents.length > 0 && data.chatbot.intents[0]?.responses.length > 0) {
                     setInitialMessages([data.chatbot.intents[0].responses[0].response]);
+                    if (data.chatbot?.intents.length > 0 && data.chatbot.intents[0]?.options.length > 0) {
+                        setInitialOptions(data.chatbot.intents[0].options);
+                    }
                 } else {
                     setInitialMessages(['Hola, en qué puedo ayudarte hoy?']);
+                    setInitialOptions([]);
                 }
             } catch (error) {
                 console.error('Error fetching chatbot config:', error);
@@ -52,7 +57,7 @@ const ChatbotPreview = ({ chatbotId }) => {
                 {showBot && (
                     <div className="fixed bottom-20 right-8 bg-white shadow-lg rounded-lg overflow-hidden">
                         <Chatbot
-                            config={config(chatbotId, botName, initialMessages, clearMessages)}
+                            config={config(chatbotId, botName, initialMessages, initialOptions, clearMessages)}
                             messageParser={MessageParser}
                             actionProvider={ActionProvider}
                             headerText="Chatbot"

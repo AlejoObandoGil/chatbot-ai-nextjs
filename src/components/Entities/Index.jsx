@@ -15,7 +15,6 @@ const EntitiesIndex = ({chatbotId}) => {
             try {
                 const response = await axios.get(`/api/v1/chatbot/${chatbotId}/entity`);
                 setEntities(response.data.entities);
-                console.log('Entities fetched:', response.data.entities);
             } catch (error) {
                 console.error('Error fetching entities:', error);
             }

@@ -29,19 +29,17 @@ class ActionProvider {
     }
 
     handleMessage(message) {
-        this.handleTalk();
         this.handleSendMessage(message.message, false);
     }
 
     handleOption(option) {
-        console.log('Opción seleccionada:', option);
         this.handleSendMessage(option.option, true, option.id);
-        const message = this.createChatBotMessage(`${option.option}`);
+        const message = this.createClientMessage(`${option.option}`);
         this.addMessageToState(message);
     }
 
     async handleSendMessage(message, type, id) {
-        // console.log(this.talkId)
+        await this.handleTalk();
         try {
             const { data } = await axios.post(`/api/chatbot/${this.stateRef.chatbotId}/talk/${this.talkId}/message/${this.intentId}`, {
                 message: message,
@@ -78,7 +76,6 @@ class ActionProvider {
 
     handleTypeMessage(data, botResponse) {
         if (data.response?.intent?.options.length > 0) {
-            console.log('Intent options:', data.response.intent.options);
 
             const options = data.response.intent.options.map((option) => ({
                 option: option.option,

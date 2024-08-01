@@ -24,7 +24,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     const csrf = () => {
         axios.get('/sanctum/csrf-cookie');
-        console.log(document.cookie);
     }
 
     function getCookie(name) {
@@ -35,9 +34,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     const register = async ({ setErrors, ...props }) => {
         await csrf();
-
-        console.log('CSRF Token:', getCookie('XSRF-TOKEN'));
-
         setErrors([]);
 
         axios
@@ -52,9 +48,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     const login = async ({ setErrors, setStatus, ...props }) => {
         await csrf();
-
-        console.log('CSRF Token:', getCookie('XSRF-TOKEN'));
-
         setErrors([]);
         setStatus(null);
 

@@ -2,11 +2,7 @@ import React from "react";
 import "@/styles/widget-options.css";
 
 const WidgetOptions = (props) => {
-    console.log('WidgetOptions props:', props);
-
     const options = props.payload?.options || [];
-
-    console.log('Options to render:', options);
 
     const buttonsMarkup = options.map((option, index) => (
         <button

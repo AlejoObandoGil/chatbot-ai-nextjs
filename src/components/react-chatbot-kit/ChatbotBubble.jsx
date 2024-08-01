@@ -35,8 +35,11 @@ const ChatbotBubble = ({ chatbotId }) => {
     }, [chatbotId]);
 
     const loadMessages = () => {
-        const messages = JSON.parse(localStorage.getItem('chat_messages'));
-        return messages;
+        const chatbotId = JSON.parse(localStorage.getItem('chat_messages'));
+        if (chatbotId !== this.chatbotId) {
+            const messages = JSON.parse(localStorage.getItem('chat_messages'));
+            return messages;
+        }
     };
 
     // const saveMessages = (messages) => {

@@ -13,8 +13,6 @@ function CustomeNode({ id, data, isConnectable, selected }) {
         console.log(`Eliminar nodo ${id}`);
     };
 
-    const totalHandles = data.options && data.options.length > 0 ? data.options.length : 1;
-
     return (
         <div
             className={`w-64 rounded-lg shadow-lg p-4 border ${
@@ -58,17 +56,28 @@ function CustomeNode({ id, data, isConnectable, selected }) {
                 isConnectable={isConnectable}
                 className="w-3 h-3 bg-blue-500 rounded-full"
             />
-            {Array.from({ length: totalHandles }).map((_, index) => (
+            {data.options && data.options.length > 0 ? (
+                data.options.map((option, index) => (
+                    <Handle
+                        key={option.id || index}
+                        type="source"
+                        position={Position.Bottom}
+                        id={`${option.id}`}
+                        isConnectable={isConnectable}
+                        className="w-3 h-3 bg-blue-500 rounded-full"
+                        style={{ left: `${(index + 1) * (100 / (data.options.length + 1))}%` }}
+                    />
+                ))
+            ) : (
                 <Handle
-                    key={index}
                     type="source"
                     position={Position.Bottom}
-                    id={`bottom-${index}`}
+                    id="default"
                     isConnectable={isConnectable}
                     className="w-3 h-3 bg-blue-500 rounded-full"
-                    style={{ left: `${(index + 1) * (100 / (totalHandles + 1))}%` }}
+                    style={{ left: '50%' }}
                 />
-            ))}
+            )}
         </div>
     );
 }

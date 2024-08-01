@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Checkbox, Button, Alert, Select, Option } from "@material-tailwind/react";
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
+import { v4 as uuidv4 } from 'uuid';
 import axios from '@/lib/axios';
 import { formatErrorMessage } from '@/utils/alertUtils.js';
 
@@ -81,9 +82,9 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
     };
 
     const addArrayItem = (name) => {
-        const newItem = name === 'training_phrases' ? { phrase: '' }
-            : name === 'responses' ? { response: '' }
-            : { option: '' };
+        const newItem = name === 'training_phrases' ? { id: uuidv4(), phrase: '' }
+            : name === 'responses' ? { id: uuidv4(), response: '' }
+            : { id: uuidv4(), option: '' };
 
         const updatedData = {
             ...formData,
@@ -136,7 +137,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                 {formData.save_information && (
                     <div>
                         <Select
-                            label="Selecciona el tipo de información requerida"
+                            label="Selecciona el tipo de información que le pedirás al usuario"
                             value={formData.information_required || ''}
                             onChange={(value) => handleInputChange({ target: { name: 'information_required', value } })}
                         >
@@ -223,7 +224,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                         {formData.options.map((option, index) => (
                             <div key={index} className="flex items-center space-x-2 mb-2">
                                 <Input
-                                    label="Opción (Dale a tu usuario una opción que puede escoger)"
+                                    label={`Opción ${index + 1} (Dale a tu usuario una opción que puede escoger)`}
                                     value={option.option}
                                     onChange={(e) => handleArrayChange('options', index, 'option', e.target.value)}
                                     placeholder="Opción"

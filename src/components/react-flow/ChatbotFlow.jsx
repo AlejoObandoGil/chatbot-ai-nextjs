@@ -10,8 +10,8 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import axios from '@/lib/axios';
-import CustomeNode from '@/components/react-flow/CustomeNode';
-import CustomeEdge from '@/components/react-flow/CustomeEdge';
+import CustomeNode from '@/components/react-flow/custom/CustomeNode';
+import CustomeEdge from '@/components/react-flow/custom/CustomeEdge';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 import useSaveProgress from './SaveProgress';
 import { Button, Alert } from "@material-tailwind/react";

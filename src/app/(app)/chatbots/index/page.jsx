@@ -83,6 +83,9 @@ const ChatbotsIndex = () => {
                                                     Editar
                                                 </Button>
                                             </Link>
+                                            <Button color="red" size="sm">
+                                                Eliminar
+                                            </Button>
                                             {/* <Link href={`/chatbots/${chatbot.id}/show`} passHref>
                                                 <Button color="green" size="sm">
                                                     Vista previa

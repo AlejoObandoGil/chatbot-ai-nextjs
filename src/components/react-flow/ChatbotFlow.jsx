@@ -181,7 +181,7 @@ function ChatbotFlow({ chatbotId }) {
                 </Alert>
             )}
             <div style={{ display: 'flex', justifyContent: 'end', marginTop: 0 }}>
-                <Typography variant="h6" color='red' className='text-center me-4'>Recuerda guardar el flujo de  tu chatbot continuamente para no perder tu progreso</Typography>
+                <Typography variant="h6" color='dark' className='text-center me-4'>Recuerda guardar el flujo de  tu chatbot continuamente para no perder tu progreso</Typography>
                 <Button
                     variant='gradient'
                     color="indigo"

@@ -54,7 +54,9 @@ function CustomeNode({ id, data, isConnectable, selected }) {
                 isConnectable={isConnectable}
                 className="w-3 h-3 bg-blue-500 rounded-full"
             />
-            <span className='text-xs flex justify-center mt-2 mb-2 text-gray-600'>Opciones</span>
+            {data.options && data.options.length > 0 && (
+                <span className='text-xs flex justify-center mt-2 mb-1 text-gray-600'>Opciones menu</span>
+            )}
             {data.options && data.options.length > 0 ? (
                 data.options.map((option, index) => (
                     <div key={option.id} className="absolute bottom-0 w-full">

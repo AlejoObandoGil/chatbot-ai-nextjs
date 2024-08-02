@@ -42,22 +42,30 @@ export default function ContactTable() {
                 try {
                     const { data } = await axios.get(`/api/v1/chatbot/${selectedChatbotId}/contact-information`);
 
-                    const columns = data.intents.map(intent => intent.name);
-                    columns.push('Acciones');
+                    const columns = ['Status', ...data.intents.map(intent => intent.name), 'Acciones'];
                     setColumns(columns);
 
-                    const rows = data.intents.reduce((rowsIntent, intent) => {
-                        if (intent.contact_informations && intent.contact_informations.length > 0) {
-                            intent.contact_informations.forEach((contact, index) => {
-                                if (!rowsIntent[index]) {
-                                    rowsIntent[index] = { status: contact.status || 'sin contactar' };
-                                }
+                    const allContacts = data.intents.flatMap(intent =>
+                        intent.contact_informations.map(contact => ({
+                            ...contact,
+                            intentName: intent.name
+                        }))
+                    );
 
-                                rowsIntent[index][intent.name] = contact.value;
-                                rowsIntent[index]['talk'] =  contact?.talk;
-                            });
+                    const rows = allContacts.reduce((acc, contact) => {
+                        const existingRow = acc.find(row => row.id === contact.id);
+                        if (existingRow) {
+                            existingRow[contact.intentName] = contact.value;
+                        } else {
+                            const newRow = {
+                                id: contact.id,
+                                Status: contact.status || 'sin contactar',
+                                talk: contact.talk,
+                                [contact.intentName]: contact.value
+                            };
+                            acc.push(newRow);
                         }
-                        return rowsIntent;
+                        return acc;
                     }, []);
 
                     setRows(rows);
@@ -116,66 +124,67 @@ export default function ContactTable() {
                         </div>
                     </CardHeader>
                     <CardBody className="overflow-scroll px-0 mb-4">
-                        <table className="mt-4 w-full min-w-max table-auto text-left">
-                            <thead>
-                                <tr>
-                                    {columns.map((column) => (
-                                        <th
-                                            key={column}
-                                            className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
+                    <table className="mt-4 w-full min-w-max table-auto text-left">
+    <thead>
+        <tr>
+            {columns.map((column) => (
+                <th
+                    key={column}
+                    className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
+                >
+                    <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
+                    >
+                        {column} <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
+                    </Typography>
+                </th>
+            ))}
+        </tr>
+    </thead>
+    {rows && rows.length !== 0 && (
+        <tbody>
+            {rows.map((row, index) => {
+                const isLast = index === rows.length - 1;
+                const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+
+                return (
+                    <tr key={row.id}>
+                        {columns.map((column) => (
+                            <td key={column} className={classes}>
+                                <Typography variant="small" color="blue-gray" className="font-normal">
+                                    {column === 'Status' ? (
+                                        <Button
+                                            className={`text-white ${getStatusColor(row.Status)}`}
+                                            onClick={() => handleStatusChange(index)}
                                         >
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
-                                            >
-                                                {column} <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
-                                            </Typography>
-                                        </th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            { rows && rows.length !== 0 && (
-                                <tbody>
-                                    {rows.map((row, index) => {
-                                        const isLast = index === rows.length - 1;
-                                        const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+                                            {row.Status}
+                                        </Button>
+                                    ) : column === 'Acciones' ? (
+                                        row.talk?.id && (
+                                            <Link href={{
+                                                pathname: `/contacts/talk/${row.talk.id}`,
+                                                query: { chatbotId: selectedChatbotId }
+                                            }}>
+                                                <Button color="indigo" variant="gradient">
+                                                    Ver chat
+                                                </Button>
+                                            </Link>
+                                        )
+                                    ) : (
+                                        row[column] || '""'
+                                    )}
+                                </Typography>
+                            </td>
+                        ))}
+                    </tr>
+                );
+            })}
+        </tbody>
+    )}
+</table>
 
-                                        return (
-                                            <tr key={index}>
-                                                {columns.map((column, colIndex) => (
-                                                    <td key={colIndex} className={classes}>
-                                                        <Typography variant="small" color="blue-gray" className="font-normal">
-                                                            {column !== 'Acciones' ? row[column] : (
-                                                                <div className="flex gap-2">
-                                                                    <Button
-                                                                        className={`text-white ${getStatusColor(row.status)}`}
-                                                                        onClick={() => handleStatusChange(index)}
-                                                                    >
-                                                                        {row.status}
-                                                                    </Button>
-                                                                    { row.talk?.id &&
-                                                                        <Link href={{
-                                                                                pathname: `/contacts/talk/${row.talk?.id}`,
-                                                                                query: { chatbotId: selectedChatbotId }
-                                                                            }}>
-
-                                                                            <Button color="indigo" variant="gradient">
-                                                                                Ver chat
-                                                                            </Button>
-                                                                        </Link>
-                                                                    }
-                                                                </div>
-                                                            )}
-                                                        </Typography>
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            )}
-                        </table>
                     </CardBody>
                     <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                         <Typography variant="small" color="blue-gray" className="font-normal">

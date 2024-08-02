@@ -30,7 +30,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                 setTimeout(() => {
                     setShowAlert(false);
                     onSave();
-                }, 3000);
+                }, 2000);
             } else {
                 handleErrorResponse(response);
             }
@@ -258,6 +258,16 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                         Añadir Respuesta
                     </button>
                 </div>
+                {showAlert && (
+                    <Alert
+                        color={alertColor}
+                        onClose={() => setShowAlert(false)}
+                        dismissible
+                        className="mt-4"
+                    >
+                        {alertMessage}
+                    </Alert>
+                )}
                 <div className="flex justify-end space-x-2">
                     <Button
                         type="submit"
@@ -270,16 +280,6 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     </Button>
                 </div>
             </form>
-            {showAlert && (
-                <Alert
-                    color={alertColor}
-                    onClose={() => setShowAlert(false)}
-                    dismissible
-                    className="mt-4"
-                >
-                    {alertMessage}
-                </Alert>
-            )}
         </div>
     );
 };

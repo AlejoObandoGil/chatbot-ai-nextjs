@@ -53,12 +53,10 @@ export default function Preview({ chatbot }) {
 
     const scriptContent = `
         <!-- Start of Chatbot Embed Code -->
-        <div id="chatbot-root">Chatbot aqui</div>
+        <div id="chatbot-root"></div>
         <script src="https://chatbot-ai-nextjs-production.up.railway.app/chatbot.bundle.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                window.renderChatbot('chatbot-root', '${chatbot.id}');
-            });
+            window.renderChatbot('chatbot-root', '${chatbot.id}');
         </script>;
         <!-- End of Chatbot Embed Code -->`
 

@@ -15,15 +15,13 @@ function CustomeNode({ id, data, isConnectable, selected }) {
 
     return (
         <div
-            className={`w-64 rounded-lg shadow-lg p-4 border ${
-                selected ? 'border-indigo-500' : 'border-gray-300'
-            } ${selected ? 'bg-indigo-50' : 'bg-white'} relative hover:bg-indigo-50`}
+            className={`w-64 rounded-lg shadow-lg p-4 border ${selected ? 'border-indigo-500' : 'border-gray-300'
+                } ${selected ? 'bg-indigo-50' : 'bg-white'} relative hover:bg-indigo-50`}
         >
             <div className="flex flex-col items-center mb-2">
                 <small
-                    className={`text-xs ${
-                        id === 'node-1' ? 'text-gray-400' : 'text-gray-500'
-                    } text-center`}
+                    className={`text-xs ${id === 'node-1' ? 'text-gray-400' : 'text-gray-500'
+                        } text-center`}
                 >
                     {id === 'node-1' ? 'Mensaje de saludo' : '¿Cuál es tu siguiente enunciado?'}
                 </small>
@@ -56,17 +54,30 @@ function CustomeNode({ id, data, isConnectable, selected }) {
                 isConnectable={isConnectable}
                 className="w-3 h-3 bg-blue-500 rounded-full"
             />
+            <span className='text-xs flex justify-center mt-2 mb-2 text-gray-600'>Opciones</span>
             {data.options && data.options.length > 0 ? (
                 data.options.map((option, index) => (
-                    <Handle
-                        key={option.id || index}
-                        type="source"
-                        position={Position.Bottom}
-                        id={`${option.id}`}
-                        isConnectable={isConnectable}
-                        className="w-3 h-3 bg-blue-500 rounded-full"
-                        style={{ left: `${(index + 1) * (100 / (data.options.length + 1))}%` }}
-                    />
+                    <div key={option.id} className="absolute bottom-0 w-full">
+                        <span
+                            className="absolute left-1/2 transform -translate-x-1/2 text-xs font-semibold text-gray-600 bottom-0 mb-0"
+                            style={{
+                                left: `${(index + 1) * (100 / (data.options.length + 1))}%`,
+                            }}
+                        >
+                            {index + 1}
+                        </span>
+                        <Handle
+                            type="source"
+                            position={Position.Bottom}
+                            id={option.id}
+                            isConnectable={isConnectable}
+                            className="absolute w-3 h-3 bg-blue-500 rounded-full mt-0"
+                            style={{
+                                left: `${(index + 1) * (100 / (data.options.length + 1))}%`,
+                                bottom: '0',
+                            }}
+                        />
+                    </div>
                 ))
             ) : (
                 <Handle

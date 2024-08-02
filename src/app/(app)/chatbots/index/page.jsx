@@ -79,7 +79,7 @@ const ChatbotsIndex = () => {
                                     <td className={classes}>
                                         <div className="flex space-x-2">
                                             <Link href={`/chatbots/${chatbot.id}/edit`} passHref>
-                                                <Button color="blue" size="sm">
+                                                <Button color="indigo" size="sm">
                                                     Editar
                                                 </Button>
                                             </Link>

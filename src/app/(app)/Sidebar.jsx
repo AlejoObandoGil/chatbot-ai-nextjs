@@ -59,7 +59,7 @@ const Sidebar = () => {
                     </div>
                     <List>
                         <Link href="/dashboard" onClick={() => closeDrawer()}>
-                            <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
+                            <ListItem className="border-b-0 p-3 hover:bg-indigo-500 hover:text-white transition-colors duration-300 rounded-lg">
                                 <ListItemPrefix>
                                     <FaHome className="h-5 w-5 text-white mr-2" />
                                 </ListItemPrefix>
@@ -79,7 +79,7 @@ const Sidebar = () => {
                             }
                         >
                             <ListItem
-                                className="p-0 border-b-0 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg"
+                                className="p-0 border-b-0 hover:bg-indigo-500 hover:text-white transition-colors duration-300 rounded-lg"
                                 selected={open === 2}
                             >
                                 <AccordionHeader onClick={() => handleOpen(2)} className="border-b-0 p-3">
@@ -94,7 +94,7 @@ const Sidebar = () => {
                             <AccordionBody className="py-1">
                                 <List className="p-0 text-white">
                                     <Link href="/chatbots/create" onClick={() => closeDrawer()}>
-                                        <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
+                                        <ListItem className="border-b-0 p-3 hover:bg-indigo-500 hover:text-white transition-colors duration-300 rounded-lg">
                                             <ListItemPrefix>
                                                 <FaPlus strokeWidth={3} className="h-3 w-5 text-white mr-2" />
                                             </ListItemPrefix>
@@ -102,7 +102,7 @@ const Sidebar = () => {
                                         </ListItem>
                                     </Link>
                                     <Link href="/chatbots/index" onClick={() => closeDrawer()}>
-                                        <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
+                                        <ListItem className="border-b-0 p-3 hover:bg-indigo-500 hover:text-white transition-colors duration-300 rounded-lg">
                                             <ListItemPrefix>
                                                 <FaThList strokeWidth={3} className="h-3 w-5 text-white mr-2" />
                                             </ListItemPrefix>
@@ -113,7 +113,7 @@ const Sidebar = () => {
                             </AccordionBody>
                         </Accordion>
                         <Link href="/contacts" onClick={() => closeDrawer()}>
-                            <ListItem className="border-b-0 p-3 hover:bg-blue-500 hover:text-white transition-colors duration-300 rounded-lg">
+                            <ListItem className="border-b-0 p-3 hover:bg-indigo-500 hover:text-white transition-colors duration-300 rounded-lg">
                                 <ListItemPrefix>
                                     <FaUsers className="h-5 w-5 text-white mr-2" />
                                 </ListItemPrefix>
@@ -121,7 +121,7 @@ const Sidebar = () => {
                                     CRM
                                 </Typography>
                                 <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="blue" className="rounded-full text-white ml-4" />
+                                    <Chip value="14" size="sm" variant="ghost" color="indigo" className="rounded-full text-white ml-4" />
                                 </ListItemSuffix>
                             </ListItem>
                         </Link>

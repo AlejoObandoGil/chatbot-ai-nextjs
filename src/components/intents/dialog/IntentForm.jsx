@@ -71,12 +71,15 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
         );
         const updatedData = {
             ...formData,
-            [name]: updatedArray,
-            data: {
+            [name]: updatedArray
+        };
+
+        if (name === 'options') {
+            updatedData.data = {
                 ...formData.data,
                 options: updatedArray
-            }
-        };
+            };
+        }
         setFormData(updatedData);
         onChange(updatedData);
     };
@@ -196,7 +199,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     {formData.save_information && (
                         <small className='text-red-500'>Recuerda que si en tu intención pasada también guardaste la respuesta del usuario no es necesario una frase de entrenamiento</small>
                     )}
-                    <label className="block text-sm font-medium text-indigo-500 mb-2">Frases (Opcional)</label>
+                    <label className="block text-sm font-medium text-indigo-500 mb-2">Lista de Frases (Opcional)</label>
                     {formData.training_phrases.map((training_phrase, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <Input
@@ -226,7 +229,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     </button>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-indigo-500 mb-2">Respuestas</label>
+                    <label className="block text-sm font-medium text-indigo-500 mb-2">Lista de Respuestas</label>
                     {formData.responses.map((response, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <Input

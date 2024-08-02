@@ -14,7 +14,7 @@ import CustomeNode from '@/components/react-flow/custom/CustomeNode';
 import CustomeEdge from '@/components/react-flow/custom/CustomeEdge';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 import useSaveProgress from './SaveProgress';
-import { Button, Alert } from "@material-tailwind/react";
+import { Button, Alert, Typography } from "@material-tailwind/react";
 
 const NODE_HEIGHT = 100;
 const NODE_SPACING = 20;
@@ -38,6 +38,7 @@ function ChatbotFlow({ chatbotId }) {
                 const dataEdges = data.edges;
                 const fetchedEdges = dataEdges.map(edge => ({
                     ...edge,
+                    sourceHandle: edge.source_handle,
                     type: 'customeEdge'
                 }));
                 const dataIntents = data.intents;
@@ -180,6 +181,7 @@ function ChatbotFlow({ chatbotId }) {
                 </Alert>
             )}
             <div style={{ display: 'flex', justifyContent: 'end', marginTop: 0 }}>
+                <Typography variant="h6" color='red' className='text-center me-4'>Recuerda guardar el flujo de  tu chatbot continuamente para no perder tu progreso</Typography>
                 <Button
                     variant='gradient'
                     color="indigo"

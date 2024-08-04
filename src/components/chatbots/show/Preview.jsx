@@ -5,7 +5,7 @@ import { Card, Typography, Button, Switch, Alert } from '@material-tailwind/reac
 import ChatbotPreview from '@/components/react-chatbot-kit/ChatbotPreview';
 import { formatErrorMessage } from '@/utils/alertUtils';
 
-export default function Preview({ chatbot }) {
+export default function Preview({ chatbot, onChatbotUpdate }) {
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [alertColor, setAlertColor] = useState('');
@@ -23,6 +23,10 @@ export default function Preview({ chatbot }) {
             }
 
             if (response.status === 200 || response.status === 201) {
+                if (onChatbotUpdate) {
+                    onChatbotUpdate(response.data.chatbot);
+                }
+
                 setChatbotEnabled(response.data.chatbot.enabled);
                 setAlertMessage(response.data.chatbot.enabled ? 'Tu chatbot está habilitado' : 'Tu chatbot está deshabilitado');
                 setAlertColor('green');

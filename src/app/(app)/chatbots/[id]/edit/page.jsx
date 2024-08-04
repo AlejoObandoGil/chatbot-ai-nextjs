@@ -32,6 +32,10 @@ const EditChatbot = () => {
         }
     }, [id]);
 
+    const handleChatbotUpdate = (updatedChatbot) => {
+        setChatbot(updatedChatbot);
+    };
+
     if (loading) return <Spinner />;
 
     const renderTabContent = () => {
@@ -47,7 +51,7 @@ const EditChatbot = () => {
             entidades: <EntitiesIndex chatbotId={chatbot.id}/>,
             editor_de_flujo: <ChatbotFlow chatbotId={chatbot.id}/>,
             // editor_de_flujo: <Flow/>,
-            vista_previa: <Preview chatbot={chatbot} />
+            vista_previa: <Preview chatbot={chatbot} onChatbotUpdate={handleChatbotUpdate} />
         };
 
         return (

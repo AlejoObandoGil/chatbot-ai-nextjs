@@ -1,20 +1,13 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import {
-    ReactFlow,
-    Controls,
-    Background,
-    applyNodeChanges,
-    applyEdgeChanges,
-    MiniMap,
-} from '@xyflow/react';
+import { ReactFlow, Controls, Background, applyNodeChanges, applyEdgeChanges, MiniMap } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import axios from '@/lib/axios';
 import CustomeNode from '@/components/react-flow/custom/CustomeNode';
 import CustomeEdge from '@/components/react-flow/custom/CustomeEdge';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 import useSaveProgress from './SaveProgress';
-import { Button, Alert, Typography } from "@material-tailwind/react";
+import { Button, Alert, Typography } from '@material-tailwind/react';
 
 const NODE_HEIGHT = 100;
 const NODE_SPACING = 20;
@@ -71,7 +64,7 @@ function ChatbotFlow({ chatbotId }) {
                         training_phrases: intent.training_phrases || [],
                         information_required: intent.information_required,
                         responses: intent.responses || [],
-                        options: intent.options || [],
+                        options: intent.options || []
                     };
                 });
 
@@ -86,11 +79,9 @@ function ChatbotFlow({ chatbotId }) {
         fetchIntents();
     }, [chatbotId]);
 
-    const handleNodeSave = (updatedNode) => {
-        setNodes((nodes) =>
-            nodes.map((node) => (node.id === updatedNode.id ? updatedNode : node))
-        );
-        setFlowKey(prevKey => prevKey + 1);
+    const handleNodeSave = updatedNode => {
+        setNodes(nodes => nodes.map(node => (node.id === updatedNode.id ? updatedNode : node)));
+        // setFlowKey(prevKey => prevKey + 1);
     };
 
     const addNewNode = () => {
@@ -100,10 +91,10 @@ function ChatbotFlow({ chatbotId }) {
 
             newPosition = {
                 x: lastNode.position.x,
-                y: lastNode.position.y + NODE_HEIGHT + NODE_SPACING,
+                y: lastNode.position.y + NODE_HEIGHT + NODE_SPACING
             };
         } else {
-            newPosition = { x: 0, y: 0 }
+            newPosition = { x: 0, y: 0 };
         }
 
         const newNode = {
@@ -120,12 +111,12 @@ function ChatbotFlow({ chatbotId }) {
             },
             training_phrases: [],
             responses: [],
-            options: [],
+            options: []
         };
-        setNodes((nds) => [...nds, newNode]);
+        setNodes(nds => [...nds, newNode]);
     };
 
-    const openModal = (node) => {
+    const openModal = node => {
         setSelectedNode(node);
         setModalIsOpen(true);
     };
@@ -135,72 +126,49 @@ function ChatbotFlow({ chatbotId }) {
         setSelectedNode(null);
     };
 
-    const onNodesChange = useCallback(
-        (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-        [],
-    );
+    const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
 
     const onNodeDoubleClick = useCallback((event, node) => {
         openModal(node);
     }, []);
 
-    const onEdgesChange = useCallback(
-        (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-        [],
-    );
+    const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
 
     const onConnect = useCallback(
-        (params) => setEdges((eds) => [
-            ...eds,
-            {
-                id: uuidv4(),
-                ...params,
-                type: 'customeEdge'
-            }
-        ]),
-        [],
+        params =>
+            setEdges(eds => [
+                ...eds,
+                {
+                    id: uuidv4(),
+                    ...params,
+                    type: 'customeEdge'
+                }
+            ]),
+        []
     );
 
-    const {
-        saveProgress,
-        loadingSave,
-        alertMessage,
-        showAlert,
-        alertColor,
-    } = useSaveProgress(chatbotId, nodes, edges);
+    const { saveProgress, loadingSave, alertMessage, showAlert, alertColor } = useSaveProgress(chatbotId, nodes, edges);
 
     return (
         <div id="flow-chart" className="relative" style={{ height: 'calc(100vh - 200px)' }}>
             {showAlert && (
-                <Alert
-                    color={alertColor}
-                    dismissible
-                    className="mt-2 mb-2"
-                >
+                <Alert color={alertColor} dismissible className="mt-2 mb-2">
                     {alertMessage}
                 </Alert>
             )}
             <div style={{ display: 'flex', justifyContent: 'end', marginTop: 0 }}>
-                <Typography variant="h6" color='dark' className='text-center me-4'>Recuerda guardar el flujo de  tu chatbot continuamente para no perder tu progreso</Typography>
-                <Button
-                    variant='gradient'
-                    color="indigo"
-                    className='mr-2'
-                    onClick={addNewNode}
-                >
+                <Typography variant="h6" color="dark" className="text-center me-4">
+                    Recuerda guardar el flujo de tu chatbot continuamente para no perder tu progreso
+                </Typography>
+                <Button variant="gradient" color="indigo" className="mr-2" onClick={addNewNode}>
                     Agregar nuevo nodo
                 </Button>
-                <Button
-                    variant='gradient'
-                    color="green"
-                    onClick={saveProgress}
-                    disabled={loadingSave}
-                >
+                <Button variant="gradient" color="green" onClick={saveProgress} disabled={loadingSave}>
                     Guardar progreso
                 </Button>
             </div>
             <ReactFlow
-                key={flowKey}
+                // key={flowKey}
                 nodes={nodes}
                 onNodesChange={onNodesChange}
                 edges={edges}
@@ -215,7 +183,7 @@ function ChatbotFlow({ chatbotId }) {
                 <MiniMap />
                 <Controls />
             </ReactFlow>
-            {modalIsOpen &&
+            {modalIsOpen && (
                 <IntentDialog
                     chatbotId={chatbotId}
                     node={selectedNode}
@@ -223,7 +191,8 @@ function ChatbotFlow({ chatbotId }) {
                     open={modalIsOpen}
                     onClose={closeModal}
                     onSave={handleNodeSave}
-                />}
+                />
+            )}
         </div>
     );
 }

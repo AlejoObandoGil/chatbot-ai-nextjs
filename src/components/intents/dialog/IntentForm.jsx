@@ -203,7 +203,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     {formData.training_phrases.map((training_phrase, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <Input
-                                label="Frase de entrenamiento (Es lo que es esperas que escriba o pregunte el usuario)"
+                                label="Frase de entrenamiento (Es lo que esperas que escriba o pregunte el usuario)"
                                 value={training_phrase.phrase}
                                 onChange={(e) => handleArrayChange('training_phrases', index, 'phrase', e.target.value)}
                                 placeholder="Frase"
@@ -229,11 +229,11 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     </button>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-indigo-500 mb-2">Lista de Respuestas</label>
+                    <label className="block text-sm font-medium text-indigo-500 mb-2">Lista de Respuestas*</label>
                     {formData.responses.map((response, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <Input
-                                label="Respuesta (Es lo que es esperas que responda tu chatbot a el usuario)"
+                                label="Respuesta (Es lo que esperas que responda tu chatbot a el usuario)"
                                 value={response.response}
                                 onChange={(e) => handleArrayChange('responses', index, 'response', e.target.value)}
                                 placeholder="Respuesta"

@@ -10,7 +10,9 @@ const FormInformation = ({ selectedType, chatbot }) => {
     const [description, setDescription] = useState('');
     const [knowledgeBase, setKnowledgeBase] = useState('');
     const [link, setLink] = useState('');
-    const [document, setDocument] = useState('');
+    const [document, setDocument] = useState(null);
+    const [temperature, setTemperature] = useState('');
+    const [maxTokens, setMaxTokens] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [alertColor, setAlertColor] = useState('');
@@ -22,27 +24,48 @@ const FormInformation = ({ selectedType, chatbot }) => {
             setDescription(chatbot.description || '');
             setKnowledgeBase(chatbot.knowledgeBase || '');
             setLink(chatbot.link || '');
-            setDocument(chatbot.document || '');
+            setTemperature(chatbot.temperature || '');
+            setMaxTokens(chatbot.maxTokens || '');
         }
     }, [chatbot]);
+
+    const handleFileChange = (e) => {
+        setDocument(e.target.files[0]);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setloadingSave(true);
 
-        const data = { name, description, type: selectedType, knowledgeBase };
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('type', selectedType);
 
         if (selectedType === 'PLN') {
-            data.link = link;
-            data.document = document;
+            formData.append('knowledgeBase', knowledgeBase);
+            formData.append('link', link);
+            formData.append('temperature', temperature);
+            formData.append('maxTokens', maxTokens);
+            if (document) {
+                formData.append('document', document);
+            }
         }
 
         try {
             let response;
             if (chatbot) {
-                response = await axios.put(`/api/v1/chatbot/${chatbot.id}`, data);
+                response = await axios.put(`/api/v1/chatbot/${chatbot.id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
             } else {
-                response = await axios.post('/api/v1/chatbot', data);
+                response = await axios.post('/api/v1/chatbot', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
             }
 
             if (response.status === 200 || response.status === 201) {
@@ -57,7 +80,6 @@ const FormInformation = ({ selectedType, chatbot }) => {
                 handleErrorResponse(response);
             }
         } catch (error) {
-            // eslint-disable-next-line no-console
             console.error('Ocurrió un error:', error);
             handleErrorResponse(error.response);
         } finally {
@@ -79,7 +101,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                     <Typography variant="h4" color="indigo" className='mb-4' textGradient>
                         {chatbot ? `Editar Información del Chatbot (${selectedType})` : `Nuevo Chatbot (${selectedType})`}
                     </Typography>
-                    <form onSubmit={handleSubmit} className='mb-4'>
+                    <form onSubmit={handleSubmit} className='mb-4' encType="multipart/form-data">
                         <div className="mb-4">
                             <Input
                                 label="Nombre del Chatbot"
@@ -94,7 +116,8 @@ const FormInformation = ({ selectedType, chatbot }) => {
                         </div>
                         <div className="mb-4">
                             <Textarea
-                                label="Descripción breve del Chatbot"
+                                label="Instrucciones del Chatbot (Por ejemplo: Eres un chatbot de ventas. Responde preguntas sobre productos y servicios.)"
+                                placeholder=''
                                 variant="outlined"
                                 color="indigo"
                                 value={description}
@@ -102,22 +125,23 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                 required
                             />
                         </div>
-                        <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
-                            Por favor, añade información adicional sobre tu empresa o negocio.
-                            Esta debe ser relevante y tiene el propósito de entrenar al chatbot para mejorar la interacción con sus clientes.
-                            Pudes Agregar texto, un archivo PDF o un enlace de sitio web.
-                        </Typography>
-                        <div className="mb-4">
-                            <Textarea
-                                label="Base de Conocimiento"
-                                variant="outlined"
-                                color="indigo"
-                                value={knowledgeBase}
-                                onChange={e => setKnowledgeBase(e.target.value)}
-                            />
-                        </div>
-                        {selectedType === 'PLN' && (
+                        {selectedType === 'PLN' || selectedType === 'Híbrido' && (
                             <>
+                                <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
+                                    Por favor, proporciona información adicional sobre tu empresa o negocio.
+                                    Esta información es fundamental para entrenar al chatbot con el modelo de Open AI y mejorar la calidad de las interacciones con tus clientes.
+                                    El chatbot utilizará los datos que proporciones para ofrecer respuestas más precisas y personalizadas.
+                                    Puedes agregar texto, subir un archivo PDF, o incluir un enlace a tu sitio web.
+                                </Typography>
+                                <div className="mb-4">
+                                    <Textarea
+                                        label="Base de Conocimiento"
+                                        variant="outlined"
+                                        color="indigo"
+                                        value={knowledgeBase}
+                                        onChange={e => setKnowledgeBase(e.target.value)}
+                                    />
+                                </div>
                                 <div className="mb-4">
                                     <Input
                                         label="Link sitio web"
@@ -136,18 +160,44 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                         variant="standard"
                                         type="file"
                                         color="indigo"
-                                        value={document}
-                                        onChange={e => setDocument(e.target.value)}
+                                        onChange={handleFileChange}
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
+                                        Controla el nivel de creatividad y diversidad en las respuestas generadas por el modelo de OpenAI.
+                                        0.0 (más determinista) a 1.0 (más creativa).
+                                    </Typography>
+                                    <Input
+                                        label="Temperatura (0.0 - 1.0)"
+                                        variant="standard"
+                                        type="number"
+                                        step="0.1"
+                                        color="indigo"
+                                        value={temperature}
+                                        onChange={e => setTemperature(e.target.value)}
+                                        placeholder="Temperatura"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
+                                        Define el límite superior para la longitud de las respuestas generadas por el modelo.
+                                    </Typography>
+                                    <Input
+                                        label="Cantidad Máxima de Tokens"
+                                        variant="standard"
+                                        type="number"
+                                        color="indigo"
+                                        value={maxTokens}
+                                        onChange={e => setMaxTokens(e.target.value)}
+                                        placeholder="Cantidad Máxima de Tokens"
+                                        required
                                     />
                                 </div>
                             </>
                         )}
-                        {/* {!chatbot && (
-                            <Button  type="submit" variant="gradient" color='indigo' size="md" className='me-2'>
-                                Volver
-                            </Button>
-                        )} */}
-                        <Button type="submit" variant="gradient" color='indigo' size="md"  loading={loadingSave}>
+                        <Button type="submit" variant="gradient" color='indigo' size="md" loading={loadingSave}>
                             {chatbot ? 'Actualizar Chatbot' : 'Crear Chatbot'}
                         </Button>
                     </form>

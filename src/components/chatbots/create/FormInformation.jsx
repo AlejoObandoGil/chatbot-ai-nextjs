@@ -22,11 +22,11 @@ const FormInformation = ({ selectedType, chatbot }) => {
         if (chatbot) {
             setName(chatbot.name || '');
             setDescription(chatbot.description || '');
-            setKnowledgeBase(chatbot.knowledgeBase || '');
+            setKnowledgeBase(chatbot.knowledge.content || '');
             setLink(chatbot.link || '');
             setDocument(chatbot.document || null);
             setTemperature(chatbot.temperature || '');
-            setMaxTokens(chatbot.maxTokens || '');
+            setMaxTokens(chatbot.max_tokens || '');
         }
     }, [chatbot]);
 
@@ -36,14 +36,22 @@ const FormInformation = ({ selectedType, chatbot }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!name.trim() || !description.trim() || !selectedType) {
+            setAlertMessage('Por favor, complete todos los campos requeridos.');
+            setAlertColor('red');
+            setShowAlert(true);
+            return;
+        }
+
         setLoadingSave(true);
 
-        const formData = new FormData();
+        let formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
         formData.append('type', selectedType);
 
-        if (selectedType === 'PLN' || selectedType === 'Híbrido') {
+        if (selectedType === 'Híbrido') {
             formData.append('knowledgeBase', knowledgeBase);
             formData.append('link', link);
             formData.append('temperature', temperature);
@@ -53,20 +61,16 @@ const FormInformation = ({ selectedType, chatbot }) => {
             }
         }
 
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+
         try {
             let response;
             if (chatbot) {
-                response = await axios.put(`/api/v1/chatbot/${chatbot.id}`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                response = await axios.post(`/api/v1/chatbot/${chatbot.id}`, formData);
             } else {
-                response = await axios.post('/api/v1/chatbot', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                response = await axios.post('/api/v1/chatbot', formData);
             }
 
             if (response.status === 200 || response.status === 201) {
@@ -97,6 +101,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
 
     return (
         <>
+        {(selectedType !== 'PLN') && (
             <div className="bg-gray-100 flex items-center justify-center">
                 <div className="bg-white p-8 rounded shadow-md w-full max-w-5xl">
                     <Typography variant="h4" color="indigo" className='mb-4' textGradient>
@@ -126,13 +131,13 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                 required
                             />
                         </div>
-                        {(selectedType === 'PLN' || selectedType === 'Híbrido') && (
+                        {(selectedType === 'Híbrido') && (
                             <>
                                 <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
                                     Por favor, proporciona información adicional sobre tu empresa o negocio.
-                                    Esta información es fundamental para entrenar al chatbot con el modelo de Open AI y mejorar la calidad de las interacciones con tus clientes.
+                                    Esta información es fundamental para entrenar el chatbot con el modelo de Open AI y mejorar la calidad de las interacciones con tus clientes.
                                     El chatbot utilizará los datos que proporciones para ofrecer respuestas más precisas y personalizadas.
-                                    Puedes agregar texto, subir un archivo PDF, o incluir un enlace a tu sitio web.
+                                    Puedes agregar texto, subir un archivo PDF, o incluir un enlace de tu sitio web.
                                 </Typography>
                                 <div className="mb-4">
                                     <Textarea
@@ -166,7 +171,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                 <div className="mb-4">
                                     <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
                                         Controla el nivel de creatividad y diversidad en las respuestas generadas por el modelo de OpenAI.
-                                        0.0 (más determinista) a 1.0 (más creativa).
+                                        0.1 (más determinista) a 1.0 (más creativa).
                                     </Typography>
                                     <Input
                                         label="Temperatura (0.0 - 1.0)"
@@ -184,6 +189,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                     <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
                                         Define el límite superior para la longitud de las respuestas generadas por el modelo.
                                         A mayor cantidad de tokens mayor longitud de respuesta y mayor costo.
+                                        (Promedio óptimo costo/rendimiento 50 - 300 tokens)
                                     </Typography>
                                     <Input
                                         label="Cantidad Máxima de Tokens"
@@ -211,6 +217,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                     )}
                 </div>
             </div>
+        )}
         </>
     );
 };

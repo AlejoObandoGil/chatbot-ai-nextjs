@@ -21,21 +21,6 @@ const CardSelection = ({ onSelect }) => {
                     </div>
                 </div>
                 <div
-                    className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm cursor-pointer hover:bg-green-100 transition duration-300 transform hover:-translate-y-1 hover:scale-105 min-h-[500px] flex flex-col justify-between"
-                    onClick={() => onSelect('PLN')}
-                >
-                    <div className="flex-grow">
-                        <FaRobot className="text-green-500 text-5xl mb-4 mx-auto" />
-                        <h2 className="text-3xl font-bold mb-4 text-center text-green-700">Chatbot con PLN</h2>
-                        <p className="text-gray-900 text-center text-lg">¡Todo el poder de la IA en tu chatbot!</p>
-                        <p className="text-gray-900 text-center mt-4">
-                            Utiliza procesamiento de lenguaje natural (PLN) para entender y responder a las consultas de los usuarios. Ideal para escenarios
-                            complejos donde las respuestas no pueden ser predefinidas y se requiere una interacción más natural y fluida.
-                        </p>
-                        <small className="text-gray-600 text-center block mt-4">Procesamiento de lenguaje natural con modelo GPT-4.</small>
-                    </div>
-                </div>
-                <div
                     className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm cursor-pointer hover:bg-purple-100 transition duration-300 transform hover:-translate-y-1 hover:scale-105 min-h-[500px] flex flex-col justify-between"
                     onClick={() => onSelect('Híbrido')}
                 >
@@ -49,8 +34,23 @@ const CardSelection = ({ onSelect }) => {
                             contextual.
                         </p>
                         <small className="text-gray-600 text-center block mt-4">
-                            Usa PLN con modelode GPT-3.5 cuando es necesario para mayor flexibilidad.
+                            Usa PLN con modelode GPT-3.5 de open AI cuando es necesario para mayor flexibilidad.
                         </small>
+                    </div>
+                </div>
+                <div
+                    className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm cursor-pointer hover:bg-green-100 transition duration-300 transform hover:-translate-y-1 hover:scale-105 min-h-[500px] flex flex-col justify-between"
+                    onClick={() => onSelect('PLN')}
+                >
+                    <div className="flex-grow">
+                        <FaRobot className="text-green-500 text-5xl mb-4 mx-auto" />
+                        <h2 className="text-3xl font-bold mb-4 text-center text-green-700">Chatbot con PLN</h2>
+                        <p className="text-gray-900 text-center text-lg">¡Todo el poder de la IA en tu chatbot!</p>
+                        <p className="text-gray-900 text-center mt-4">
+                            Utiliza procesamiento de lenguaje natural (PLN) para entender y responder a las consultas de los usuarios. Ideal para escenarios
+                            complejos donde las respuestas no pueden ser predefinidas y se requiere una interacción más natural y fluida.
+                        </p>
+                        <small className="text-gray-600 text-center block mt-4">Procesamiento de lenguaje natural con modelo GPT-4 de Open AI.</small>
                     </div>
                 </div>
             </div>

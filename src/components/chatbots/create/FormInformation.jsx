@@ -16,7 +16,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [alertColor, setAlertColor] = useState('');
-    const [loadingSave, setloadingSave] = useState(false);
+    const [loadingSave, setLoadingSave] = useState(false);
 
     useEffect(() => {
         if (chatbot) {
@@ -24,6 +24,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
             setDescription(chatbot.description || '');
             setKnowledgeBase(chatbot.knowledgeBase || '');
             setLink(chatbot.link || '');
+            setDocument(chatbot.document || null);
             setTemperature(chatbot.temperature || '');
             setMaxTokens(chatbot.maxTokens || '');
         }
@@ -35,14 +36,14 @@ const FormInformation = ({ selectedType, chatbot }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setloadingSave(true);
+        setLoadingSave(true);
 
         const formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
         formData.append('type', selectedType);
 
-        if (selectedType === 'PLN') {
+        if (selectedType === 'PLN' || selectedType === 'Híbrido') {
             formData.append('knowledgeBase', knowledgeBase);
             formData.append('link', link);
             formData.append('temperature', temperature);
@@ -83,7 +84,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
             console.error('Ocurrió un error:', error);
             handleErrorResponse(error.response);
         } finally {
-            setloadingSave(false);
+            setLoadingSave(false);
         }
     };
 
@@ -125,7 +126,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                 required
                             />
                         </div>
-                        {selectedType === 'PLN' || selectedType === 'Híbrido' && (
+                        {(selectedType === 'PLN' || selectedType === 'Híbrido') && (
                             <>
                                 <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
                                     Por favor, proporciona información adicional sobre tu empresa o negocio.
@@ -153,7 +154,6 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                         placeholder="Agrega el link de tu sitio web"
                                     />
                                 </div>
-
                                 <div className="mb-4">
                                     <Input
                                         label="Documento PDF"
@@ -183,6 +183,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                 <div className="mb-4">
                                     <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
                                         Define el límite superior para la longitud de las respuestas generadas por el modelo.
+                                        A mayor cantidad de tokens mayor longitud de respuesta y mayor costo.
                                     </Typography>
                                     <Input
                                         label="Cantidad Máxima de Tokens"
@@ -201,15 +202,13 @@ const FormInformation = ({ selectedType, chatbot }) => {
                             {chatbot ? 'Actualizar Chatbot' : 'Crear Chatbot'}
                         </Button>
                     </form>
-                    <div className="mt-4 mb-4">
-                        {showAlert && (
-                            <div>
-                                <Alert color={alertColor}>
-                                    {alertMessage}
-                                </Alert>
-                            </div>
-                        )}
-                    </div>
+                    {showAlert && (
+                        <div className="mt-4 mb-4">
+                            <Alert color={alertColor}>
+                                {alertMessage}
+                            </Alert>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

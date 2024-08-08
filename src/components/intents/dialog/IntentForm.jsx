@@ -139,7 +139,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     color="indigo"
                     disabled={formData.is_choice}
                 />
-                {formData.save_information && (
+                {Boolean(formData.save_information) && (
                     <div>
                         <Select
                             label="Selecciona el tipo de información que le pedirás al usuario"
@@ -163,7 +163,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                         <Option value="despedida">Despedida</Option>
                     </Select>
                 </div>
-                {formData.is_choice && (
+                {Boolean(formData.is_choice) && (
                     <div>
                         <label className="block text-sm font-medium text-indigo-500 mb-2">Opciones</label>
                         {formData.options.map((option, index) => (
@@ -196,8 +196,10 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     </div>
                 )}
                 <div>
-                    {formData.save_information && (
-                        <small className='text-red-500'>Recuerda que si en tu intención pasada también guardaste la respuesta del usuario no es necesario una frase de entrenamiento</small>
+                    {Boolean(formData.save_information) && (
+                        <small className='text-red-500'>
+                            Recuerda que si en tu intención pasada también guardaste la respuesta del usuario no es necesario una frase de entrenamiento
+                        </small>
                     )}
                     <label className="block text-sm font-medium text-indigo-500 mb-2">Lista de Frases (Opcional)</label>
                     {formData.training_phrases.map((training_phrase, index) => (
@@ -210,6 +212,11 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                                 color="indigo"
                                 variant="standard"
                             />
+                            {Boolean(training_phrase.is_learning) && (
+                                <span className="bg-indigo-500 text-white text-xs font-semibold px-2 py-1 rounded" title='Tu chatbot ha aprendido una nueva frase para esta intención'>
+                                    Nueva
+                                </span>
+                            )}
                             <button
                                 type="button"
                                 onClick={() => removeArrayItem('training_phrases', index)}

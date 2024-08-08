@@ -17,20 +17,23 @@ const FormInformation = ({ selectedType, chatbot }) => {
     const [showAlert, setShowAlert] = useState(false);
     const [alertColor, setAlertColor] = useState('');
     const [loadingSave, setLoadingSave] = useState(false);
+    const [id, setId] = useState('');
+    const [addedFile, setAddedFile] = useState(false);
 
     useEffect(() => {
         if (chatbot) {
             setName(chatbot.name || '');
             setDescription(chatbot.description || '');
-            setKnowledgeBase(chatbot.knowledge.content || '');
-            setLink(chatbot.link || '');
-            setDocument(chatbot.document || null);
+            setKnowledgeBase(chatbot.knowledges[0]?.content || '');
+            setLink(chatbot.knowledges[0]?.link || '');
+            setDocument(chatbot.knowledges[0]?.document || null);
             setTemperature(chatbot.temperature || '');
             setMaxTokens(chatbot.max_tokens || '');
         }
     }, [chatbot]);
 
     const handleFileChange = (e) => {
+        setAddedFile(true);
         setDocument(e.target.files[0]);
     };
 
@@ -56,7 +59,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
             formData.append('link', link);
             formData.append('temperature', temperature);
             formData.append('maxTokens', maxTokens);
-            if (document) {
+            if (document && addedFile) {
                 formData.append('document', document);
             }
         }
@@ -67,13 +70,14 @@ const FormInformation = ({ selectedType, chatbot }) => {
 
         try {
             let response;
-            if (chatbot) {
+            if (chatbot || id) {
                 response = await axios.post(`/api/v1/chatbot/${chatbot.id}`, formData);
             } else {
                 response = await axios.post('/api/v1/chatbot', formData);
             }
 
             if (response.status === 200 || response.status === 201) {
+                setId(response.data.chatbot.id)
                 setAlertMessage(response.data.message);
                 setAlertColor('green');
                 setShowAlert(true);
@@ -142,13 +146,14 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                 <div className="mb-4">
                                     <Textarea
                                         label="Base de Conocimiento"
+                                        rows="8"
                                         variant="outlined"
                                         color="indigo"
                                         value={knowledgeBase}
                                         onChange={e => setKnowledgeBase(e.target.value)}
                                     />
                                 </div>
-                                <div className="mb-4">
+                                {/* <div className="mb-4">
                                     <Input
                                         label="Link sitio web"
                                         variant="standard"
@@ -158,7 +163,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                         onChange={e => setLink(e.target.value)}
                                         placeholder="Agrega el link de tu sitio web"
                                     />
-                                </div>
+                                </div> */}
                                 <div className="mb-4">
                                     <Input
                                         label="Documento PDF"

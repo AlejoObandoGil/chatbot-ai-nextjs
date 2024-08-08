@@ -16,7 +16,7 @@ const EditChatbot = () => {
     const { id } = useParams();
     const [chatbot, setChatbot] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [selectedTab, setSelectedTab] = useState('editor_de_flujo');
+    const [selectedTab, setSelectedTab] = useState('informacion');
 
     useEffect(() => {
         if (id) {

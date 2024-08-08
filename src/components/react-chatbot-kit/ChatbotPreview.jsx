@@ -46,18 +46,22 @@ const ChatbotPreview = ({ chatbotId }) => {
     // };
 
     const clearMessages = async () => {
-        await handleCloseTalk();
-        toggleBot(false);
-        setTimeout(() => {
-            localStorage.clear();
-        }, 500);
+        const closed = await handleCloseTalk();
+        if (closed) {
+            toggleBot(false);
+            setTimeout(() => {
+                localStorage.clear();
+            }, 500);
+        }
     }
 
     const handleCloseTalk = async () => {
         try {
             const talkId = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('talk_id')) : null;
-            if (talkId !== null)
-                await axios.post(`/api/v1/chatbot/${chatbotId}/talk/${talkId}/close`);
+            if (talkId !== null) {
+                const { data } = await axios.put(`/api/v1/chatbot/${chatbotId}/talk/${talkId}/close`);
+                return data.closed;
+            }
         } catch (error) {
             console.error('Ocurrió un error:', error);
         }

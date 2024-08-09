@@ -81,7 +81,7 @@ function ChatbotFlow({ chatbotId }) {
 
     const handleNodeSave = updatedNode => {
         setNodes(nodes => nodes.map(node => (node.id === updatedNode.id ? updatedNode : node)));
-        // setFlowKey(prevKey => prevKey + 1);
+        setFlowKey(prevKey => prevKey + 1);
     };
 
     const addNewNode = () => {
@@ -168,7 +168,7 @@ function ChatbotFlow({ chatbotId }) {
                 </Button>
             </div>
             <ReactFlow
-                // key={flowKey}
+                key={flowKey}
                 nodes={nodes}
                 onNodesChange={onNodesChange}
                 edges={edges}

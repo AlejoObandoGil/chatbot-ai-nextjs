@@ -26,11 +26,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         axios.get('/sanctum/csrf-cookie');
     }
 
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
+    // function getCookie(name) {
+    //     const value = `; ${document.cookie}`;
+    //     const parts = value.split(`; ${name}=`);
+    //     if (parts.length === 2) return parts.pop().split(';').shift();
+    // }
 
     const register = async ({ setErrors, ...props }) => {
         await csrf();

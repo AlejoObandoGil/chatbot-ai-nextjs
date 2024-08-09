@@ -6,7 +6,6 @@ import {
     useReactFlow,
 } from '@xyflow/react';
 import { Button } from "@material-tailwind/react";
-import { MdDeleteForever } from "react-icons/md";
 
 export default function CustomEdge({ id, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, style }) {
     const { setEdges } = useReactFlow();

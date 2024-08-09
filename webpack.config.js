@@ -35,10 +35,6 @@ module.exports = {
         },
         extensions: ['.ts', '.jsx', '.js', '.css']
     },
-    // externals: {
-    //     react: 'React',
-    //     'react-dom': 'ReactDOM'
-    // },
     plugins: [
         new Dotenv(),
         new webpack.DefinePlugin({

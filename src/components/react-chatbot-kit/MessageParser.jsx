@@ -5,6 +5,7 @@ class MessageParser {
 
     parse(message) {
         this.actionProvider.handleMessage({ message });
+        // this.actionProvider.handleButtonClick({ message });
     }
 }
 

@@ -1,10 +1,17 @@
-// src/components/ChatbotHeader.jsx
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaRobot, FaTimes } from 'react-icons/fa';
+import { IoMicSharp } from 'react-icons/io5';
+import EventEmitter from '@/hooks/eventEmitter';
 
 
-const ChatbotHeader = ({ botName, onClearMessages }) => {
+const ChatbotHeader = ({ botName, onClearMessages, onTranscript }) => {
     const [showDropdown, setShowDropdown] = useState(false);
+    const [transcript, setTranscript] = useState('');
+
+    // const startRecognition = () => {
+
+    //     // EventEmitter.emit('buttonClicked');
+    // };
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -18,6 +25,13 @@ const ChatbotHeader = ({ botName, onClearMessages }) => {
     return (
         <div className='relative'>
             <div className='flex justify-between items-center w-full bg-indigo-400 text-white p-4'>
+                {/* <button
+                    id="my-button"
+                    className="text-white rounded-full w-6 h-6 flex items-center float-right justify-end shadow-lg my-button"
+                    onClick={startRecognition}
+                >
+                    <IoMicSharp size={40} />
+                </button> */}
                 <div className='flex items-center'>
                     <FaRobot className="mr-2 text-2xl" />
                     <div>{botName}</div>

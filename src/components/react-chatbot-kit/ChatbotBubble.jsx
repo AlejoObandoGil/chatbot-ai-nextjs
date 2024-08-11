@@ -65,7 +65,7 @@ const ChatbotBubble = ({ chatbotId }) => {
         try {
             const talkId = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('talk_id')) : null;
             if (talkId !== null) {
-                const { data } = await axios.put(`/api/v1/chatbot/${chatbotId}/talk/${talkId}/close`);
+                const { data } = await axios.put(`/api/chatbot/${chatbotId}/talk/${talkId}/close`);
                 return data.closed;
             }
         } catch (error) {

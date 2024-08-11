@@ -12,7 +12,7 @@
 }
 
 .react-chatbot-kit-chat-input-container {
-
+    /* position: relative; */
 }
 
 .react-chatbot-kit-chat-message-container {
@@ -32,6 +32,20 @@
 }
 
 .react-chatbot-kit-chat-input {
+    /* padding-right: 40px; */
+}
+
+.react-chatbot-kit-chat-input::after {
+    content: '\f130';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    cursor: pointer;
+    font-size: 20px;
 }
 
 .react-chatbot-kit-chat-input-form {

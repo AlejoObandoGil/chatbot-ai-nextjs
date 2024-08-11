@@ -3,6 +3,7 @@ import { createChatBotMessage } from 'react-chatbot-kit';
 import '@/styles/react-chatbot-kit.css';
 import ChatbotHeader from './custom/ChatbotHeader';
 import WidgetOptions from './widgets/WidgetOptions';
+import WidgetVoiceTotext from './widgets/WidgetVoiceToText';
 
 const config = (chatbotId, botName, initialMessages, initialOptions, onClearMessages) => ({
     botName: botName,
@@ -16,7 +17,10 @@ const config = (chatbotId, botName, initialMessages, initialOptions, onClearMess
         })
     ],
     customComponents: {
-        header: () => <ChatbotHeader botName={botName} onClearMessages={onClearMessages} />,
+        header: () => <ChatbotHeader
+            botName={botName}
+            onClearMessages={onClearMessages}
+        />,
     },
     customStyles: {
         botMessageBox: {
@@ -31,7 +35,7 @@ const config = (chatbotId, botName, initialMessages, initialOptions, onClearMess
     },
     state: {
         chatbotId: chatbotId,
-        widgetOptions: []
+        widgetOptions: [],
     },
     widgets: [
         {

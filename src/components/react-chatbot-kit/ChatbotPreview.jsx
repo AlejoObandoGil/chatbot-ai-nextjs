@@ -61,6 +61,8 @@ const ChatbotPreview = ({ chatbotId }) => {
             if (talkId !== null) {
                 const { data } = await axios.put(`/api/v1/chatbot/${chatbotId}/talk/${talkId}/close`);
                 return data.closed;
+            } else {
+                return true;
             }
         } catch (error) {
             console.error('Ocurrió un error:', error);

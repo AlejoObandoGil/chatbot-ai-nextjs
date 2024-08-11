@@ -3,9 +3,10 @@ import { createChatBotMessage } from 'react-chatbot-kit';
 import '@/styles/react-chatbot-kit.css';
 import ChatbotHeader from './custom/ChatbotHeader';
 import WidgetOptions from './widgets/WidgetOptions';
-import WidgetVoiceTotext from './widgets/WidgetVoiceToText';
+import BotAvatar from "./custom/BotAvatar";
+import UserAvatar from "./custom/UserAvatar";
 
-const config = (chatbotId, botName, initialMessages, initialOptions, onClearMessages) => ({
+const config = (chatbotId, botName, initialMessages, initialOptions, onClearMessages, onChangePersonalization) => ({
     botName: botName,
     placeHolderText: 'Escribe tu pregunta...',
     initialMessages: [
@@ -20,17 +21,23 @@ const config = (chatbotId, botName, initialMessages, initialOptions, onClearMess
         header: () => <ChatbotHeader
             botName={botName}
             onClearMessages={onClearMessages}
+            onChangePersonalization={onChangePersonalization}
         />,
+        botAvatar: (props) => <BotAvatar {...props} />,
+        userAvatar: (props) => <UserAvatar onChangePersonalization={onChangePersonalization} />
     },
     customStyles: {
         botMessageBox: {
-            backgroundColor: '#7986CB',
+            backgroundColor: onChangePersonalization[0] || '#7986CB',
         },
         chatButton: {
-            backgroundColor: '#5C6BC0',
+            backgroundColor: onChangePersonalization[1] || '#5C6BC0',
         },
         userChatMessage: {
             className: 'break-words'
+        },
+        userChatAvatar: {
+            backgroundColor: onChangePersonalization[0] || '#7986CB',
         }
     },
     state: {

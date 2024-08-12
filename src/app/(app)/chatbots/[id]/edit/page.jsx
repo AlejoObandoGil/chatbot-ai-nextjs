@@ -8,7 +8,7 @@ import FormInformation from '@/components/chatbots/create/FormInformation';
 import EntitiesIndex from '@/components/Entities/Index';
 import ChatbotFlow from '@/components/react-flow/ChatbotFlow';
 import Preview from '@/components/chatbots/show/Preview.jsx';
-// import Flow from '@/components/react-flow/ExampleFlow';
+import ConfigPersonalization from '@/components/chatbots/edit/ConfigPersonalization';
 import { Spinner } from "@material-tailwind/react";
 import { motion } from 'framer-motion';
 
@@ -47,10 +47,9 @@ const EditChatbot = () => {
 
         const components = {
             informacion: <FormInformation selectedType={chatbot.type} chatbot={chatbot} />,
-            personalizacion: <div>Vista Previa - Contenido no disponible</div>,
+            personalizacion: <ConfigPersonalization chatbot={chatbot}/>,
             entidades: <EntitiesIndex chatbotId={chatbot.id}/>,
             editor_de_flujo: <ChatbotFlow chatbotId={chatbot.id}/>,
-            // editor_de_flujo: <Flow/>,
             vista_previa: <Preview chatbot={chatbot} onChatbotUpdate={handleChatbotUpdate} />
         };
 

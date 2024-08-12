@@ -157,7 +157,7 @@ function ChatbotFlow({ chatbotId }) {
                 </Alert>
             )}
             <div style={{ display: 'flex', justifyContent: 'end', marginTop: 0 }}>
-                <Typography variant="h6" color="dark" className="text-center me-4">
+                <Typography variant="h6" color="indigo" className="text-center me-4">
                     Recuerda guardar el flujo de tu chatbot continuamente para no perder tu progreso
                 </Typography>
                 <Button variant="gradient" color="indigo" className="mr-2" onClick={addNewNode}>
@@ -168,7 +168,7 @@ function ChatbotFlow({ chatbotId }) {
                 </Button>
             </div>
             <ReactFlow
-                key={flowKey}
+                // key={flowKey}
                 nodes={nodes}
                 onNodesChange={onNodesChange}
                 edges={edges}

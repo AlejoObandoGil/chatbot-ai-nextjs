@@ -102,11 +102,14 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
         const updatedData = {
             ...formData,
             [name]: updatedArray,
-            data: {
+        };
+
+        if (name === 'options') {
+            updatedData.data = {
                 ...formData.data,
                 options: updatedArray
-            }
-        };
+            };
+        }
         setFormData(updatedData);
         onChange(updatedData);
     };

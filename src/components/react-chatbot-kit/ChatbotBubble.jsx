@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 const ChatbotBubble = ({ chatbotId, onChangePersonalization }) => {
     const [showBot, toggleBot] = useState(false);
     const [botName, setBotName] = useState(null);
-    // const [chatbot, setChatbot] = useState(null);
+    const [chatbot, setChatbot] = useState(null);
     const [initialMessages, setInitialMessages] = useState([]);
     const [initialOptions, setInitialOptions] = useState([]);
     const [personalization, setPersonalization] = useState([null, null]);
@@ -20,7 +20,7 @@ const ChatbotBubble = ({ chatbotId, onChangePersonalization }) => {
         const fetchBotConfig = async () => {
             try {
                 const { data } = await axios.get(`/api/chatbot/${chatbotId}/talk/create`);
-                // setChatbot(data.chatbot);
+                setChatbot(data.chatbot);
                 setBotName(data.chatbot?.name || 'Chatbot');
 
                 if (data.chatbot?.config) {
@@ -98,35 +98,39 @@ const ChatbotBubble = ({ chatbotId, onChangePersonalization }) => {
     };
 
     return (
-        <div className="fixed bottom-3 right-8 z-50">
-            {showBot && (
-                <motion.div
-                    key="chatbot"
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={variants}
-                    transition={{ duration: 0.5 }}
-                    className="fixed bottom-20 right-8 bg-white shadow-lg rounded-lg overflow-hidden"
+        <>
+        { chatbot && chatbot.enabled &&
+            <div className="fixed bottom-3 right-8 z-50">
+                {showBot && (
+                    <motion.div
+                        key="chatbot"
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        variants={variants}
+                        transition={{ duration: 0.5 }}
+                        className="fixed bottom-20 right-8 bg-white shadow-lg rounded-lg overflow-hidden"
+                    >
+                        <Chatbot
+                            config={config(chatbotId, botName, initialMessages, initialOptions, clearMessages, personalization)}
+                            messageParser={MessageParser}
+                            actionProvider={ActionProvider}
+                            headerText="Chatbot"
+                            placeholderText="Escribe tu consulta..."
+                            messageHistory={loadMessages()}
+                        />
+                    </motion.div>
+                )}
+                <button
+                    className="bg-indigo-400 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transform transition-transform duration-300 hover:scale-110 active:scale-95"
+                    style={{ backgroundColor: personalization[1] || '#5C6BC0' }}
+                    onClick={() => toggleBot(prev => !prev)}
                 >
-                    <Chatbot
-                        config={config(chatbotId, botName, initialMessages, initialOptions, clearMessages, personalization)}
-                        messageParser={MessageParser}
-                        actionProvider={ActionProvider}
-                        headerText="Chatbot"
-                        placeholderText="Escribe tu consulta..."
-                        messageHistory={loadMessages()}
-                    />
-                </motion.div>
-            )}
-            <button
-                className="bg-indigo-400 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transform transition-transform duration-300 hover:scale-110 active:scale-95"
-                style={{ backgroundColor: personalization[1] || '#5C6BC0' }}
-                onClick={() => toggleBot(prev => !prev)}
-            >
-                <IoChatbubbleEllipsesSharp size={40} />
-            </button>
-        </div>
+                    <IoChatbubbleEllipsesSharp size={40} />
+                </button>
+            </div>
+            }
+        </>
     );
 };
 

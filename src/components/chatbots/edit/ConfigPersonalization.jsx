@@ -4,8 +4,8 @@ import ChatbotPreview from '@/components/react-chatbot-kit/ChatbotPreview';
 import axios from '@/lib/axios';
 
 const ConfigPersonalization = ({ chatbot }) => {
-    const [MessageColor, setMessageColor] = useState('#7986CB');
-    const [chatColor, setChatColor] = useState('#5C6BC0');
+    const [messageColor, setMessageColor] = useState(chatbot?.config?.message_color || '#7986CB');
+    const [chatColor, setChatColor] = useState(chatbot?.config?.chat_color || '#5C6BC0');
 
     const handleMessageColorChange = (e) => {
         setMessageColor(e.target.value);
@@ -20,7 +20,7 @@ const ConfigPersonalization = ({ chatbot }) => {
     const handleSave = async () => {
         try {
             await axios.post(`/api/v1/chatbot/${chatbot.id}/config`, {
-                MessageColor: MessageColor,
+                messageColor: messageColor,
                 chatColor: chatColor
             });
             alert('Configuración guardada con éxito');
@@ -31,6 +31,7 @@ const ConfigPersonalization = ({ chatbot }) => {
 
     return (
         <div className="max-w-lg mx-auto mt-10">
+
             <Typography variant="h5" className="text-indigo-500 text-center text-lg font-semibold mb-3">Personalización del Chatbot</Typography>
             <Card>
                 <CardBody>
@@ -42,16 +43,16 @@ const ConfigPersonalization = ({ chatbot }) => {
                             <div className="relative">
                                 <input
                                     type="color"
-                                    value={MessageColor}
+                                    value={messageColor}
                                     onChange={handleMessageColorChange}
                                     className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
                                 />
                                 <div
                                     className="w-10 h-10 rounded-full border-4 border-white shadow-md"
-                                    style={{ backgroundColor: MessageColor }}
+                                    style={{ backgroundColor: messageColor }}
                                 />
                             </div>
-                            <span className="ml-4 text-sm">{MessageColor}</span>
+                            <span className="ml-4 text-sm">{messageColor}</span>
                         </div>
                     </div>
                     <div className="mb-6">
@@ -85,7 +86,10 @@ const ConfigPersonalization = ({ chatbot }) => {
                 </CardBody>
             </Card>
             <div className="mt-8">
-                <ChatbotPreview chatbotId={chatbot.id} onChangePersonalization={[MessageColor, chatColor]} />
+            <ChatbotPreview
+                chatbotId={chatbot.id}
+                onChangePersonalization={[ messageColor, chatColor ]}
+            />
             </div>
         </div>
     );

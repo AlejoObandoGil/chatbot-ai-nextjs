@@ -24,7 +24,7 @@ const config = (chatbotId, botName, initialMessages, initialOptions, onClearMess
             onChangePersonalization={onChangePersonalization}
         />,
         botAvatar: (props) => <BotAvatar {...props} />,
-        userAvatar: (props) => <UserAvatar onChangePersonalization={onChangePersonalization} />
+        userAvatar: () => <UserAvatar onChangePersonalization={onChangePersonalization} />
     },
     customStyles: {
         botMessageBox: {

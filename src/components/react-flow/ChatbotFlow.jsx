@@ -18,7 +18,7 @@ function ChatbotFlow({ chatbotId }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedNode, setSelectedNode] = useState(null);
     const [typeInformationRequired, setTypeInformationRequired] = useState([]);
-    const [flowKey, setFlowKey] = useState(0);
+    // const [flowKey, setFlowKey] = useState(0);
 
     const nodeTypes = useMemo(() => ({ customeNode: CustomeNode }), []);
     const edgeTypes = useMemo(() => ({ customeEdge: CustomeEdge }), []);
@@ -81,7 +81,7 @@ function ChatbotFlow({ chatbotId }) {
 
     const handleNodeSave = updatedNode => {
         setNodes(nodes => nodes.map(node => (node.id === updatedNode.id ? updatedNode : node)));
-        setFlowKey(prevKey => prevKey + 1);
+        // setFlowKey(prevKey => prevKey + 1);
     };
 
     const addNewNode = () => {

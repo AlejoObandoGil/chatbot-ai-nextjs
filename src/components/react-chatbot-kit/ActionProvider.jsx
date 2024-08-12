@@ -1,6 +1,5 @@
 import axios from '@/lib/axios';
 import { createClientMessage } from 'react-chatbot-kit';
-import EventEmitter from '@/hooks/eventEmitter';
 
 class ActionProvider {
     createChatBotMessage = null;

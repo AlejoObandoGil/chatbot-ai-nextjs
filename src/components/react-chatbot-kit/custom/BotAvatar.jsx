@@ -1,6 +1,6 @@
 import React from "react";
 
-import { FaRobot, FaTimes } from 'react-icons/fa';
+import { FaRobot } from 'react-icons/fa';
 
 const BotAvatar = () => {
     return (

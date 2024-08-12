@@ -8,19 +8,19 @@ import ActionProvider from '@/components/react-chatbot-kit/ActionProvider.jsx';
 import { IoChatbubbleEllipsesSharp } from 'react-icons/io5';
 import { motion } from 'framer-motion';
 
-const ChatbotBubble = ({ chatbotId, onChangePersonilization }) => {
+const ChatbotBubble = ({ chatbotId, onChangePersonalization }) => {
     const [showBot, toggleBot] = useState(false);
     const [botName, setBotName] = useState(null);
-    const [chatbot, setChatbot] = useState(null);
+    // const [chatbot, setChatbot] = useState(null);
     const [initialMessages, setInitialMessages] = useState([]);
     const [initialOptions, setInitialOptions] = useState([]);
-    const [personalization, setPersonalization] = useState(onChangePersonilization);
+    const [personalization, setPersonalization] = useState([null, null]);
 
     useEffect(() => {
         const fetchBotConfig = async () => {
             try {
                 const { data } = await axios.get(`/api/chatbot/${chatbotId}/talk/create`);
-                setChatbot(data.chatbot);
+                // setChatbot(data.chatbot);
                 setBotName(data.chatbot?.name || 'Chatbot');
 
                 if (data.chatbot?.config) {
@@ -44,12 +44,15 @@ const ChatbotBubble = ({ chatbotId, onChangePersonilization }) => {
         fetchBotConfig();
     }, [chatbotId]);
 
-    const loadMessages = () => {
-        const chatbotId = JSON.parse(localStorage.getItem('chat_messages'));
-        if (chatbotId !== this.chatbotId) {
-            const messages = JSON.parse(localStorage.getItem('chat_messages'));
-            return messages;
+    useEffect(() => {
+        if (onChangePersonalization) {
+            setPersonalization(onChangePersonalization);
         }
+    }, [onChangePersonalization]);
+
+    const loadMessages = () => {
+        const messages = JSON.parse(localStorage.getItem('chat_messages'));
+        return messages;
     };
 
     const clearMessages = async () => {
@@ -68,6 +71,8 @@ const ChatbotBubble = ({ chatbotId, onChangePersonilization }) => {
             if (talkId !== null) {
                 const { data } = await axios.put(`/api/chatbot/${chatbotId}/talk/${talkId}/close`);
                 return data.closed;
+            } else {
+                return true;
             }
         } catch (error) {
             console.error('Ocurrió un error:', error);

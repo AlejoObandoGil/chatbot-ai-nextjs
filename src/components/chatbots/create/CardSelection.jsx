@@ -15,7 +15,7 @@ const CardSelection = ({ onSelect }) => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div
                         className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm cursor-pointer hover:bg-blue-100 transition duration-300 transform hover:-translate-y-1 hover:scale-105 min-h-[500px] flex flex-col justify-between"
-                        onClick={() => onSelect('Basado en Reglas')}
+                        onClick={() => onSelect('Basado en reglas')}
                     >
                         <div className="flex-grow">
                             <FaCogs className="text-blue-500 text-5xl mb-4 mx-auto" />

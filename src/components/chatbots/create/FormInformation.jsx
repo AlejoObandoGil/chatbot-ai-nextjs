@@ -24,9 +24,9 @@ const FormInformation = ({ selectedType, chatbot }) => {
         if (chatbot) {
             setName(chatbot.name || '');
             setDescription(chatbot.description || '');
-            setKnowledgeBase(chatbot.knowledges[0]?.content || '');
-            setLink(chatbot.knowledges[0]?.link || '');
-            setDocument(chatbot.knowledges[0]?.document || null);
+            setKnowledgeBase(chatbot?.knowledges[0]?.content || '');
+            setLink(chatbot?.knowledges[0]?.link || '');
+            setDocument(chatbot?.knowledges[0]?.document || null);
             setTemperature(chatbot.temperature || '');
             setMaxTokens(chatbot.max_tokens || '');
         }

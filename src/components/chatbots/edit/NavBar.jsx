@@ -16,11 +16,11 @@ const NavbarEditChatbot = ({ selectedTab, setSelectedTab }) => {
             value: 'personalizacion',
             icon: FaAdjust,
         },
-        {
-            label: 'Entidades',
-            value: 'entidades',
-            icon: FaSave,
-        },
+        // {
+        //     label: 'Entidades',
+        //     value: 'entidades',
+        //     icon: FaSave,
+        // },
         {
             label: 'Editor de Flujo',
             value: 'editor_de_flujo',

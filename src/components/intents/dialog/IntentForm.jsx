@@ -118,7 +118,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
         <div>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
-                    label="Escribe un nombre identificador para esta intención. Por ejemplo: 'Saludos', 'Despedidas', 'Información'"
+                    label="Escribe un nombre identificador para esta intención. Por ejemplo: 'Saludos', 'Despedidas', 'Información de mi empresa', 'Guardar datos de usuario' etc..."
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
@@ -126,36 +126,37 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     color="indigo"
                     variant="standard"
                 />
-                <Checkbox
-                    label="Es Tipo menú o selección multiple"
-                    name="is_choice"
-                    checked={formData.is_choice}
-                    onChange={handleInputChange}
-                    color="indigo"
-                    disabled={formData.save_information}
-                />
-                <Checkbox
-                    label="¿Deseas guardar la proxima respuesta del usuario?"
-                    name="save_information"
-                    checked={formData.save_information}
-                    onChange={handleInputChange}
-                    color="indigo"
-                    disabled={formData.is_choice}
-                />
-                {Boolean(formData.save_information) && (
+                {Boolean(!formData.save_information) && (
                     <div>
-                        <Select
-                            label="Selecciona el tipo de información que le pedirás al usuario"
-                            value={formData.information_required || ''}
-                            onChange={(value) => handleInputChange({ target: { name: 'information_required', value } })}
-                        >
-                            {typeInformationRequired.map((type) => (
-                                <Option key={type} value={type}>{type}</Option>
-                            ))}
-                        </Select>
+                        <Checkbox
+                            label="Agregar opciones de selección multiple"
+                            name="is_choice"
+                            checked={formData.is_choice}
+                            onChange={handleInputChange}
+                            color="indigo"
+                            disabled={formData.save_information}
+                        />
                     </div>
                 )}
-                <div>
+                {Boolean(formData.save_information) && (
+                    <div>
+                        <Typography variant="h6" color="indigo" className="text-center me-4">
+                            Se guardará la próxima respuesta del usuario
+                        </Typography>
+                        <div>
+                            <Select
+                                label="Selecciona el tipo de información que le pedirás al usuario"
+                                value={formData.information_required || ''}
+                                onChange={(event) => handleInputChange({ target: { name: 'information_required', value: event.target.value } })}
+                            >
+                                {typeInformationRequired.map((type) => (
+                                    <Option key={type} value={type}>{type}</Option>
+                                ))}
+                            </Select>
+                        </div>
+                    </div>
+                )}
+                {/* <div>
                     <Select
                         label="Selecciona tipo de categoría de información"
                         value={formData.category || ''}
@@ -165,7 +166,7 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                         <Option value="saludo">Saludo</Option>
                         <Option value="despedida">Despedida</Option>
                     </Select>
-                </div>
+                </div> */}
                 {Boolean(formData.is_choice) && (
                     <div>
                         <label className="block text-sm font-medium text-indigo-500 mb-2">Opciones</label>

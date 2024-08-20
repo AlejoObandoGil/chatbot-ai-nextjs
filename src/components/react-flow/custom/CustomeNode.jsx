@@ -23,7 +23,7 @@ function CustomeNode({ id, data, isConnectable, selected }) {
                     className={`text-xs ${id === 'node-1' ? 'text-gray-400' : 'text-gray-500'
                         } text-center`}
                 >
-                    {id === 'node-1' ? 'Mensaje de saludo' : '¿Cuál es tu siguiente enunciado?'}
+                    {id === 'node-1' ? 'Mensaje de saludo' : '¿Cuál es tu siguiente intención?'}
                 </small>
                 <button
                     onClick={toggleDropdown}

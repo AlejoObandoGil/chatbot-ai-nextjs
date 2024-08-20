@@ -9,7 +9,7 @@ const Home = () => {
     return (
         <>
             <div className="relative flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
-                <header className="relative z-10 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 py-8">
+                <header className="relative z-10 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 py-12">
                     <div className="absolute inset-0 overflow-hidden">
                         <Image
                             src="/img/header.jpg"
@@ -26,7 +26,7 @@ const Home = () => {
                             Revoluciona tu Atención al Cliente con Nuestro Chatbot
                         </h1>
                         <p className="text-lg md:text-xl mb-6">
-                            Experimenta la próxima generación en interacción con los usuarios con nuestra solución de chatbot avanzada y personalizable.
+                            Experimenta la próxima generación en interacción con los usuarios con nuestra solución de chatbot avanzada y personalizable con capacidades de Procesamiento de Lenguage Natural e Inteligencia Artificial.
                         </p>
                         <a href="/login" className="bg-white text-indigo-600 py-2 px-6 rounded-full text-lg font-semibold shadow-lg hover:bg-gray-100 transition duration-300">
                             Crear mi primer chatbot

@@ -8,9 +8,9 @@ const ChatbotHeader = ({ botName, onClearMessages, onChangePersonalization }) =>
     const [showDropdown, setShowDropdown] = useState(false);
     // const [transcript, setTranscript] = useState('');
 
-    const startRecognition = () => {
-        // EventEmitter.emit('buttonClicked');
-    };
+    // const startRecognition = () => {
+    //     // EventEmitter.emit('buttonClicked');
+    // };
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -27,13 +27,13 @@ const ChatbotHeader = ({ botName, onClearMessages, onChangePersonalization }) =>
                 className='flex justify-between items-center w-full text-white p-4'
                 style={{ backgroundColor: onChangePersonalization[1] || '#5C6BC0' }}
             >
-                <button
+                {/* <button
                     id="my-button"
                     className="text-white rounded-full w-6 h-6 flex items-center float-right justify-end shadow-lg my-button"
                     onClick={startRecognition}
                 >
                     <IoMicSharp size={40} />
-                </button>
+                </button> */}
                 <div className='flex items-center'>
                     <FaRobot className="mr-2 text-2xl" />
                     <div>{botName}</div>

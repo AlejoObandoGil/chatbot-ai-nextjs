@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactFlow, Controls, Background, applyNodeChanges, applyEdgeChanges, MiniMap } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
@@ -19,6 +19,9 @@ function ChatbotFlow({ chatbotId }) {
     const [selectedNode, setSelectedNode] = useState(null);
     const [typeInformationRequired, setTypeInformationRequired] = useState([]);
     const [flowKey, setFlowKey] = useState(0);
+    const [modalTypeNode, setModalTypeNode] = useState(false);
+
+    const initialNodeCreatedRef = useRef(false);
 
     const nodeTypes = useMemo(() => ({ customeNode: CustomeNode }), []);
     const edgeTypes = useMemo(() => ({ customeEdge: CustomeEdge }), []);
@@ -34,42 +37,78 @@ function ChatbotFlow({ chatbotId }) {
                     sourceHandle: edge.source_handle,
                     type: 'customeEdge'
                 }));
-                const dataIntents = data.intents;
-                const fetchedNodes = dataIntents.map(intent => {
-                    let position = { x: 0, y: 0 };
+                if (data.intents.length > 0) {
+                    const dataIntents = data.intents;
+                    const fetchedNodes = dataIntents.map(intent => {
+                        let position = { x: 0, y: 0 };
 
-                    if (intent.position) {
-                        try {
-                            position = JSON.parse(intent.position);
-                        } catch (e) {
-                            console.error('Error parsing position:', intent.position, e);
+                        if (intent.position) {
+                            try {
+                                position = JSON.parse(intent.position);
+                            } catch (e) {
+                                console.error('Error parsing position:', intent.position, e);
+                            }
                         }
+
+                        const x = Number.isFinite(position.x) ? position.x : 0;
+                        const y = Number.isFinite(position.y) ? position.y : 0;
+
+                        return {
+                            id: intent.id,
+                            name: intent.name,
+                            is_choice: intent.is_choice,
+                            category: intent.category,
+                            save_information: intent.save_information,
+                            type: 'customeNode',
+                            position: { x, y },
+                            data: {
+                                label: intent.name,
+                                options: intent.options || []
+                            },
+                            training_phrases: intent.training_phrases || [],
+                            information_required: intent.information_required,
+                            responses: intent.responses || [],
+                            options: intent.options || []
+                        };
+                    });
+
+                    setNodes(fetchedNodes);
+
+                } else if (!initialNodeCreatedRef.current) {
+                    let newPosition = {};
+                    if (nodes.length > 0) {
+                        const lastNode = nodes[nodes.length - 1];
+
+                        newPosition = {
+                            x: lastNode.position.x,
+                            y: lastNode.position.y + NODE_HEIGHT + NODE_SPACING
+                        };
+                    } else {
+                        newPosition = { x: 0, y: 0 };
                     }
 
-                    const x = Number.isFinite(position.x) ? position.x : 0;
-                    const y = Number.isFinite(position.y) ? position.y : 0;
-
-                    return {
-                        id: intent.id,
-                        name: intent.name,
-                        is_choice: intent.is_choice,
-                        category: intent.category,
-                        save_information: intent.save_information,
+                    const newNode = {
+                        id: uuidv4(),
+                        name: 'Saludo inicial',
+                        is_choice: false,
+                        category: 'saludo',
+                        save_information: false,
                         type: 'customeNode',
-                        position: { x, y },
+                        position: newPosition,
                         data: {
-                            label: intent.name,
-                            options: intent.options || []
+                            label: 'Saludo inicial',
+                            options: []
                         },
-                        training_phrases: intent.training_phrases || [],
-                        information_required: intent.information_required,
-                        responses: intent.responses || [],
-                        options: intent.options || []
+                        training_phrases: [],
+                        responses: [],
+                        options: []
                     };
-                });
+
+                    setNodes(nds => [...nds, newNode]);
+                    initialNodeCreatedRef.current = true;
+                }
 
                 setEdges(fetchedEdges);
-                setNodes(fetchedNodes);
                 setTypeInformationRequired(data.type_information_required);
             } catch (error) {
                 console.error('Error fetching intents:', error);
@@ -84,7 +123,7 @@ function ChatbotFlow({ chatbotId }) {
         setFlowKey(prevKey => prevKey + 1);
     };
 
-    const addNewNode = () => {
+    const addNewNode = (mode) => {
         let newPosition = {};
         if (nodes.length > 0) {
             const lastNode = nodes[nodes.length - 1];
@@ -102,7 +141,7 @@ function ChatbotFlow({ chatbotId }) {
             name: 'Nuevo nodo',
             is_choice: false,
             category: 'información general',
-            save_information: false,
+            save_information: mode === 'save_information' ? true : false,
             type: 'customeNode',
             position: newPosition,
             data: {
@@ -111,9 +150,14 @@ function ChatbotFlow({ chatbotId }) {
             },
             training_phrases: [],
             responses: [],
-            options: []
+            options: [],
         };
         setNodes(nds => [...nds, newNode]);
+        setModalTypeNode(false);
+    };
+
+    const openModeSelectionModal = () => {
+        setModalTypeNode(true);
     };
 
     const openModal = node => {
@@ -160,7 +204,7 @@ function ChatbotFlow({ chatbotId }) {
                 <Typography variant="h6" color="indigo" className="text-center me-4">
                     Recuerda guardar el flujo de tu chatbot continuamente para no perder tu progreso
                 </Typography>
-                <Button variant="gradient" color="indigo" className="mr-2" onClick={addNewNode}>
+                <Button variant="gradient" color="indigo" className="mr-2" onClick={openModeSelectionModal}>
                     Agregar nuevo nodo
                 </Button>
                 <Button variant="gradient" color="green" onClick={saveProgress} disabled={loadingSave}>
@@ -183,6 +227,15 @@ function ChatbotFlow({ chatbotId }) {
                 <MiniMap />
                 <Controls />
             </ReactFlow>
+
+            {modalTypeNode && (
+                <div className="modal">
+                    <h2>Selecciona el modo</h2>
+                    <Button onClick={() => addNewNode('save_information')}>Modo Guardar información de usuario</Button>
+                    <Button onClick={() => addNewNode('single')}>Modo Pregunta y respuesta simple</Button>
+                </div>
+            )}
+
             {modalIsOpen && (
                 <IntentDialog
                     chatbotId={chatbotId}

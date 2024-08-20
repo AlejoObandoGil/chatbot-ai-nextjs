@@ -48,7 +48,7 @@ const EditChatbot = () => {
         const components = {
             informacion: <FormInformation selectedType={chatbot.type} chatbot={chatbot} />,
             personalizacion: <ConfigPersonalization chatbot={chatbot}/>,
-            entidades: <EntitiesIndex chatbotId={chatbot.id}/>,
+            // entidades: <EntitiesIndex chatbotId={chatbot.id}/>,
             editor_de_flujo: <ChatbotFlow chatbotId={chatbot.id}/>,
             vista_previa: <Preview chatbot={chatbot} onChatbotUpdate={handleChatbotUpdate} />
         };

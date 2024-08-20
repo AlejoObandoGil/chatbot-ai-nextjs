@@ -109,7 +109,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
             <div className="bg-gray-100 flex items-center justify-center">
                 <div className="bg-white p-8 rounded shadow-md w-full max-w-5xl">
                     <Typography variant="h4" color="indigo" className='mb-4' textGradient>
-                        {chatbot ? `Editar Información del Chatbot (${selectedType})` : `Nuevo Chatbot (${selectedType})`}
+                        {chatbot ? `Editar Información del Chatbot (${selectedType === 'Híbrido' ? 'IA' : selectedType })` : `Nuevo Chatbot (${selectedType  === 'Híbrido' ? 'IA' : selectedType})`}
                     </Typography>
                     <form onSubmit={handleSubmit} className='mb-4' encType="multipart/form-data">
                         <div className="mb-4">
@@ -138,12 +138,12 @@ const FormInformation = ({ selectedType, chatbot }) => {
                         {(selectedType === 'Híbrido') && (
                             <>
                                 <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>
-                                    Por favor, proporciona información adicional sobre tu empresa o negocio.
-                                    Esta información es fundamental para entrenar el chatbot con el modelo de Open AI y mejorar la calidad de las interacciones con tus clientes.
-                                    El chatbot utilizará los datos que proporciones para ofrecer respuestas más precisas y personalizadas.
-                                    Puedes agregar texto, subir un archivo PDF, o incluir un enlace de tu sitio web.
+                                    Por favor, proporciona un documento PDF que contenga información detallada sobre tu empresa o negocio.
+                                    Esta información es crucial para entrenar el chatbot utilizando el modelo de procesamiento de lenguaje natural (PLN) de OpenAI,
+                                    lo que permitirá mejorar la calidad de las respuestas y la interacción con tus clientes.
+                                    El chatbot utilizará los datos del documento para responder de manera precisa a las preguntas que los usuarios hagan sobre tu negocio.
                                 </Typography>
-                                <div className="mb-4">
+                                {/* <div className="mb-4">
                                     <Textarea
                                         label="Base de Conocimiento"
                                         rows="8"
@@ -152,7 +152,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                         value={knowledgeBase}
                                         onChange={e => setKnowledgeBase(e.target.value)}
                                     />
-                                </div>
+                                </div> */}
                                 {/* <div className="mb-4">
                                     <Input
                                         label="Link sitio web"

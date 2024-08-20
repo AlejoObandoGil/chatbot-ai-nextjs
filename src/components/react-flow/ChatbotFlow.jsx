@@ -7,7 +7,7 @@ import CustomeNode from '@/components/react-flow/custom/CustomeNode';
 import CustomeEdge from '@/components/react-flow/custom/CustomeEdge';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 import useSaveProgress from './SaveProgress';
-import { Button, Alert, Typography } from '@material-tailwind/react';
+import { Button, ButtonGroup, Alert, Typography } from '@material-tailwind/react';
 
 const NODE_HEIGHT = 100;
 const NODE_SPACING = 20;
@@ -153,7 +153,6 @@ function ChatbotFlow({ chatbotId }) {
             options: [],
         };
         setNodes(nds => [...nds, newNode]);
-        setModalTypeNode(false);
     };
 
     const openModeSelectionModal = () => {
@@ -204,12 +203,17 @@ function ChatbotFlow({ chatbotId }) {
                 <Typography variant="h6" color="indigo" className="text-center me-4">
                     Recuerda guardar el flujo de tu chatbot continuamente para no perder tu progreso
                 </Typography>
-                <Button variant="gradient" color="indigo" className="mr-2" onClick={openModeSelectionModal}>
-                    Agregar nuevo nodo
-                </Button>
-                <Button variant="gradient" color="green" onClick={saveProgress} disabled={loadingSave}>
-                    Guardar progreso
-                </Button>
+                <ButtonGroup size="sm" variant="gradient" color="indigo" className="mr-2">
+                    <Button onClick={() => addNewNode('single')} disabled={loadingSave}>
+                        Nuevo nodo
+                    </Button>
+                    <Button onClick={() => addNewNode('save_information')} disabled={loadingSave}>
+                        Nuevo nodo guardar información
+                    </Button>
+                </ButtonGroup>
+                    <Button size="sm" variant="gradient" color="green" onClick={saveProgress} disabled={loadingSave}>
+                        Guardar progreso
+                    </Button>
             </div>
             <ReactFlow
                 key={flowKey}
@@ -227,14 +231,6 @@ function ChatbotFlow({ chatbotId }) {
                 <MiniMap />
                 <Controls />
             </ReactFlow>
-
-            {modalTypeNode && (
-                <div className="modal">
-                    <h2>Selecciona el modo</h2>
-                    <Button onClick={() => addNewNode('save_information')}>Modo Guardar información de usuario</Button>
-                    <Button onClick={() => addNewNode('single')}>Modo Pregunta y respuesta simple</Button>
-                </div>
-            )}
 
             {modalIsOpen && (
                 <IntentDialog

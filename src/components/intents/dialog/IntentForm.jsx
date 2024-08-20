@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Checkbox, Button, Alert, Select, Option } from "@material-tailwind/react";
+import { Input, Checkbox, Button, Alert, Select, Option, Typography } from "@material-tailwind/react";
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
+import { FaInfoCircle } from "react-icons/fa";
 import { v4 as uuidv4 } from 'uuid';
 import axios from '@/lib/axios';
 import { formatErrorMessage } from '@/utils/alertUtils.js';
@@ -140,12 +141,12 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                 )}
                 {Boolean(formData.save_information) && (
                     <div>
-                        <Typography variant="h6" color="indigo" className="text-center me-4">
+                        <Typography variant="h6" color="indigo" className="text-start me-4 mb-2">
                             Se guardará la próxima respuesta del usuario
                         </Typography>
                         <div>
                             <Select
-                                label="Selecciona el tipo de información que le pedirás al usuario"
+                                label="Selecciona el tipo de información que le pedirás al usuario para guardar en tu CRM"
                                 value={formData.information_required || ''}
                                 onChange={(event) => handleInputChange({ target: { name: 'information_required', value: event.target.value } })}
                             >
@@ -202,14 +203,20 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                 <div>
                     {Boolean(formData.save_information) && (
                         <small className='text-red-500'>
-                            Recuerda que si en tu intención pasada también guardaste la respuesta del usuario no es necesario una frase de entrenamiento
+                            Recuerda que si en tu nodo anterior también guardaste la respuesta del usuario no es necesario una frase de entrenamiento porque la respuesta se guardará en tu CRM
                         </small>
                     )}
-                    <label className="block text-sm font-medium text-indigo-500 mb-2">Lista de Frases (Opcional)</label>
+                    <label className="block flex text-sm font-medium text-indigo-500 mb-2">
+                        Lista de Frases (Es lo que esperas que escriba o pregunte el usuario)
+                        <FaInfoCircle
+                            className="text-indigo-500 ml-2 cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-indigo-700"
+                            title="Cuando tu usuario escriba algo que coincida con alguna de estas frases, el chatbot responderá con alguna de las respuestas de esta intención"
+                        />
+                    </label>
                     {formData.training_phrases.map((training_phrase, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <Input
-                                label="Frase de entrenamiento (Es lo que esperas que escriba o pregunte el usuario)"
+                                label="Frase de entrenamiento"
                                 value={training_phrase.phrase}
                                 onChange={(e) => handleArrayChange('training_phrases', index, 'phrase', e.target.value)}
                                 placeholder="Frase"
@@ -240,11 +247,16 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                     </button>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-indigo-500 mb-2">Lista de Respuestas*</label>
+                    <label className="block flex text-sm font-medium text-indigo-500 mb-2">Lista de Respuestas (Es lo que esperas que responda tu chatbot a el usuario) *
+                        <FaInfoCircle
+                            className="text-indigo-500 ml-2 cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-indigo-700"
+                            title="Cuando tu usuario escriba algo que coincida con una frase entrenamiento o seleccione una opción multiple, el chatbot responderá con alguna de estas respuestas."
+                        />
+                    </label>
                     {formData.responses.map((response, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <Input
-                                label="Respuesta (Es lo que esperas que responda tu chatbot a el usuario)"
+                                label="Respuesta"
                                 value={response.response}
                                 onChange={(e) => handleArrayChange('responses', index, 'response', e.target.value)}
                                 placeholder="Respuesta"

@@ -148,8 +148,8 @@ const IntentForm = ({ chatbotId, node, typeInformationRequired, onChange, onSave
                             <Select
                                 label="Selecciona el tipo de información que le pedirás al usuario para guardar en tu CRM"
                                 value={formData.information_required || ''}
-                                onChange={(event) => handleInputChange({ target: { name: 'information_required', value: event.target.value } })}
-                            >
+                                onChange={(value) => handleInputChange({ target: { name: 'information_required', value } })}
+                                >
                                 {typeInformationRequired.map((type) => (
                                     <Option key={type} value={type}>{type}</Option>
                                 ))}

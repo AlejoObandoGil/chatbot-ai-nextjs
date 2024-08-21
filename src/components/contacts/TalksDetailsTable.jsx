@@ -31,12 +31,12 @@ const TalksDetailsTable = ({ contactInformation }) => {
                             <tr key={contact.id}>
                                 <td className="p-4 border-b border-blue-gray-50">
                                     <Typography variant="small" color="blue-gray" className="font-normal">
-                                        {contact.intent.name}
+                                        {contact.intent?.name}
                                     </Typography>
                                 </td>
                                 <td className="p-4 border-b border-blue-gray-50">
                                     <Typography variant="small" color="blue-gray" className="font-normal">
-                                        {contact.intent.information_required}
+                                        {contact.intent?.information_required}
                                     </Typography>
                                 </td>
                                 <td className="p-4 border-b border-blue-gray-50">

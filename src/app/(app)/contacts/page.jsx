@@ -146,17 +146,17 @@ export default function TalksTable() {
                                     <tr key={talk.id}>
                                         <td className="p-4 border-b border-blue-gray-50">
                                             <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {talk.contact_information[0].intent.name}
+                                                {talk?.contact_information[0]?.intent?.name}
                                             </Typography>
                                         </td>
                                         <td className="p-4 border-b border-blue-gray-50">
                                             <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {talk.contact_information[0].intent.information_required}
+                                                {talk?.contact_information[0]?.intent?.information_required}
                                             </Typography>
                                         </td>
                                         <td className="p-4 border-b border-blue-gray-50">
                                             <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {talk.contact_information[0].value}
+                                                {talk?.contact_information[0]?.value}
                                             </Typography>
                                         </td>
                                         <td className="p-4 border-b border-blue-gray-50">

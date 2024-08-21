@@ -4,6 +4,7 @@ import axios from '@/lib/axios';
 import { Card, Typography, Button, Switch, Alert } from '@material-tailwind/react';
 import ChatbotPreview from '@/components/react-chatbot-kit/ChatbotPreview';
 import { formatErrorMessage } from '@/utils/alertUtils';
+import VideoModal from '@/components/video/VideoModal';
 
 export default function Preview({ chatbot, onChatbotUpdate }) {
     const [alertMessage, setAlertMessage] = useState('');
@@ -65,6 +66,13 @@ export default function Preview({ chatbot, onChatbotUpdate }) {
         <!-- End of Chatbot Embed Code -->`
 
     return (
+        <>
+        <VideoModal
+            nameButton="Tutorial vista previa"
+            titleModal="Tutorial de vista previa con chatbot de ejemplo basado en IA"
+            link="https://drive.google.com/file/d/1eUw9bWiSdSfkW6qBjAfH6LAeerHOFhJP/preview"
+        />
+
         <div className="flex items-center justify-center bg-gray-100 mt-2">
             <div className="w-full max-w-4xl">
                 <Typography variant="h5" color="indigo" className="text-center mb-4">
@@ -79,6 +87,7 @@ export default function Preview({ chatbot, onChatbotUpdate }) {
                         </div>
                     )}
                 </div>
+
                 <div className="flex items-center justify-start mb-4">
                     <Typography variant="h6" color="gray" className="text-center mx-4">
                         Habilitar o desabilitar chatbot para mostrarlo u ocultarlo en tu sitio web
@@ -121,5 +130,6 @@ export default function Preview({ chatbot, onChatbotUpdate }) {
                 </div>
             </div>
         </div>
+        </>
     );
 }

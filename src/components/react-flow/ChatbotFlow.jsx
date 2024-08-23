@@ -8,6 +8,7 @@ import CustomeEdge from '@/components/react-flow/custom/CustomeEdge';
 import IntentDialog from '@/components/intents/dialog/IntentDialog';
 import useSaveProgress from './SaveProgress';
 import { Button, ButtonGroup, Alert, Typography } from '@material-tailwind/react';
+import VideoModal from '@/components/video/VideoModal';
 
 const NODE_HEIGHT = 100;
 const NODE_SPACING = 20;
@@ -199,6 +200,19 @@ function ChatbotFlow({ chatbotId }) {
                     {alertMessage}
                 </Alert>
             )}
+            <div className='flex justify-start'>
+                <VideoModal
+                    nameButton="Tutorial introducción flujo"
+                    titleModal="Tutorial introductorio sobre el editor flujo del chatbot y tipos de chatbot"
+                    link="https://drive.google.com/file/d/1_XUCjm7TXuUxT4GEs6KjeYEwODWG1hAv/preview"
+                />
+                <div className='mr-2'></div>
+                <VideoModal
+                    nameButton="Tutorial ejemplo chatbot IA"
+                    titleModal="Tutorial explicativo sobre creación de flujo con el ejemplo de chatbot IA"
+                    link="https://drive.google.com/file/d/1tssjxIa_EcVOSvgb6diPvPo6bzFbrfas/preview"
+                />
+            </div>
             <div style={{ display: 'flex', justifyContent: 'end', marginTop: 0 }}>
                 <Typography variant="h6" color="indigo" className="text-center me-4">
                     Recuerda guardar el flujo de tu chatbot continuamente para no perder tu progreso

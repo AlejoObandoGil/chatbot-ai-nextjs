@@ -65,6 +65,14 @@ const VideoModal = ({ nameButton, titleModal, link }) => {
                 </DialogBody>
                 <DialogFooter>
                     <Button
+                        className='mr-2'
+                        color="indigo"
+                        onClick={() => window.open('/docs/manual.pdf', '_blank')}
+                        ripple="light"
+                    >
+                        ver manual de usuario
+                    </Button>
+                    <Button
                         color="red"
                         onClick={handleClose}
                         ripple="light"

@@ -11,6 +11,7 @@ import Preview from '@/components/chatbots/show/Preview.jsx';
 import ConfigPersonalization from '@/components/chatbots/edit/ConfigPersonalization';
 import { Spinner } from "@material-tailwind/react";
 import { motion } from 'framer-motion';
+import ChatbotTutorial from '@/components/react-chatbot-kit/ChatbotTutorial';
 
 const EditChatbot = () => {
     const { id } = useParams();
@@ -73,6 +74,7 @@ const EditChatbot = () => {
             <div className='mt-5'>
                 {renderTabContent()}
             </div>
+            <ChatbotTutorial chatbotId="65b941fb-2d44-476b-9939-fa5723505f2d" />
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardBody, Button, Typography } from '@material-tailwind/react';
 import ChatbotPreview from '@/components/react-chatbot-kit/ChatbotPreview';
 import axios from '@/lib/axios';
+import VideoModal from '@/components/video/VideoModal';
 
 const ConfigPersonalization = ({ chatbot }) => {
     const [messageColor, setMessageColor] = useState(chatbot?.config?.message_color || '#7986CB');
@@ -32,7 +33,15 @@ const ConfigPersonalization = ({ chatbot }) => {
     return (
         <div className="max-w-lg mx-auto mt-10">
 
-            <Typography variant="h5" className="text-indigo-500 text-center text-lg font-semibold mb-3">Personalización del Chatbot</Typography>
+            <div className='flex justify-between'>
+                <Typography variant="h5" className="text-indigo-500 text-center text-lg font-semibold mb-3">Personalización del Chatbot</Typography>
+                <VideoModal
+                    nameButton="Tutorial personalizar chatbot"
+                    titleModal="Tutorial de como personalizar el diseño y estilos del chatbot"
+                    link="https://drive.google.com/file/d/1HhOjYLgTGqbDQIlikvKbFl6z5CP88gIN/preview"
+                />
+            </div>
+
             <Card>
                 <CardBody>
                     <div className="mb-6">

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FaRobot, FaTimes } from 'react-icons/fa';
-import { IoMicSharp } from 'react-icons/io5';
 // import EventEmitter from '@/hooks/eventEmitter';
 
 

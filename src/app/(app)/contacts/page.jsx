@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from '@/lib/axios';
 import TalksDetailsTable from '@/components/contacts/TalksDetailsTable';
+import VideoModal from '@/components/video/VideoModal';
 
 import {
     Card,
@@ -80,9 +81,16 @@ export default function TalksTable() {
 
     return (
         <Card className="h-full w-full p-6">
-            <Typography variant="h5" color="indigo" className="text-center">
-                Administración de Relaciones con el Cliente (CRM)
-            </Typography>
+            <div className='flex justify-center'>
+                <Typography variant="h5" color="indigo" className="text-center mr-5">
+                    Administración de Relaciones con el Cliente (CRM)
+                </Typography>
+                <VideoModal
+                    nameButton="Tutorial CRM"
+                    titleModal="Tutorial sobre opciones de administración de relaciones con el cliente (CRM)"
+                    link="https://drive.google.com/file/d/1mPh9zCMQKpy9QFnEA6lHWAd8lqcQTmDI/preview"
+                />
+            </div>
             <div className="w-1/3 mb-6 mt-4">
                 <Select
                     label="Selecciona un Chatbot"

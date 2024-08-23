@@ -3,6 +3,7 @@ import axios from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import { Alert, Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import { formatErrorMessage } from '@/utils/alertUtils';
+import VideoModal from '@/components/video/VideoModal';
 
 const FormInformation = ({ selectedType, chatbot }) => {
     const router = useRouter();
@@ -19,6 +20,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
     const [loadingSave, setLoadingSave] = useState(false);
     const [id, setId] = useState('');
     const [addedFile, setAddedFile] = useState(false);
+    // const textTutorial = useRef('Como editar mi chatbot Basado en IA: Una vez creado nuestro chatbot, tienes la opción de editar tu información en cualquier momento. Esto es solo un ejemplo de las numerosas posibilidades que ofrece nuestro chatbot de Inteligencia Artificial. En el futuro, podremos agregar otros tipos de archivos, como imágenes y textos, que ayudarán a entrenar aún más al chatbot. También es posible incorporar nuevos campos, como la cantidad de mensajes utilizados en el contexto, lo que permitirá al chatbot recordar interacciones previas y responder de manera más coherente y contextualizada a las preguntas futuras.')
 
     useEffect(() => {
         if (chatbot) {
@@ -108,9 +110,26 @@ const FormInformation = ({ selectedType, chatbot }) => {
         {(selectedType !== 'PLN') && (
             <div className="bg-gray-100 flex items-center justify-center">
                 <div className="bg-white p-8 rounded shadow-md w-full max-w-5xl">
+                    <div className='flex justify-between'>
                     <Typography variant="h4" color="indigo" className='mb-4' textGradient>
                         {chatbot ? `Editar Información del Chatbot (${selectedType === 'Híbrido' ? 'IA' : selectedType })` : `Nuevo Chatbot (${selectedType  === 'Híbrido' ? 'IA' : selectedType})`}
                     </Typography>
+
+                    {(selectedType === 'Híbrido' || selectedType === 'PLN') && (
+                        <VideoModal
+                            nameButton="Tutorial crear chatbot"
+                            titleModal="Tutorial de como crear un chatbot basado en IA y PLN con un modelo OpenAI"
+                            link="https://drive.google.com/file/d/13DoP_DAWuEwz_nd9llFd69HKMk3cWFBj/preview"
+                        />
+                    )}
+                    {selectedType === 'Basado en reglas' && (
+                        <VideoModal
+                            nameButton="Tutorial crear chatbot"
+                            titleModal="Tutorial de como crear un chatbot basado en reglas e intenciones del usuario"
+                            link="https://drive.google.com/file/d/1EJQdH16uBPhPTtvKWmcE6N5V8raExpOQ/preview"
+                        />
+                    )}
+                    </div>
                     <form onSubmit={handleSubmit} className='mb-4' encType="multipart/form-data">
                         <div className="mb-4">
                             <Input
@@ -141,7 +160,7 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                     Por favor, proporciona un documento PDF que contenga información detallada sobre tu empresa o negocio.
                                     Esta información es crucial para entrenar el chatbot utilizando el modelo de procesamiento de lenguaje natural (PLN) de OpenAI,
                                     lo que permitirá mejorar la calidad de las respuestas y la interacción con tus clientes.
-                                    El chatbot utilizará los datos del documento para responder de manera precisa a las preguntas que los usuarios hagan sobre tu negocio.
+                                    El chatbot utilizará los datos del documento para responder de manera precisa a las preguntas que los usuarios hagan sobre tu empresa.
                                 </Typography>
                                 {/* <div className="mb-4">
                                     <Textarea
@@ -166,12 +185,22 @@ const FormInformation = ({ selectedType, chatbot }) => {
                                 </div> */}
                                 <div className="mb-4">
                                     <Input
+                                        className='mb-2'
                                         label="Documento PDF"
                                         variant="standard"
                                         type="file"
                                         color="indigo"
                                         onChange={handleFileChange}
                                     />
+                                    <Button
+                                        className='mt-2'
+                                        color="indigo"
+                                        size='sm'
+                                        onClick={() => window.open('/docs/knowledge-levely.pdf', '_blank')}
+                                        ripple="light"
+                                    >
+                                        ver ejemplo de documento
+                                    </Button>
                                 </div>
                                 <div className="mb-4">
                                     <Typography variant="h6" color="blue-gray" className='mb-4' textGradient>

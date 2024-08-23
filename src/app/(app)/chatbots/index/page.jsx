@@ -58,7 +58,7 @@ const ChatbotsIndex = () => {
                                     </td>
                                     <td className={classes}>
                                         <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {chatbot.type}
+                                            {chatbot.type === 'Híbrido' ? 'IA y PLN' : chatbot.type}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
